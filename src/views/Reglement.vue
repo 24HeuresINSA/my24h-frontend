@@ -5,17 +5,15 @@
     <div id="main_page">
       <div id="content">
         <div id="page">
-          <b-img id="logo_24_generique" :src="require('../assets/logo_24.png')" alt="logo_24_generique" fluid></b-img>
-          <h1>Bienvenue sur My24h !</h1>
+          <h1>Règlement des courses à distance</h1>
           <br>
-          <P>Au vu des circonstances particulières liées à la crise du covid-19, le club des 24h de l'Insa a décidé
-            d'organiser des courses, mais en distanciel !</P>
-          <p><strong>Expliquer comment ça marche et tout et faire un lien vers la FAQ</strong></p>
-          <br>
-          <b-button to="/" variant="outline-danger">Se connecter avec <b-img id="strava_logo" :src="require('../assets/strava.png')" fluid></b-img></b-button>
+          <p>Ici, vous trouverez le règlement de la 46e édition de nos courses !</p>
+
           <br>
           <br>
-          <p>Copyright 2021 - <b-link href="https://www.24heures.org/">Club des 24 heures de l'INSA</b-link></p>
+          <p>Copyright 2021 -
+            <b-link href="https://www.24heures.org/">Club des 24 heures de l'INSA</b-link>
+          </p>
         </div>
       </div>
       <!--      <b-img id="img_course" :src="require('../assets/course.jpg')" alt="Photo_course_velo" fluid-grow></b-img>-->
@@ -27,7 +25,7 @@
 import NavBar from '../components/NavBar.vue'
 
 export default {
-  name: "Home",
+  name: "Reglement",
   components: {
     NavBar
   }
