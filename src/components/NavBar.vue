@@ -1,9 +1,14 @@
 <template>
   <div id="nav">
     <b-nav align="center" id="navbar">
-      <b-navbar-brand href="/">
-        <b-img id="img_logo" :src="require('../assets/logo24_2021.png')" alt="Logo des 24_2021" fluid></b-img>
-      </b-navbar-brand>
+      <div id="topBar">
+        <b-navbar-brand href="https://www.24heures.org/">
+          <b-img id="img_logo" :src="require('../assets/logo24_2021.png')" alt="Logo des 24_2021" fluid></b-img>
+        </b-navbar-brand>
+        <a class="list-icon" target="_blank">
+          <b-icon icon="list" aria-hidden="true" scale="2" class="logo" @click="menu()"></b-icon>
+        </a>
+      </div>
       <div class="dropdown cssdropdown">
         <a href="#" data-toggle="dropdown" >CONCERTS</a>
         <b-icon stacked icon="chevron-down" class="icons"></b-icon>
@@ -24,8 +29,9 @@
         <a href="#" data-toggle="dropdown" >COURSES</a>
         <b-icon stacked icon="chevron-down" class="icons"></b-icon>
         <ul class="dropdown-menu">
-          <li><a href="https://www.24heures.org/animations">24H DE COURSES</a></li>
-          <li><a href="https://www.24heures.org/prevention">PIMP MY BIKE</a></li>
+          <li><a href="/">24H DE COURSES</a></li>
+          <li><a href="/">PIMP MY BIKE</a></li>
+          <li><a href="/">FAQ COURSES</a></li>
         </ul>
       </div>
       <a href="https://www.24heures.org/billetterie" class="dropdown">BILLETTERIE</a>
@@ -48,8 +54,29 @@
 
 <script>
 export default {
-  name: "NavBar"
+  name: "NavBar",
+  data(){
+    return {
+      displayMenu : false
+    }
+  },
+  methods: {
+    menu() {
+      if(!this.displayMenu)
+      {
+        document.getElementsByClassName("dropdown").forEach(element => element.style.display = "block");
+        this.displayMenu = true;
+      }
+      else
+      {
+        document.getElementsByClassName("dropdown").forEach(element => element.style.display = "none");
+        this.displayMenu = false;
+      }
+    }
+  }
 }
+
+
 
 </script>
 
@@ -63,6 +90,7 @@ export default {
   font-size: 15px;
   display: flex;
   align-items: center;
+  z-index: 2;
 }
 
 .dropdown{
@@ -94,6 +122,50 @@ export default {
 
 .fblink{
   font-size: 2em;
+}
+
+.list-icon {
+  display: none;
+}
+
+@media (min-width: 1px) and (max-width: 600px) {
+
+  #topBar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around !important;
+    width: 100%;
+  }
+
+  .list-icon {
+    display: block;
+  }
+
+  .fblink, .icons {
+    display: none;
+  }
+
+  #navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+  }
+
+  .dropdown-menu {
+    display: contents;
+  }
+
+  .dropdown-menu > li {
+    margin: 0.5em 0px 0.5em 0.3em;
+  }
+
+  .dropdown{
+    display: none;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
 }
 
 </style>

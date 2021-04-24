@@ -6,6 +6,10 @@
 
 <style>
 
+html {
+  background-color: #3DA936;
+}
+
 body {
   line-height: 24px;
   color: #323232;
