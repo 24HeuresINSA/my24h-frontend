@@ -18,6 +18,11 @@ const routes = [
     path: '/reglement',
     name: 'Reglement',
     component: () => import('../views/Reglement.vue')
+  },
+  {
+    path: '/sponsors',
+    name: 'Sponsors',
+    component: () => import('../views/Sponsors.vue')
   }
 ]
 
