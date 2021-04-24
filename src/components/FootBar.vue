@@ -62,6 +62,7 @@ padding: 0;
 padding: 1.5em 0;
 display: flex;
 flex-direction: column;
+  text-align: center;
 }
 
 .footerlien {

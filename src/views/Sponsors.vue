@@ -55,6 +55,7 @@ export default {
   height: auto;
   width: auto;
   margin: 0;
+  text-align: center;
 }
 
 #main_page {
