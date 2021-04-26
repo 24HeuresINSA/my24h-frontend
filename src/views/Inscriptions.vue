@@ -164,16 +164,19 @@
         </div>
       </div>
     </div>
+    <FootBar/>
   </div>
 </template>
 
 <script>
 
 import NavBar from "@/components/NavBar";
+import FootBar from "@/components/FootBar";
 
 export default {
   name: "Inscriptions",
   components: {
+    FootBar,
     NavBar
   },
   data() {

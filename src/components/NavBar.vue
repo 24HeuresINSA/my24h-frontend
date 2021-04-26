@@ -31,7 +31,9 @@
         <ul class="dropdown-menu">
           <li><a href="/">24H DE COURSES</a></li>
           <li><a href="/">PIMP MY BIKE</a></li>
-          <li><a href="/">FAQ COURSES</a></li>
+          <li><a href="/#/faq">FAQ COURSES</a></li>
+          <li><a href="/#/reglement">REGLEMENT</a></li>
+          <li><a href="/#/sponsors">PARTENAIRES</a></li>
         </ul>
       </div>
       <a href="https://www.24heures.org/billetterie" class="dropdown">BILLETTERIE</a>
@@ -45,7 +47,7 @@
           <li><a href="https://www.24heures.org/infos/faq">FAQ</a></li>
         </ul>
       </div>
-      <a class="fblink" target="_blank" href="https://www.facebook.com/24heuresinsa/">
+      <a class="fblink" target="_blank" href="https://www.facebook.com/Courses-des-24-heures-de-lINSA-111750412236566/">
         <b-icon icon="facebook" aria-hidden="true" class="logo"></b-icon>
       </a>
     </b-nav>

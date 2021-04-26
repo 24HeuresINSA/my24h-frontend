@@ -4,7 +4,7 @@
 
     <div id="main_page">
       <div id="content">
-        <div id="page">
+        <div id="page" style="text-align: center">
           <h1>Foire aux questions (FAQ)</h1>
           <br>
           <p>Ici, vous trouverez toutes les infos nécessaires pour la 46e édition de nos courses !</p>
@@ -21,26 +21,24 @@
               </b-collapse>
             </b-card>
           </div>
+          <br>
 
-          <br>
-          <br>
-          <p>Copyright 2021 -
-            <b-link href="https://www.24heures.org/">Club des 24 heures de l'INSA</b-link>
-          </p>
         </div>
       </div>
-      <!--      <b-img id="img_course" :src="require('../assets/course.jpg')" alt="Photo_course_velo" fluid-grow></b-img>-->
     </div>
+    <FootBar/>
   </div>
 </template>
 
 <script>
 import NavBar from '../components/NavBar.vue'
+import FootBar from "@/components/FootBar";
 
 export default {
   name: "FAQ",
   components: {
-    NavBar
+    NavBar,
+    FootBar
   },
   data() {
     return {

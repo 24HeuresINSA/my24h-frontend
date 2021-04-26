@@ -4,29 +4,28 @@
 
     <div id="main_page">
       <div id="content">
-        <div id="page">
+        <div id="page" style="text-align: center">
           <h1>Règlement des courses à distance</h1>
           <br>
           <p>Ici, vous trouverez le règlement de la 46e édition de nos courses !</p>
 
           <br>
-          <br>
-          <p>Copyright 2021 -
-            <b-link href="https://www.24heures.org/">Club des 24 heures de l'INSA</b-link>
-          </p>
+
         </div>
       </div>
-      <!--      <b-img id="img_course" :src="require('../assets/course.jpg')" alt="Photo_course_velo" fluid-grow></b-img>-->
+      <FootBar/>
     </div>
   </div>
 </template>
 
 <script>
 import NavBar from '../components/NavBar.vue'
+import FootBar from "@/components/FootBar";
 
 export default {
   name: "Reglement",
   components: {
+    FootBar,
     NavBar
   }
 }
