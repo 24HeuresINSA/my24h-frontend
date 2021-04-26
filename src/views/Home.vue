@@ -35,7 +35,8 @@ export default {
 </script>
 
 <style scoped>
-#body {
+
+#body{
   height: auto;
   width: auto;
   margin: 0;

@@ -22,16 +22,16 @@
       </a>
     </div>
     <ul class="footer-links">
-      <li class="d-inline"><a class="footerlien" href="/mentions-legales">Mentions légales </a></li>◦
-      <li class="d-inline"><a class="footerlien" href="/presse">Presse </a></li>◦
+      <li class="d-inline"><a class="footerlien" href="https://24heures.org/mentions-legales">Mentions légales </a></li>◦
+      <li class="d-inline"><a class="footerlien" href="https://24heures.org/presse">Presse </a></li>◦
       <li class="d-inline"><a class="footerlien" target="_blank" href="https://www.flickr.com/photos/24-heures/albums">Photos </a></li>◦
-      <li class="d-inline"><a class="footerlien" href="/benevolat">Bénévoles </a></li>◦
-      <li class="d-inline"><a class="footerlien" href="/partenaires">Partenaires </a></li>◦
-      <li class="d-inline"><a class="footerlien" href="/infos/contact">Contact </a></li>
+      <li class="d-inline"><a class="footerlien" href="https://24heures.org/benevolat">Bénévoles </a></li>◦
+      <li class="d-inline"><a class="footerlien" href="https://24heures.org/partenaires">Partenaires </a></li>◦
+      <li class="d-inline"><a class="footerlien" href="https://24heures.org/infos/contact">Contact </a></li>
     </ul>
     <p></p>
     <p class="">
-      © 2020 <a class="footerlien"><b>Les 24 heures de l'INSA</b></a>.
+      © 2021 - <a class="footerlien"><b>Les 24 heures de l'INSA</b></a>.
       <br>
       Tous droits reservés.
       <!--Template  by <a target="_blank" href="http://nileforest.com/"><b>nileforest</b></a>-->
