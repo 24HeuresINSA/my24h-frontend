@@ -13,39 +13,38 @@
 
           <b-container>
             <b-row>
-              <b-col sm="0.5">
+              <b-col>
                 <b-form-checkbox v-b-toggle.collapse-1 v-model="form.team_checked" name="team_checkbox"
                                  @change="onChange"
-                                 switch></b-form-checkbox>
+                                 switch>Je souhaite concourir en équipe
+                </b-form-checkbox>
                 <br>
               </b-col>
-              <b-col sm="5">
-                <label>Je souhaite concourir en équipe</label>
-                <br>
-              </b-col>
-
             </b-row>
 
             <b-row>
-              <b-collapse id="collapse-1" visible v-model="form.team_checked" class="collapse-team">
-                <b-form-group label="" v-slot="{ ariaDescribedby }">
-                  <b-form-radio v-model="form.team_type" :aria-describedby="ariaDescribedby" name="team_type"
-                                value="New">
-                    Je souhaite créer une nouvelle équipe
-                  </b-form-radio>
-                  <b-form-radio v-model="form.team_type" :aria-describedby="ariaDescribedby" name="team_type"
-                                value="Existant">Je souhaite rejoindre une équipe existante
-                  </b-form-radio>
-                </b-form-group>
-              </b-collapse>
-              <br>
+              <b-col>
+                <b-collapse id="collapse-1" visible v-model="form.team_checked" class="collapse-team">
+                  <b-form-group label="" v-slot="{ ariaDescribedby }">
+                    <b-form-radio v-model="form.team_type" :aria-describedby="ariaDescribedby" name="team_type"
+                                  value="New">
+                      Je souhaite créer une nouvelle équipe
+                    </b-form-radio>
+                    <b-form-radio v-model="form.team_type" :aria-describedby="ariaDescribedby" name="team_type"
+                                  value="Existant">Je souhaite rejoindre une équipe existante
+                    </b-form-radio>
+                  </b-form-group>
+                </b-collapse>
+                <br>
+              </b-col>
             </b-row>
             <b-row>
               <br>
             </b-row>
             <b-row>
-              <b-collapse id="collapse-new" visible v-if="form.team_type==='New'&&form.team_checked===true" class="collapse-team">
-                <b-container style="width: 150%">
+              <b-collapse id="collapse-new" visible v-if="form.team_type==='New'&&form.team_checked===true"
+                          class="collapse-team">
+                <b-container>
                   <b-row>
                     <br>
                     <b-col sm="7">
@@ -86,9 +85,10 @@
             </b-row>
 
 
-              <b-row>
-                <b-collapse id="collapse-existant" visible v-if="form.team_type==='Existant'&&form.team_checked===true" class="collapse-team">
-                  <b-container style="width: 150%">
+            <b-row>
+              <b-collapse id="collapse-existant" visible v-if="form.team_type==='Existant'&&form.team_checked===true"
+                          class="collapse-team">
+                <b-container>
                   <b-row>
                     <b-col sm="7">
                       <label>Saisir la clé :</label>
@@ -99,11 +99,9 @@
                       <br>
                     </b-col>
                   </b-row>
-                  </b-container>
-                </b-collapse>
-              </b-row>
-
-
+                </b-container>
+              </b-collapse>
+            </b-row>
 
             <b-row>
               <b-col>
@@ -114,8 +112,8 @@
               </b-col>
             </b-row>
             <b-row>
-              <b-col sm="12">
-                <b-button variant="success" align="center">Suivant</b-button>
+              <b-col>
+                <b-button variant="success">Suivant</b-button>
               </b-col>
             </b-row>
           </b-container>
@@ -160,7 +158,7 @@ export default {
       this.form.team_checked = !this.form.team_checked
       console.log("test")
     },
-    onClick(event){
+    onClick(event) {
       event.preventDefault()
 
     }

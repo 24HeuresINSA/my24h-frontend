@@ -31,6 +31,7 @@
         <ul class="dropdown-menu">
           <li><a href="/">24H DE COURSES</a></li>
           <li><a href="/">PIMP MY BIKE</a></li>
+          <li><a href="/#/dashboard">TABLEAU DE BORD</a></li>
           <li><a href="/#/faq">FAQ COURSES</a></li>
           <li><a href="/#/reglement">REGLEMENT</a></li>
           <li><a href="/#/sponsors">PARTENAIRES</a></li>
