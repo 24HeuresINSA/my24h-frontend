@@ -38,63 +38,85 @@
                   </b-form-radio>
                 </b-form-group>
               </b-collapse>
+              <br>
             </b-row>
-
             <b-row>
-              <b-collapse id="collapse-new" visible v-if="form.team_type==='New'" class="collapse-team">
-                <b-row>
-                  <br>
-                  <b-col>
-                    <label>Nom d'équipe :</label>
-                  </b-col>
-                  <b-col>
-                    <b-form-input class="input" type="text" v-model="form.new.team_name"
-                                  placeholder="Votre nom d'équipe"></b-form-input>
+              <br>
+            </b-row>
+            <b-row>
+              <b-collapse id="collapse-new" visible v-if="form.team_type==='New'&&form.team_checked===true" class="collapse-team">
+                <b-container style="width: 150%">
+                  <b-row>
                     <br>
-                  </b-col>
-                </b-row>
+                    <b-col sm="7">
+                      <label>Nom d'équipe :</label>
+                    </b-col>
+                    <b-col sm="5">
+                      <b-form-input class="input" type="text" v-model="form.new.team_name"
+                                    placeholder="Votre nom d'équipe"></b-form-input>
+                      <br>
+                    </b-col>
+                  </b-row>
 
-                <b-row>
-                  <b-col>
-                    <label>Nombre de participants :</label>
-                  </b-col>
-                  <b-col>
-                    <b-form-input class="input" type="text" v-model="form.new.team_size"
-                                  placeholder="Nombre de participants"></b-form-input>
-                    <br>
-                  </b-col>
-                </b-row>
+                  <b-row>
+                    <b-col sm="7">
+                      <label>Nombre de participants :</label>
+                      <br>
+                    </b-col>
+                    <b-col sm="5">
+                      <b-form-select class="input" v-model="form.new.team_size"
+                                     :options="team_size_options"></b-form-select>
+                      <br>
+                      <br>
+                    </b-col>
+                  </b-row>
 
-                <b-row>
-                  <b-col>
-                    <label>Clé pour rejoindre :</label>
-                  </b-col>
-                  <b-col>
-                    <b-form-input class="input" type="text" v-model="form.new.team_joint_code"
-                                  placeholder="Votre nom d'équipe"></b-form-input>
-                    <br>
-                  </b-col>
-                </b-row>
+                  <b-row>
+                    <b-col sm="7">
+                      <label>Clé pour rejoindre :</label>
+                    </b-col>
+                    <b-col sm="5">
+                      <b-form-input class="input" type="text" v-model="form.new.team_joint_code"
+                                    placeholder="Saisir la clé"></b-form-input>
+                      <br>
+                    </b-col>
+                  </b-row>
+                </b-container>
               </b-collapse>
             </b-row>
 
-            <b-row>
-              <b-collapse id="collapse-existant" visible v-if="form.team_type==='Existant'" class="collapse-team">
-                <b-row>
-                  <b-col>
-                    <label>Saisir la clé :</label>
-                  </b-col>
-                  <b-col>
-                    <b-form-input class="input" type="text" v-model="form.existant.team_joint_code"
-                                  placeholder="Clé d'équipe"></b-form-input>
-                    <br>
-                  </b-col>
-                </b-row>
-              </b-collapse>
-            </b-row>
+
+              <b-row>
+                <b-collapse id="collapse-existant" visible v-if="form.team_type==='Existant'&&form.team_checked===true" class="collapse-team">
+                  <b-container style="width: 150%">
+                  <b-row>
+                    <b-col sm="7">
+                      <label>Saisir la clé :</label>
+                    </b-col>
+                    <b-col sm="5">
+                      <b-form-input class="input" type="text" v-model="form.existant.team_joint_code"
+                                    placeholder="Clé d'équipe"></b-form-input>
+                      <br>
+                    </b-col>
+                  </b-row>
+                  </b-container>
+                </b-collapse>
+              </b-row>
+
+
 
             <b-row>
-              <b-button variant="success">Suivant</b-button>
+              <b-col>
+                <b-alert v-model="show_alert" variant="danger" dismissible>
+                  <strong>Cela n'a pas marché...</strong><br>
+                  {{ message }}
+                </b-alert>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col sm="12">
+                <b-button variant="success" align="center">Suivant</b-button>
+              </b-col>
             </b-row>
           </b-container>
         </div>
@@ -124,13 +146,20 @@ export default {
         existant: {
           team_joint_code: ''
         }
-      }
+      },
+      team_size_options: [{value: 4, text: 4}, {value: 12, text: 12}],
+      show_alert: true,
+      message: ""
     }
   },
   methods: {
     onChange() {
       this.form.team_checked = !this.form.team_checked
       console.log("test")
+    },
+    onClick(event){
+      event.preventDefault()
+
     }
   }
 }

@@ -4,7 +4,7 @@
 
     <div id="main_page">
       <div id="content">
-        <div id="page">
+        <div id="page" style="text-align: center">
           <b-img id="logo_24_generique" :src="require('../assets/logo_24.png')" alt="logo_24_generique" fluid></b-img>
           <h1>Bienvenue sur My24h !</h1>
           <br>

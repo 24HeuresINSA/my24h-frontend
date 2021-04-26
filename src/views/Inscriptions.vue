@@ -53,6 +53,53 @@
                     <b-form-input class="input" type="date" v-model="form.birthday"
                                   placeholder="Votre date de naissance"></b-form-input>
                     <br>
+                    <br>
+                  </b-col>
+                </b-row>
+
+                <b-row class="lines">
+                  <b-col sm="5">
+                    <label class="label">E-mail :</label><br>
+                  </b-col>
+                  <b-col sm="5">
+                    <b-form-input class="input" type="email" v-model="form.email"
+                                  placeholder="Votre e-mail"></b-form-input>
+                    <br>
+                  </b-col>
+                </b-row>
+
+                <b-row class="lines">
+                  <b-col sm="5">
+                    <label class="label">E-mail (à nouveau) :</label><br>
+                  </b-col>
+                  <b-col sm="5">
+                    <b-form-input class="input" type="email" v-model="form.email_validation"
+                                  placeholder="Votre e-mail"></b-form-input>
+                    <br>
+                    <br>
+                  </b-col>
+                </b-row>
+
+                <b-row class="lines">
+                  <b-col sm="5">
+                    <label class="label">Mot de passe :</label><br>
+                  </b-col>
+                  <b-col sm="5">
+                    <b-form-input class="input" type="password" v-model="form.password"
+                                  placeholder="Votre mot de passe"></b-form-input>
+                    <br>
+                  </b-col>
+                </b-row>
+
+                <b-row class="lines">
+                  <b-col sm="5">
+                    <label class="label">Mot de passe (à nouveau) :</label><br>
+                  </b-col>
+                  <b-col sm="5">
+                    <b-form-input class="input" type="password" v-model="form.password_validation"
+                                  placeholder="Votre mot de passe"></b-form-input>
+                    <br>
+                    <br>
                   </b-col>
                 </b-row>
 
@@ -63,6 +110,7 @@
                   <b-col sm="5">
                     <b-form-input class="input" type="tel" v-model="form.phone_number"
                                   placeholder="Votre numéro de téléphone"></b-form-input>
+                    <br>
                     <br>
                   </b-col>
                 </b-row>
@@ -138,7 +186,11 @@ export default {
         address: "",
         postal_code: "",
         city: "",
-        phone_number: ""
+        phone_number: "",
+        email: "",
+        email_validation: "",
+        password: "",
+        password_validation: ""
       },
       options: [{value: 'male', text: 'Monsieur'},
         {value: 'female', text: 'Madame'},
