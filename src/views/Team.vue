@@ -112,7 +112,7 @@
               </b-col>
             </b-row>
             <b-row>
-              <b-col>
+              <b-col style="text-align: center">
                 <b-button variant="success">Suivant</b-button>
               </b-col>
             </b-row>

@@ -16,26 +16,31 @@
             <b-form @click="onClick">
               <b-container align="center" fluid>
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">Genre :</label>
                   </b-col>
                   <b-col sm="5">
                     <b-form-select class="input" v-model="form.sex" :options="options"></b-form-select>
                   </b-col>
+                  <b-col sm="2"></b-col>
                 </b-row>
                 <br>
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">Nom :</label><br>
                   </b-col>
                   <b-col sm="5">
                     <b-form-input class="input" type="text" v-model="form.name" placeholder="Votre nom"></b-form-input>
                     <br>
                   </b-col>
+                  <b-col sm="2"></b-col>
                 </b-row>
 
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">Prénom :</label><br>
                   </b-col>
                   <b-col sm="5">
@@ -43,10 +48,12 @@
                                   placeholder="Votre prénom"></b-form-input>
                     <br>
                   </b-col>
+                  <b-col sm="2"></b-col>
                 </b-row>
 
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">Date de naissance :</label><br>
                   </b-col>
                   <b-col sm="5">
@@ -55,10 +62,12 @@
                     <br>
                     <br>
                   </b-col>
+                  <b-col sm="2"></b-col>
                 </b-row>
 
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">E-mail :</label><br>
                   </b-col>
                   <b-col sm="5">
@@ -66,10 +75,12 @@
                                   placeholder="Votre e-mail"></b-form-input>
                     <br>
                   </b-col>
+                  <b-col sm="2"></b-col>
                 </b-row>
 
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">E-mail (à nouveau) :</label><br>
                   </b-col>
                   <b-col sm="5">
@@ -78,10 +89,12 @@
                     <br>
                     <br>
                   </b-col>
+                  <b-col sm="2"></b-col>
                 </b-row>
 
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">Mot de passe :</label><br>
                   </b-col>
                   <b-col sm="5">
@@ -89,10 +102,12 @@
                                   placeholder="Votre mot de passe"></b-form-input>
                     <br>
                   </b-col>
+                  <b-col sm="2"></b-col>
                 </b-row>
 
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">Mot de passe (à nouveau) :</label><br>
                   </b-col>
                   <b-col sm="5">
@@ -101,10 +116,12 @@
                     <br>
                     <br>
                   </b-col>
+                  <b-col sm="2"></b-col>
                 </b-row>
 
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">Numéro de téléphone :</label><br>
                   </b-col>
                   <b-col sm="5">
@@ -113,10 +130,12 @@
                     <br>
                     <br>
                   </b-col>
+                  <b-col sm="2"></b-col>
                 </b-row>
 
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">Adresse : </label><br>
                   </b-col>
                   <b-col sm="5">
@@ -127,7 +146,8 @@
                 </b-row>
 
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">Code postal :</label><br>
                   </b-col>
                   <b-col sm="5">
@@ -135,10 +155,12 @@
                                   placeholder="Votre code postal"></b-form-input>
                     <br>
                   </b-col>
+                  <b-col sm="2"></b-col>
                 </b-row>
 
                 <b-row class="lines">
-                  <b-col sm="5">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">Commune :</label><br>
                   </b-col>
                   <b-col sm="5">
@@ -146,9 +168,18 @@
                                   placeholder="Votre commune"></b-form-input>
                     <br>
                   </b-col>
+                  <b-col sm="2"></b-col>
                 </b-row>
 
-                <b-row class="lines">
+
+                <b-row>
+                  <b-col>
+                    <br>
+                    <p>En cliquant sur <strong>Suivant</strong> vous acceptez le <b-link to="/reglement">règlement</b-link> des courses 2021, notamment en vous engageant à jouer le jeu et à ne pas tricher</p>
+                  </b-col>
+                </b-row>
+
+                <b-row>
                   <b-col>
                     <br>
                     <b-button type="click" variant="success">Suivant</b-button>
@@ -240,5 +271,12 @@ export default {
   padding: 4%;
 }
 
+.lines{
+  text-align: left;
+}
+
+.label{
+  font-weight: bold;
+}
 
 </style>
