@@ -213,6 +213,17 @@
                   <b-row>
                     <b-col sm="4"></b-col>
                     <b-col sm="2">
+                      <b-card-text><strong>Nombre d'activités Strava : </strong></b-card-text>
+                    </b-col>
+                    <b-col sm="4">
+                      <b-card-text>{{race.activity_count}} activité(s)</b-card-text>
+                    </b-col>
+                    <b-col sm="2"></b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col sm="4"></b-col>
+                    <b-col sm="2">
                       <b-card-text><strong>Votre rang : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
@@ -349,14 +360,6 @@
                       <b-card-text>{{team.rank}} / {{team.total_teams}} équipes</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
-                  </b-row>
-
-                  <b-row>
-                    <b-col style="text-align: center">
-                      <br>
-                      <b-button class="buttons" variant="success">Modifier le profil</b-button>
-                      <b-button class="buttons" variant="danger">Changer mot de passe</b-button>
-                    </b-col>
                   </b-row>
 
                 </b-container>
