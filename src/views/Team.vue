@@ -48,7 +48,7 @@
                   <b-row>
                     <br>
                     <b-col sm="7">
-                      <label>Nom d'équipe :</label>
+                      <label class="label">Nom d'équipe :</label>
                     </b-col>
                     <b-col sm="5">
                       <b-form-input class="input" type="text" v-model="form.new.team_name"
@@ -59,7 +59,7 @@
 
                   <b-row>
                     <b-col sm="7">
-                      <label>Nombre de participants :</label>
+                      <label class="label">Nombre de participants :</label>
                       <br>
                     </b-col>
                     <b-col sm="5">
@@ -72,7 +72,7 @@
 
                   <b-row>
                     <b-col sm="7">
-                      <label>Clé pour rejoindre :</label>
+                      <label class="label">Clé pour rejoindre :</label>
                     </b-col>
                     <b-col sm="5">
                       <b-form-input class="input" type="text" v-model="form.new.team_joint_code"
@@ -91,7 +91,7 @@
                 <b-container>
                   <b-row>
                     <b-col sm="7">
-                      <label>Saisir la clé :</label>
+                      <label class="label">Saisir la clé :</label>
                     </b-col>
                     <b-col sm="5">
                       <b-form-input class="input" type="text" v-model="form.existant.team_joint_code"
@@ -191,5 +191,9 @@ export default {
 #page {
   background-color: white;
   padding: 4%;
+}
+
+.label{
+  font-weight: bold;
 }
 </style>
