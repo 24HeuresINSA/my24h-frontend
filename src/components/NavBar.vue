@@ -29,10 +29,12 @@
         <a href="#" data-toggle="dropdown" >COURSES</a>
         <b-icon stacked icon="chevron-down" class="icons"></b-icon>
         <ul class="dropdown-menu">
-          <li><a href="/">24H DE COURSES</a></li>
-          <li><a href="/">PIMP MY BIKE</a></li>
+          <li><a href="https://www.24heures.org/courses/24heuresdecourse">24H DE COURSES</a></li>
+          <li><a href="https://www.24heures.org/courses/pimpmybike">PIMP MY BIKE</a></li>
+          <li><a href="https://www.24heures.org/courses/resultats">RESULTATS</a></li>
+          <li><a href="https://www.24heures.org/courses/course-caritative">COURSE CARITATIVE</a></li>
           <li><a href="/#/dashboard">TABLEAU DE BORD</a></li>
-          <li><a href="/#/faq">FAQ COURSES</a></li>
+          <li><a href="/#/faq">INFORMATIONS</a></li>
           <li><a href="/#/reglement">REGLEMENT</a></li>
           <li><a href="/#/sponsors">PARTENAIRES</a></li>
         </ul>

@@ -43,6 +43,11 @@ const routes = [
     path: '/activity',
     name: 'Activity',
     component: () => import('../views/Activite')
+  },
+  {
+    path: '/strava',
+    name: 'Strava',
+    component: () => import('../views/PageStrava')
   }
 ]
 

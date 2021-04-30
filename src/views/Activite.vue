@@ -15,14 +15,14 @@
           <br>
 
           <b-table striped hover :items="activity_list" :fields="fields" responsive="true"
-                  sticky-header="true" selectable @row-selected="onRowSelected">
+                  sticky-header="true" selectable selected-variant="success" @row-selected="onRowSelected">
             <template #cell(selected)="{ rowSelected }">
               <template v-if="rowSelected">
                 <span aria-hidden="true">&check;</span>
                 <span class="sr-only">Selected</span>
               </template>
               <template v-else>
-                <span aria-hidden="true">&nbsp;</span>
+                <span aria-hidden="true">&squ;</span>
                 <span class="sr-only">Not selected</span>
               </template>
             </template>
@@ -79,6 +79,7 @@ export default {
   methods:{
     onRowSelected(items){
       this.selected = items
+      console.log(this.selected);
     }
   }
 }

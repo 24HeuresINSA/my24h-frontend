@@ -148,7 +148,7 @@ export default {
           team_joint_code: ''
         }
       },
-      team_size_options: [{value: 4, text: 4}, {value: 12, text: 12}],
+      team_size_options: [{value: 4, text: "2 à 4"}, {value: 12, text: "5 à 12"}],
       show_alert: true,
       message: ""
     }

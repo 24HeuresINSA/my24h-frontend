@@ -8,9 +8,17 @@
           <b-img id="logo_24_generique" :src="require('../assets/logo_24.png')" alt="logo_24_generique" fluid></b-img>
           <h1>Bienvenue sur My24h !</h1>
           <br>
-          <P>Au vu des circonstances particulières liées à la crise du covid-19, le club des 24h de l'Insa a décidé
-            d'organiser des courses, mais en distanciel !</P>
+          <P>Les courses de 24 heures sont le cœur historique du festival, et nous ne pouvons imaginer cette édition sans elles. Cependant, l’incertitude dans laquelle nous sommes plongés quant aux mesures sanitaires qui auront court fin mai ne nous permet pas de proposer une course avec un tracé fixe et une date unique. À la place, nous organisons une course « virtuelle ».
+            <br><br>
+            Le principe est simple : vous aurez la possibilité de courir où vous voulez et quand vous le voulez ! Vous n’aurez ensuite qu’à nous transmettre vos données GPS pour nous communiquer vos résultats et intégrer le classement.
+            Vous aurez neuf jours, du vendredi 14 mai à 14h au dimanche 23 mai à 14h, pour effectuer 24 heures de course au total, d’une seule traite ou en plusieurs étapes. Il sera possible, comme les années précédentes, de participer en solo ou en équipe, et les disciplines proposées seront les suivantes : course à vélo, course à pied et duathlon.
+            <br><br>
+            Notre système se basera sur l’application de running « Strava ». Vous aurez la possibilité d’importer leurs données d’activité Strava sur notre site internet, où nous conserverons pour le classement leurs 24 « meilleures » heures de course.
+            À l’issue de la semaine du défi, les coureurs ayant parcouru la plus grande distance en 24 heures se verront récompensés par divers lots au cours d’une cérémonie de remise des prix en distanciel.</P>
           <p><strong>Expliquer comment ça marche et tout et faire un lien vers la FAQ</strong></p>
+          <br>
+          <b-button class="button" to="/inscriptions" variant="primary">S'inscrire</b-button>
+          <b-button class="button" to="/" variant="outline-primary">Se connecter</b-button>
           <br>
           <b-button to="/" variant="outline-danger">Se connecter avec <b-img id="strava_logo" :src="require('../assets/strava.png')" fluid></b-img></b-button>
         </div>
@@ -60,5 +68,9 @@ export default {
 #page {
   background-color: white;
   padding: 4%;
+}
+
+.button{
+  margin: 0.5em;
 }
 </style>

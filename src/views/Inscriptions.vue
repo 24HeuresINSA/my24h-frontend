@@ -18,10 +18,10 @@
                 <b-row class="lines">
                   <b-col sm="2"></b-col>
                   <b-col sm="3">
-                    <label class="label">Genre :</label>
+                    <label class="label">Civilité :</label>
                   </b-col>
                   <b-col sm="5">
-                    <b-form-select class="input" v-model="form.sex" :options="options"></b-form-select>
+                    <b-form-select class="input" v-model="form.sex" :options="options_sex"></b-form-select>
                   </b-col>
                   <b-col sm="2"></b-col>
                 </b-row>
@@ -161,11 +161,26 @@
                 <b-row class="lines">
                   <b-col sm="2"></b-col>
                   <b-col sm="3">
-                    <label class="label">Commune :</label><br>
+                    <label class="label">Commune :</label><br><br>
                   </b-col>
                   <b-col sm="5">
                     <b-form-input class="input" type="text" v-model="form.city"
                                   placeholder="Votre commune"></b-form-input>
+                    <br>
+                    <br>
+                  </b-col>
+                  <b-col sm="2"></b-col>
+                </b-row>
+
+                <b-row class="lines">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
+                    <label class="label">Choisir une course :</label>
+                    <br>
+                  </b-col>
+                  <b-col sm="5">
+                    <b-form-select class="input" v-model="form.race" :options="options_race"></b-form-select>
+                    <br>
                     <br>
                   </b-col>
                   <b-col sm="2"></b-col>
@@ -224,11 +239,13 @@ export default {
         email: "",
         email_validation: "",
         password: "",
-        password_validation: ""
+        password_validation: "",
+        race: ""
       },
-      options: [{value: 'male', text: 'Monsieur'},
+      options_sex: [{value: 'male', text: 'Monsieur'},
         {value: 'female', text: 'Madame'},
-        {value: 'unknown', text: 'Non genré'}]
+        {value: 'unknown', text: 'Non genré'}],
+      options_race: [{value: "test", text: "Une Course"}]
 
     }
   },
