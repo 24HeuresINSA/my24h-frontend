@@ -8,9 +8,9 @@
           <b-img id="logo_24_generique" :src="require('../assets/logo_24.png')" alt="logo_24_generique" fluid></b-img>
           <h1>Lier son compte Strava</h1>
           <br>
-          <P>Merci de cliquer sur le bouton ci-dessous pour lier votre compte Strava à votre compte My24h nous permettant de récupérer vos données course. Vérifiez bien que toutes les autorisations demandées soient cochées sinon nous n'aurons pas accès à toutes les données dont nous avons besoin !</p>
+          <P>2ème étape, il faut lier votre compte Strava à votre compte My24h nous permettant de récupérer vos données course. Vérifiez bien que toutes les autorisations demandées soient cochées sinon nous n'aurons pas accès à toutes les données dont nous avons besoin !</p>
           <br>
-          <b-button to="/" variant="outline-danger">Lier mon compte <b-img id="strava_logo" :src="require('../assets/strava.png')" fluid></b-img></b-button>
+          <b-button to="/" variant="outline-danger">Lier mon compte <b-img id="strava_logo" :src="require('../assets/strava.png')" alt="Strava" fluid></b-img></b-button>
         </div>
       </div>
     </div>

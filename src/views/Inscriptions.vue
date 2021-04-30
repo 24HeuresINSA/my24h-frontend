@@ -7,9 +7,7 @@
         <div id="page">
           <h1 style="text-align: center">Inscription aux courses</h1>
           <br>
-          <P style="text-align: center">Votre compte Strava a bien été enregistré ! Merci de compléter ce formulaire
-            pour finaliser votre
-            inscription</P>
+          <P style="text-align: center">1ère étape, vous devez vous inscrire à My24h pour pouvoir être classé. <strong>Tous les champs sont obligatoires.</strong></P>
           <br>
 
           <div id="form">
