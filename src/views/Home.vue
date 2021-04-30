@@ -13,14 +13,13 @@
             Le principe est simple : vous aurez la possibilité de courir où vous voulez et quand vous le voulez ! Vous n’aurez ensuite qu’à nous transmettre vos données GPS pour nous communiquer vos résultats et intégrer le classement.
             Vous aurez neuf jours, du vendredi 14 mai à 14h au dimanche 23 mai à 14h, pour effectuer 24 heures de course au total, d’une seule traite ou en plusieurs étapes. Il sera possible, comme les années précédentes, de participer en solo ou en équipe, et les disciplines proposées seront les suivantes : course à vélo, course à pied et duathlon.
             <br><br>
-            Notre système se basera sur l’application de running « Strava ». Vous aurez la possibilité d’importer leurs données d’activité Strava sur notre site internet, où nous conserverons pour le classement leurs 24 « meilleures » heures de course.
+            Notre système se basera sur l’application de running « Strava ». Vous aurez la possibilité d’importer vos données d’activité Strava sur notre site internet, où nous conserverons pour le classement vos 24 « meilleures » heures de course.
             À l’issue de la semaine du défi, les coureurs ayant parcouru la plus grande distance en 24 heures se verront récompensés par divers lots au cours d’une cérémonie de remise des prix en distanciel.</P>
           <p><strong>Expliquer comment ça marche et tout et faire un lien vers la FAQ</strong></p>
           <br>
           <b-button class="button" to="/inscriptions" variant="primary">S'inscrire</b-button>
           <b-button class="button" to="/" variant="outline-primary">Se connecter</b-button>
           <br>
-          <b-button to="/" variant="outline-danger">Se connecter avec <b-img id="strava_logo" :src="require('../assets/strava.png')" fluid></b-img></b-button>
         </div>
       </div>
     </div>
