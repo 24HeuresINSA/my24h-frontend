@@ -58,6 +58,10 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import('../views/Login')
+  },
+  {
+    path: '*',
+    component: () => import('../views/404')
   }
 ]
 
