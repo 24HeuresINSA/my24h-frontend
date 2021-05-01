@@ -48,8 +48,10 @@
             </b-table>
 
             <br>
-
-            <b-button v-b-modal.confirm_suppression variant="danger">Supprimer le/les membres sélectionnés</b-button>
+            <b-button class="buttons_modal" variant="outline-success" to="/dashboard">Retour tableau de bord</b-button>
+            <b-button class="buttons_modal" v-b-modal.confirm_suppression variant="danger"
+                      :disabled="selected.length===0">Supprimer le/les membres sélectionnés
+            </b-button>
           </div>
 
           <div v-show="!isAdmin">

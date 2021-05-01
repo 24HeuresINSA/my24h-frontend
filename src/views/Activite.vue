@@ -32,7 +32,7 @@
           <b-alert v-model="show_alert" variant="info">Test alert box</b-alert>
           <br>
           <b-button class="buttons" variant="primary" to="/dashboard">Retour tableau de bord</b-button>
-          <b-button class="buttons" variant="success">Importer</b-button>
+          <b-button class="buttons" variant="success" :disabled="selected.length===0">Importer</b-button>
           <br>
 
         </div>
