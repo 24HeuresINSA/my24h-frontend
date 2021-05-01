@@ -74,7 +74,7 @@
                   <b-row>
                     <b-col style="text-align: center">
                       <br>
-                      <b-button class="buttons" variant="success">Modifier le profil</b-button>
+                      <b-button class="buttons" variant="success" to="/modifProfile">Modifier le profil</b-button>
                       <b-button class="buttons" variant="primary">Changer mot de passe</b-button>
                       <b-button class="buttons" variant="danger">Déconnexion</b-button>
                     </b-col>

@@ -48,6 +48,16 @@ const routes = [
     path: '/strava',
     name: 'Strava',
     component: () => import('../views/PageStrava')
+  },
+  {
+    path: '/modifProfile',
+    name: 'ModifProfile',
+    component: () => import('../views/ModifProfil')
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login')
   }
 ]
 
