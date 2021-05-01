@@ -79,7 +79,6 @@ export default {
   methods:{
     onRowSelected(items){
       this.selected = items
-      console.log(this.selected);
     }
   }
 }

@@ -247,15 +247,17 @@
                 <b-card-text v-show="show_no_team">Oups, il semblerait que vous ne soyez pas affilié à une équipe...</b-card-text>
                 <b-button v-show="show_no_team" variant="success" to="/team">Rejoindre une équipe</b-button>
 
-                <b-container>
-                  <b-row><b-col><br></b-col></b-row>
+                <b-container v-show="show_no_team">
+                  <b-row>
+                    <b-col><br></b-col>
+                  </b-row>
                   <b-row>
                     <b-col sm="4"></b-col>
                     <b-col sm="2">
                       <b-card-text><strong>Nom de l'équipe : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{team.name}}</b-card-text>
+                      <b-card-text>{{ team.name }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -358,9 +360,16 @@
                       <b-card-text><strong>Votre rang : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{team.rank}} / {{team.total_teams}} équipes</b-card-text>
+                      <b-card-text>{{ team.rank }} / {{ team.total_teams }} équipes</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col style="text-align: center">
+                      <br>
+                      <b-button class="buttons" variant="success" to="/manageTeam">Voir mon équipe en détail</b-button>
+                    </b-col>
                   </b-row>
 
                 </b-container>

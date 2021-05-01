@@ -60,6 +60,11 @@ const routes = [
     component: () => import('../views/Login')
   },
   {
+    path: '/manageTeam',
+    name: "ManageTeam",
+    component: () => import('../views/ManageTeam')
+  },
+  {
     path: '*',
     component: () => import('../views/404')
   }
