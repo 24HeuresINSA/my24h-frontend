@@ -17,11 +17,11 @@
                 <b-row class="lines">
                   <b-col sm="2"></b-col>
                   <b-col sm="3">
-                    <label class="label">Email :</label><br>
+                    <label class="label">Nom d'utilisateur :</label><br>
                   </b-col>
                   <b-col sm="5">
                     <b-form-input class="input" type="email" v-model="form.email"
-                                  placeholder="example@xyz.com"></b-form-input>
+                                  placeholder="Votre pseudo"></b-form-input>
                     <br>
                   </b-col>
                   <b-col sm="2"></b-col>
@@ -42,8 +42,15 @@
 
                 <b-row>
                   <b-col>
+                    <b-alert v-model="non_correct" variant="danger">Nom d'utilisateur ou mot de passe incorrect
+                    </b-alert>
+                  </b-col>
+                </b-row>
+
+                <b-row>
+                  <b-col>
                     <br>
-                    <b-button to="/login" type="click" variant="success">Se connecter</b-button>
+                    <b-button type="click" variant="success">Se connecter</b-button>
                     <br>
                   </b-col>
                 </b-row>
@@ -81,6 +88,7 @@
 <script>
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
+import axios from 'axios';
 
 export default {
   name: "Login",
@@ -93,7 +101,24 @@ export default {
       form: {
         email: "",
         password: ""
+      },
+      non_correct: false
+    }
+  },
+  methods: {
+    onClick(event) {
+      event.preventDefault();
+      const data_to_send = {
+        username: this.form.email,
+        password: this.form.password
       }
+      axios.post(this.$baseUrl + '/token', data_to_send).then(response => {
+        localStorage.my24_user_cache = {access: response.access, refresh: response.refresh, id: response.id};
+        this.$router.push("Dashboard");
+      }).catch(err => {
+        console.log(err);
+        this.non_correct = true;
+      })
     }
   }
 }

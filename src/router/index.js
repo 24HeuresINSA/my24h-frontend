@@ -65,6 +65,11 @@ const routes = [
     component: () => import('../views/ManageTeam')
   },
   {
+    path: '/echecAuth',
+    name: "EchecAuth",
+    component: () => import('../views/EchecAuth')
+  },
+  {
     path: '*',
     component: () => import('../views/404')
   }

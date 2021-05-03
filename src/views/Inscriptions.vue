@@ -7,11 +7,12 @@
         <div id="page">
           <h1 style="text-align: center">Inscription aux courses</h1>
           <br>
-          <P style="text-align: center">1ère étape, vous devez vous inscrire à My24h pour pouvoir être classé. <strong>Tous les champs sont obligatoires.</strong></P>
+          <P style="text-align: center">1ère étape, vous devez vous inscrire à My24h pour pouvoir être classé. <strong>Tous
+            les champs sont obligatoires.</strong></P>
           <br>
 
           <div id="form">
-            <b-form @click="onClick">
+            <b-form>
               <b-container align="center" fluid>
                 <b-row class="lines">
                   <b-col sm="2"></b-col>
@@ -19,7 +20,7 @@
                     <label class="label">Civilité :</label>
                   </b-col>
                   <b-col sm="5">
-                    <b-form-select class="input" v-model="form.sex" :options="options_sex"></b-form-select>
+                    <b-form-select class="input" v-model="form.sex" :options="options_sex" required></b-form-select>
                   </b-col>
                   <b-col sm="2"></b-col>
                 </b-row>
@@ -52,10 +53,24 @@
                 <b-row class="lines">
                   <b-col sm="2"></b-col>
                   <b-col sm="3">
+                    <label class="label">Pseudo :</label><br>
+                  </b-col>
+                  <b-col sm="5">
+                    <b-form-input class="input" type="text" v-model="form.username"
+                                  placeholder="Votre pseudo"></b-form-input>
+                    <p>Au moins 5 caractères</p>
+                    <br>
+                  </b-col>
+                  <b-col sm="2"></b-col>
+                </b-row>
+
+                <b-row class="lines">
+                  <b-col sm="2"></b-col>
+                  <b-col sm="3">
                     <label class="label">Date de naissance :</label><br>
                   </b-col>
                   <b-col sm="5">
-                    <b-form-input class="input" type="date" v-model="form.birthday"
+                    <b-form-input class="input" type="date" v-model="form.birthday" required
                                   placeholder="Votre date de naissance"></b-form-input>
                     <br>
                     <br>
@@ -98,7 +113,7 @@
                   <b-col sm="5">
                     <b-form-input class="input" type="password" v-model="form.password"
                                   placeholder="Votre mot de passe"></b-form-input>
-                    <br>
+                    <p>Au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre</p>
                   </b-col>
                   <b-col sm="2"></b-col>
                 </b-row>
@@ -184,18 +199,29 @@
                   <b-col sm="2"></b-col>
                 </b-row>
 
+                <b-row class="lines">
+                  <b-col>
+                    <b-alert v-model="verify_fields" variant="danger"><strong>Erreur dans votre saisie ! Vérifiez vos
+                      informations...</strong> {{ field_pb }}
+                    </b-alert>
+                  </b-col>
+                </b-row>
+
 
                 <b-row>
                   <b-col>
                     <br>
-                    <p>En cliquant sur <strong>Suivant</strong> vous acceptez le <b-link to="/reglement">règlement</b-link> des courses 2021, notamment en vous engageant à jouer le jeu et à ne pas tricher</p>
+                    <p>En cliquant sur <strong>Suivant</strong> vous acceptez le
+                      <b-link to="/reglement">règlement</b-link>
+                      des courses 2021, notamment en vous engageant à jouer le jeu et à ne pas tricher
+                    </p>
                   </b-col>
                 </b-row>
 
                 <b-row>
                   <b-col>
                     <br>
-                    <b-button type="click" variant="success">Suivant</b-button>
+                    <b-button @click="onClick" variant="success">Suivant</b-button>
                     <br>
                   </b-col>
                 </b-row>
@@ -216,6 +242,7 @@
 
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
+import axios from 'axios';
 
 export default {
   name: "Inscriptions",
@@ -227,8 +254,9 @@ export default {
     return {
       form: {
         sex: "",
-        name: "nom_strava",
-        surname: "prenom_strava",
+        name: "",
+        surname: "",
+        username: "",
         birthday: "",
         address: "",
         postal_code: "",
@@ -243,16 +271,111 @@ export default {
       options_sex: [{value: 'male', text: 'Monsieur'},
         {value: 'female', text: 'Madame'},
         {value: 'unknown', text: 'Non genré'}],
-      options_race: [{value: "test", text: "Une Course"}]
+      options_race: [],
+      server_error: "",
+      verify_fields: false,
+      field_pb: []
 
     }
   },
-  methods:{
-    onClick(event){
+  methods: {
+    onClick(event) {
       event.preventDefault()
-      //gérer l'envoi et la vérification des champs
-      //prévenir les injections sql
+      if (this.verify()) {
+        const data_to_send = {
+          username: this.form.username,
+          first_name: this.form.surname,
+          last_name: this.form.name,
+          email: this.form.email,
+          password: this.form.password,
+          gender: this.form.sex,
+          address: this.form.address,
+          zip_code: this.form.postal_code,
+          city: this.form.city,
+          phone: this.form.phone,
+          race_id: this.form.race
+          //TODO date de naissance
+        }
+        axios.post(this.$baseUrl + '/api/athletes', data_to_send).then(response => {
+          localStorage.my24_user_cache = {access: response.token, refresh: response.refresh, id: response.id}
+          this.$router.push("Strava")
+        }).catch(err => {
+          this.server_error = err;
+          this.verify_fields = true;
+        })
+      } else {
+        this.verify_fields = true;
+      }
+    },
+    verify() {
+      this.field_pb = [] //on réinitialise
+      var regex_email = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var regex_password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+      var regex_phone = /^([0-9]{10})$/;
+      var regex_zipcode = /^([0-9]{5})$/;
+      //TODO check les champs
+      if (this.form.sex === "") {
+        this.field_pb.push("Sélectionnez votre genre");
+      }
+      if (this.form.name < 2) {
+        this.field_pb.push("Nom invalide");
+
+      }
+      if (this.form.surname < 2) {
+        this.field_pb.push("Prénom invalide");
+
+      }
+      if (this.form.username.length < 5) {
+        this.field_pb.push("Pseudo invalide");
+
+      }
+      if (this.form.birthday === "") {
+        this.field_pb.push("Date de naissance invalide");
+
+      }
+      if (!regex_email.test(this.form.email)) {
+        this.field_pb.push("Email invalide");
+
+      }
+      if (this.form.email !== this.form.email_validation) {
+        this.field_pb.push("Les 2 emails ne correspondent pas");
+
+      }
+      if (!regex_password.test(this.form.password)) {
+        this.field_pb.push("Mot de passe invalide");
+      }
+
+      if (this.form.password !== this.form.password_validation) {
+        this.field_pb.push("Les 2 mots de passe ne correspondent pas")
+      }
+
+      if (!regex_phone.test(this.form.phone_number)) {
+        this.field_pb.push("Numéro de téléphone invalide")
+      }
+
+      if (this.form.address.length < 10) {
+        this.field_pb.push("Adresse invalide")
+      }
+
+      if (!regex_zipcode.test(this.form.postal_code)) {
+        this.field_pb.push("Code postal invalide")
+      }
+
+      if (this.form.address.length < 3) {
+        this.field_pb.push("Commune invalide")
+      }
+
+      if (this.form.race === "") {
+        this.field_pb.push("Veuillez choisir une course")
+      }
+
+      return this.field_pb.length !== 0;
     }
+  },
+  mounted() {
+    axios.get(this.$baseUrl + '/races').then(response => (
+        response.results.forEach(element => (this.options_race.push({value: element.id, text: element.name})))
+    )).catch(error => console.log(error));
   }
 
 }
@@ -286,11 +409,11 @@ export default {
   padding: 4%;
 }
 
-.lines{
+.lines {
   text-align: left;
 }
 
-.label{
+.label {
   font-weight: bold;
 }
 

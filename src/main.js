@@ -13,6 +13,8 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueRouter)
 
+Vue.prototype.$baseUrl = 'url_a_specifier'
+
 new Vue({
   router,
   render: h => h(App)
