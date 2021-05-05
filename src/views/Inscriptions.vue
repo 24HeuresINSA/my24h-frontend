@@ -70,8 +70,9 @@
                     <label class="label">Date de naissance :</label><br>
                   </b-col>
                   <b-col sm="5">
-                    <b-form-input class="input" type="date" v-model="form.birthday" required
-                                  placeholder="Votre date de naissance"></b-form-input>
+
+                    <b-form-datepicker class="input" max="2005-05-13" value-as-date v-model="form.birthday"
+                                       placeholder="Votre date de naissance"></b-form-datepicker>
                     <br>
                     <br>
                   </b-col>
@@ -257,7 +258,7 @@ export default {
         name: "",
         surname: "",
         username: "",
-        birthday: "",
+        birthday: new Date(),
         address: "",
         postal_code: "",
         city: "",
@@ -281,22 +282,22 @@ export default {
   methods: {
     onClick(event) {
       event.preventDefault()
+      const data_to_send = {
+        username: this.form.username,
+        first_name: this.form.surname,
+        last_name: this.form.name,
+        email: this.form.email,
+        password: this.form.password,
+        gender: this.form.sex,
+        address: this.form.address,
+        zip_code: this.form.postal_code,
+        city: this.form.city,
+        phone: this.form.phone,
+        race_id: this.form.race,
+        birthdate: this.form.birthday.toISOString().slice(0, 10)
+      }
       if (this.verify()) {
-        const data_to_send = {
-          username: this.form.username,
-          first_name: this.form.surname,
-          last_name: this.form.name,
-          email: this.form.email,
-          password: this.form.password,
-          gender: this.form.sex,
-          address: this.form.address,
-          zip_code: this.form.postal_code,
-          city: this.form.city,
-          phone: this.form.phone,
-          race_id: this.form.race
-          //TODO date de naissance
-        }
-        axios.post(this.$baseUrl + '/api/athletes', data_to_send).then(response => {
+        axios.post(this.$baseUrl + '/api/athletes/', data_to_send).then(response => {
           localStorage.my24_user_cache = {access: response.token, refresh: response.refresh, id: response.id}
           this.$router.push({name: 'Strava'})
         }).catch(err => {
@@ -369,13 +370,25 @@ export default {
         this.field_pb.push("Veuillez choisir une course")
       }
 
+      const test_age = this.form.birthday;
+      test_age.setFullYear(test_age.getFullYear() + 16);
+      var date_jour = new Date(2021, 5, 14);
+
+      if (test_age > date_jour) {
+        this.field_pb.push("Vous n'avez pas 16 ans révolus, vous ne pouvez pas vous inscrire !")
+      }
+
       return this.field_pb.length !== 0;
     }
   },
   mounted() {
-    axios.get(this.$baseUrl + '/api/races', {headers: {"Access-Control-Allow-Origin": "24heures.org/my24h"}}).then(response => (
-        response.results.forEach(element => (this.options_race.push({value: element.id, text: element.name})))
-    )).catch(error => console.log(error));
+    axios.get(this.$baseUrl + '/api/races/').then(response => {
+      response.data.results.forEach(element => (this.options_race.push({
+        value: element.disciplines.id,
+        text: element.name
+      })));
+      console.log(response);
+    }).catch(error => console.log(error));
   }
 
 }

@@ -112,7 +112,7 @@ export default {
         username: this.form.email,
         password: this.form.password
       }
-      axios.post(this.$baseUrl + '/token', data_to_send).then(response => {
+      axios.post(this.$baseUrl + '/api/token', data_to_send).then(response => {
         localStorage.my24_user_cache = {access: response.access, refresh: response.refresh, id: response.id};
         this.$router.push("Dashboard");
       }).catch(err => {
