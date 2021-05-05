@@ -125,8 +125,9 @@
 </template>
 
 <script>
-import NavBar from '../components/NavBar'
+import NavBar from '../components/NavBar';
 import FootBar from "@/components/FootBar";
+import * as checker from '../scripts/refresh_credentials';
 
 export default {
   name: "Team",
@@ -162,6 +163,9 @@ export default {
       event.preventDefault()
 
     }
+  },
+  mounted() {
+    checker.default.checkCredentials(); //permet de vérifier que le gars est connecté, et de refresh son token si besoin
   }
 }
 </script>

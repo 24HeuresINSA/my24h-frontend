@@ -24,7 +24,7 @@
 <script>
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
-//import axios from 'axios';
+import * as checker from "../scripts/refresh_credentials"
 
 export default {
   name: "PageStrava",
@@ -37,6 +37,9 @@ export default {
       event.preventDefault();
       window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=http://localhost:8080/&approval_prompt=auto&scope=activity:read'
     }
+  },
+  mounted() {
+    checker.default.checkCredentials();
   }
 }
 </script>,

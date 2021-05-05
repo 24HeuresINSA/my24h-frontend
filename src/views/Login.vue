@@ -12,7 +12,7 @@
           <br>
 
           <div id="form">
-            <b-form @click="onClick">
+            <b-form>
               <b-container align="center" fluid>
                 <b-row class="lines">
                   <b-col sm="2"></b-col>
@@ -50,7 +50,7 @@
                 <b-row>
                   <b-col>
                     <br>
-                    <b-button type="click" variant="success">Se connecter</b-button>
+                    <b-button @click="onClick" variant="success">Se connecter</b-button>
                     <br>
                   </b-col>
                 </b-row>
@@ -112,8 +112,10 @@ export default {
         username: this.form.email,
         password: this.form.password
       }
-      axios.post(this.$baseUrl + '/api/token', data_to_send).then(response => {
-        localStorage.my24_user_cache = {access: response.access, refresh: response.refresh, id: response.id};
+      axios.post(this.$baseUrl + '/api/token/', data_to_send).then(response => {
+        localStorage.setItem('access', response.data.access);
+        localStorage.setItem('refresh', response.data.refresh);
+        localStorage.setItem('uid', response.data.id); //TODO dire à François qu'il me renvoit l'id de l'utilisateur lors de la connection
         this.$router.push("Dashboard");
       }).catch(err => {
         console.log(err);

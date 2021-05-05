@@ -42,10 +42,10 @@ export default {
           strava_code: stravaAuthToken
         }
         const options = {
-          headers: {'auth': localStorage.my24_user_cache.access}
+          headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}
         }
 
-        axios.post(this.$baseUrl + '/api/athletes/' + localStorage.my24_user_cache.id + '/strava', data_to_send, options)
+        axios.post(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/strava/', data_to_send, options)
             .then(response => {
               console.log(response);
               this.$router.push({name: 'Team'}); //si c'est ok on finalise l'inscription en lui proposant une team

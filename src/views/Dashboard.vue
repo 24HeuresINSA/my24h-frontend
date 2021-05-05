@@ -66,7 +66,18 @@
                       <b-card-text><strong>N° tel : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{profile.phone}}</b-card-text>
+                      <b-card-text>{{ profile.phone }}</b-card-text>
+                    </b-col>
+                    <b-col sm="2"></b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col sm="4"></b-col>
+                    <b-col sm="2">
+                      <b-card-text><strong>Adresse : </strong></b-card-text>
+                    </b-col>
+                    <b-col sm="4">
+                      <b-card-text>{{ profile.address }} {{ profile.zip_code }} {{ profile.city }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -147,7 +158,7 @@
                     <b-col sm="3"></b-col>
                     <b-col sm="6">
                       <br>
-                      <b-progress show-progress value="75" variant="success" striped="true"></b-progress>
+                      <b-progress show-progress value="75" variant="success" striped></b-progress>
                       <br>
                       <br>
                     </b-col>
@@ -458,6 +469,8 @@
 
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
+//import * as checker from "../scripts/refresh_credentials";
+import axios from 'axios';
 
 export default {
   name: "Dashboard",
@@ -465,14 +478,17 @@ export default {
     NavBar,
     FootBar
   },
-  data (){
+  data() {
     return {
-      profile:{
-        name: "NomDuPelo",
-        surname: "SonPrenom",
-        age: 20,
-        phone: "0123456789",
-        email: "courses@24heures.org"
+      profile: {
+        name: "",
+        surname: "",
+        age: 0,
+        phone: "",
+        email: "",
+        address: "20 av albert einsetin",
+        zip_code: "69100",
+        city: "Villeurbanne"
       },
       race:{
         race_type: "Course à pied en équipe",
@@ -512,7 +528,7 @@ export default {
       show_no_team: true,
       selected_race: "",
       all_races: [
-        {value: "cap_equipe", text:"Course à pied par équipe"}
+        {value: "cap_equipe", text: "Course à pied par équipe"}
       ],
       ranking_fields: [
         {key: 'rank', label: "Rang"},
@@ -522,12 +538,27 @@ export default {
       ],
       ranking_list: [
         {rank: 1, name: "Dupont", cumul_time: "19h45", total_points: 526}
-      ]
+      ],
+      server_error: false,
+      serv_err_type: ""
     }
   },
-  mounted() {
+  beforeMount() {
     //TODO check si l'user a bien lié son compte Strava, sinon le renvoyer vers la page spécifique Strava, il n'a pas le droit d'aller plus loin tant que c'est pas fait
-
+    //checker.default.checkCredentials()
+    //check le strava, maybe le faire dans le script dédié, mais ça voudrait dire que ça checke à chaque fois qu'onn accède à une page authentifiée, c'est chiant
+  },
+  mounted() {
+    axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+        .then(results => {
+          this.form.address = results.data.address;
+          this.form.postal_code = results.data.zip_code;
+          this.form.city = results.data.city;
+          this.form.phone_number = results.data.phone;
+        }).catch(err => {
+      this.server_error = true;
+      this.serv_err_type = err;
+    })
   }
 }
 </script>

@@ -208,6 +208,13 @@
                   </b-col>
                 </b-row>
 
+                <b-row class="lines">
+                  <b-col>
+                    <b-alert v-model="server_error" variant="danger"><strong>Erreur du serveur</strong><br> code :
+                      {{ serv_err_type }} <br> Si cette erreur persiste, contactez courses@24heures.org
+                    </b-alert>
+                  </b-col>
+                </b-row>
 
                 <b-row>
                   <b-col>
@@ -273,9 +280,10 @@ export default {
         {value: 'female', text: 'Madame'},
         {value: 'unknown', text: 'Non genré'}],
       options_race: [],
-      server_error: "",
       verify_fields: false,
-      field_pb: []
+      field_pb: [],
+      server_error: false,
+      serv_err_type: ""
 
     }
   },
@@ -296,13 +304,18 @@ export default {
         race_id: this.form.race,
         birthdate: this.form.birthday.toISOString().slice(0, 10)
       }
+      console.log(this.form.race)
       if (this.verify()) {
+
         axios.post(this.$baseUrl + '/api/athletes/', data_to_send).then(response => {
-          localStorage.my24_user_cache = {access: response.token, refresh: response.refresh, id: response.id}
+          localStorage.setItem('access', response.data.access);
+          localStorage.setItem('refresh', response.data.refresh);
+          localStorage.setItem('uid', response.data.id);
           this.$router.push({name: 'Strava'})
         }).catch(err => {
-          this.server_error = err;
-          this.verify_fields = true;
+          console.log(err);
+          this.serv_err_type = err;
+          this.server_error = true;
         })
       } else {
         this.verify_fields = true;
@@ -378,13 +391,13 @@ export default {
         this.field_pb.push("Vous n'avez pas 16 ans révolus, vous ne pouvez pas vous inscrire !")
       }
 
-      return this.field_pb.length !== 0;
+      return this.field_pb.length === 0;
     }
   },
   mounted() {
     axios.get(this.$baseUrl + '/api/races/').then(response => {
       response.data.results.forEach(element => (this.options_race.push({
-        value: element.disciplines.id,
+        value: element.id,
         text: element.name
       })));
       console.log(response);

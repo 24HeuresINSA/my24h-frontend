@@ -12,7 +12,7 @@
           <br>
 
           <div id="form">
-            <b-form @click="onClick">
+            <b-form>
               <b-container align="center">
 
                 <b-row class="lines">
@@ -95,10 +95,26 @@
                   <b-col sm="2"></b-col>
                 </b-row>
 
+                <b-row class="lines">
+                  <b-col>
+                    <b-alert v-model="verify_fields" variant="danger"><strong>Erreur dans votre saisie ! Vérifiez vos
+                      informations...</strong> {{ field_pb }}
+                    </b-alert>
+                  </b-col>
+                </b-row>
+
+                <b-row class="lines">
+                  <b-col>
+                    <b-alert v-model="server_error" variant="danger"><strong>Erreur du serveur</strong><br> code :
+                      {{ serv_err_type }} <br> Si cette erreur persiste, contactez courses@24heures.org
+                    </b-alert>
+                  </b-col>
+                </b-row>
+
                 <b-row>
                   <b-col>
                     <br>
-                    <b-button type="click" variant="success">Suivant</b-button>
+                    <b-button @click="onClick" variant="success">Suivant</b-button>
                     <br>
                   </b-col>
                 </b-row>
@@ -118,6 +134,8 @@
 <script>
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
+import axios from "axios";
+//import * as checker from "../scripts/refresh_credentials"
 
 export default {
   name: "ModifProfil",
@@ -134,6 +152,80 @@ export default {
         phone_number: "",
         email: "",
         email_validation: ""
+      },
+      field_pb: [],
+      verify_fields: false,
+      server_error: false,
+      serv_err_type: ""
+    }
+  },
+  beforeMount() {
+    //checker.default.checkCredentials();
+  },
+  mounted() {
+    axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+        .then(results => {
+          this.form.address = results.data.address;
+          this.form.postal_code = results.data.zip_code;
+          this.form.city = results.data.city;
+          this.form.phone_number = results.data.phone;
+        }).catch(err => {
+      this.server_error = true;
+      this.serv_err_type = err;
+    })
+  },
+  methods: {
+    verify() {
+      var regex_email = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var regex_phone = /^([0-9]{10})$/;
+      var regex_zipcode = /^([0-9]{5})$/;
+
+      if (!regex_email.test(this.form.email)) {
+        this.field_pb.push("Email invalide");
+
+      }
+      if (this.form.email !== this.form.email_validation) {
+        this.field_pb.push("Les 2 emails ne correspondent pas");
+      }
+      if (!regex_phone.test(this.form.phone_number)) {
+        this.field_pb.push("Numéro de téléphone invalide")
+      }
+
+      if (this.form.address.length < 10) {
+        this.field_pb.push("Adresse invalide")
+      }
+
+      if (!regex_zipcode.test(this.form.postal_code)) {
+        this.field_pb.push("Code postal invalide")
+      }
+
+      if (this.form.address.length < 3) {
+        this.field_pb.push("Commune invalide")
+      }
+
+      return this.field_pb.length === 0;
+    },
+    onClick(event) {
+      event.preventDefault();
+
+      var data_to_send = {
+        phone: this.form.phone_number,
+        email: this.form.email,
+        address: this.form.address,
+        zip_code: this.form.postal_code,
+        city: this.form.city
+      }
+
+      if (this.verify()) {
+        axios.post(this.$baseUrl + '/athletes/' + localStorage.getItem('uid') + /update/, data_to_send, {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+            .then(results => {
+              console.log(results);
+            }).catch(err => {
+          this.server_error = true;
+          this.serv_err_type = err;
+        });
+      } else {
+        this.verify_fields = true;
       }
     }
   }
