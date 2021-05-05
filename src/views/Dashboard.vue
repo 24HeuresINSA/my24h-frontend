@@ -8,14 +8,24 @@
           <h1 style="text-align: center">Tableau de bord</h1>
           <br>
           <br>
-          <p style="text-align: center">Bienvenue sur votre tableau de bord ! Ici, vous pourrez accéder à votre profil, voir votre classement, ajouter une activité et bien plus encore !</p>
+          <p style="text-align: center">Bienvenue sur votre tableau de bord ! Ici, vous pourrez accéder à votre profil,
+            voir votre classement, ajouter une activité et bien plus encore !</p>
           <br>
           <br>
+
+          <b-alert v-model="server_error" variant="danger"><strong>Erreur du serveur</strong><br> code :
+            {{ serv_err_type }} <br> Si cette erreur persiste, contactez courses@24heures.org
+          </b-alert>
+          <br>
+          <br>
+
           <b-card no-body>
             <b-tabs fill justified card>
               <b-tab title="Mon profil" active>
                 <b-container>
-                  <b-row><b-col><br></b-col></b-row>
+                  <b-row>
+                    <b-col><br></b-col>
+                  </b-row>
                   <b-row>
                     <b-col sm="4"></b-col>
                     <b-col sm="2">
@@ -456,6 +466,7 @@
 
             </b-tabs>
           </b-card>
+
 
         </div>
       </div>
