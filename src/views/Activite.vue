@@ -29,7 +29,9 @@
           </b-table>
 
           <br>
-          <b-alert v-model="show_alert" variant="info">Test alert box</b-alert>
+          <b-alert v-model="show_alert" variant="info">Attention, pour des raisons techniques la récupération de vos
+            activités Strava ne peut se faire qu'une fois toutes les 15 minutes environ
+          </b-alert>
           <br>
           <b-button class="buttons" variant="primary" to="/dashboard">Retour tableau de bord</b-button>
           <b-button class="buttons" variant="success" :disabled="selected.length===0">Importer</b-button>

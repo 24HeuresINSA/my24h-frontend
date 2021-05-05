@@ -10,7 +10,9 @@
           <br>
           <P>2ème étape, il faut lier votre compte Strava à votre compte My24h nous permettant de récupérer vos données course. Vérifiez bien que toutes les autorisations demandées soient cochées sinon nous n'aurons pas accès à toutes les données dont nous avons besoin !</p>
           <br>
-          <b-button to="/" variant="outline-danger">Lier mon compte <b-img id="strava_logo" :src="require('../assets/strava.png')" alt="Strava" fluid></b-img></b-button>
+          <b-button @click="stravaConnect" variant="outline-danger">Lier mon compte
+            <b-img id="strava_logo" :src="require('../assets/strava.png')" alt="Strava" fluid></b-img>
+          </b-button>
         </div>
       </div>
     </div>
@@ -22,12 +24,19 @@
 <script>
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
+//import axios from 'axios';
 
 export default {
   name: "PageStrava",
   components: {
     NavBar,
     FootBar
+  },
+  methods: {
+    stravaConnect(event) {
+      event.preventDefault();
+      window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=http://localhost:8080/&approval_prompt=auto&scope=activity:read'
+    }
   }
 }
 </script>,

@@ -5,9 +5,14 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
     component: () => import('../views/Home.vue')
+  },
+  {
+    path: '/',
+    name: 'StravaRedirect',
+    component: () => import('../views/StravaRedirect.vue')
   },
   {
     path: '/faq',

@@ -298,7 +298,7 @@ export default {
         }
         axios.post(this.$baseUrl + '/api/athletes', data_to_send).then(response => {
           localStorage.my24_user_cache = {access: response.token, refresh: response.refresh, id: response.id}
-          this.$router.push("Strava")
+          this.$router.push({name: 'Strava'})
         }).catch(err => {
           this.server_error = err;
           this.verify_fields = true;
@@ -313,7 +313,7 @@ export default {
       var regex_password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
       var regex_phone = /^([0-9]{10})$/;
       var regex_zipcode = /^([0-9]{5})$/;
-      //TODO check les champs
+      //TODO check les champs, vérifier date de naissance
       if (this.form.sex === "") {
         this.field_pb.push("Sélectionnez votre genre");
       }
@@ -373,7 +373,7 @@ export default {
     }
   },
   mounted() {
-    axios.get(this.$baseUrl + '/races').then(response => (
+    axios.get(this.$baseUrl + '/api/races', {headers: {"Access-Control-Allow-Origin": "24heures.org/my24h"}}).then(response => (
         response.results.forEach(element => (this.options_race.push({value: element.id, text: element.name})))
     )).catch(error => console.log(error));
   }

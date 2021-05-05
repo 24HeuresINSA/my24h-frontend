@@ -13,7 +13,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueRouter)
 
-Vue.prototype.$baseUrl = 'url_a_specifier'
+Vue.prototype.$baseUrl = 'http://localhost:8080'
 
 new Vue({
   router,

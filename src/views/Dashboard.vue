@@ -524,6 +524,10 @@ export default {
         {rank: 1, name: "Dupont", cumul_time: "19h45", total_points: 526}
       ]
     }
+  },
+  mounted() {
+    //TODO check si l'user a bien lié son compte Strava, sinon le renvoyer vers la page spécifique Strava, il n'a pas le droit d'aller plus loin tant que c'est pas fait
+
   }
 }
 </script>
