@@ -292,6 +292,7 @@ export default {
   methods: {
     onClick(event) {
       event.preventDefault()
+      var birthday = this.form.birthday.toISOString().slice(0, 10)
       const data_to_send = new URLSearchParams()
       console.log(this.form.birthday.toLocaleDateString('fr-FR').split('/').reverse().join('-').slice(0, 10))
       data_to_send.append('username', this.form.username)
