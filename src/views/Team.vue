@@ -229,7 +229,10 @@ export default {
     },
     onClick(event) {
       event.preventDefault()
-      console.log("click !")
+      this.message = '';
+      if (this.form.team_checked === false) {
+        this.$router.push({name: "Dashboard"});
+      }
       if (this.verify()) {
         console.log("vérif ok")
 

@@ -58,7 +58,8 @@
                   <b-col sm="5">
                     <b-form-input class="input" type="text" v-model="form.username"
                                   placeholder="Votre pseudo"></b-form-input>
-                    <p>Au moins 5 caractères</p>
+                    <p>Au moins 5 caractères. Notez bien ce pseudo, il vous servira d'identifiant pour vous connecter
+                      !</p>
                     <br>
                   </b-col>
                   <b-col sm="2"></b-col>
@@ -291,8 +292,8 @@ export default {
   methods: {
     onClick(event) {
       event.preventDefault()
-      var birthday = this.form.birthday.toISOString().slice(0, 10)
       const data_to_send = new URLSearchParams()
+      console.log(this.form.birthday.toLocaleDateString('fr-FR').split('/').reverse().join('-').slice(0, 10))
       data_to_send.append('username', this.form.username)
       data_to_send.append('first_name', this.form.surname)
       data_to_send.append('last_name', this.form.name)
@@ -303,7 +304,7 @@ export default {
       data_to_send.append('city', this.form.city)
       data_to_send.append('phone', this.form.phone_number)
       data_to_send.append('race_id', this.form.race)
-      data_to_send.append('birthdate', birthday)
+      data_to_send.append('birthdate', this.form.birthday.toLocaleDateString('fr-FR').split('/').reverse().join('-').slice(0, 10))
       data_to_send.append('email', this.form.email)
 
       console.log(this.form.race)
@@ -385,7 +386,7 @@ export default {
         this.field_pb.push("Veuillez choisir une course")
       }
 
-      const test_age = this.form.birthday;
+      const test_age = new Date(this.form.birthday)
       test_age.setFullYear(test_age.getFullYear() + 16);
       var date_jour = new Date(2021, 5, 14);
 

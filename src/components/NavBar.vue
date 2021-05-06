@@ -10,7 +10,7 @@
         </a>
       </div>
       <div class="dropdown cssdropdown">
-        <a href="#" data-toggle="dropdown" >CONCERTS</a>
+        <a href="#" data-toggle="dropdown">CONCERTS</a>
         <b-icon stacked icon="chevron-down" class="icons"></b-icon>
         <ul class="dropdown-menu">
           <li><a href="https://www.24heures.org/concerts/artistes">ARTISTES</a></li>
@@ -18,7 +18,15 @@
         </ul>
       </div>
       <div class="dropdown cssdropdown">
-        <a href="#" data-toggle="dropdown" >ANIMATIONS</a>
+        <a href="#" data-toggle="dropdown">LIVES</a>
+        <b-icon stacked icon="chevron-down" class="icons"></b-icon>
+        <ul class="dropdown-menu">
+          <li><a href="https://www.24heures.org/livestream">LIVESTREAM</a></li>
+          <li><a href="https://www.24heures.org/webtv">WEBTV</a></li>
+        </ul>
+      </div>
+      <div class="dropdown cssdropdown">
+        <a href="#" data-toggle="dropdown">ANIMATIONS</a>
         <b-icon stacked icon="chevron-down" class="icons"></b-icon>
         <ul class="dropdown-menu">
           <li><a href="https://www.24heures.org/animations">ANIMATIONS</a></li>
@@ -26,7 +34,7 @@
         </ul>
       </div>
       <div class="dropdown cssdropdown">
-        <a href="#" data-toggle="dropdown" >COURSES</a>
+        <a href="#" data-toggle="dropdown">COURSES</a>
         <b-icon stacked icon="chevron-down" class="icons"></b-icon>
         <ul class="dropdown-menu">
           <li><a href="https://www.24heures.org/courses/24heuresdecourse">24H DE COURSES</a></li>
@@ -34,8 +42,8 @@
           <li><a href="https://www.24heures.org/courses/resultats">RESULTATS</a></li>
           <li><a href="https://www.24heures.org/courses/course-caritative">COURSE CARITATIVE</a></li>
           <li><a href="/#/dashboard">TABLEAU DE BORD</a></li>
-          <li><a href="/#/faq">INFORMATIONS</a></li>
-          <li><a href="/#/reglement">REGLEMENT</a></li>
+          <li><a href="https://www.24heures.org/courses/informations">INFORMATIONS</a></li>
+          <li><a href="https://www.24heures.org/courses/24heuresdecourse">REGLEMENT</a></li>
           <li><a href="/#/sponsors">PARTENAIRES</a></li>
         </ul>
       </div>
