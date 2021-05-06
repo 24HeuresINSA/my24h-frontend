@@ -139,7 +139,8 @@
 <script>
 import NavBar from '../components/NavBar';
 import FootBar from "@/components/FootBar";
-//import * as checker from '../scripts/refresh_credentials';
+import * as checker from '../scripts/refresh_credentials';
+import axios from 'axios'
 
 export default {
   name: "Team",
@@ -171,15 +172,28 @@ export default {
   methods: {
     onChange() {
       this.form.team_checked = !this.form.team_checked
-      console.log("test")
     },
     onClick(event) {
       event.preventDefault()
 
+    },
+    verify() {
+      //TODO vérifier les champs d'équipe
     }
   },
-  beforeMount() {
-    //checker.default.checkCredentials(); //permet de vérifier que le gars est connecté, et de refresh son token si besoin
+  mounted() {
+    checker.default.checkCredentials().then(resolve => {
+      console.log(resolve);
+      axios.get(this.$baseUrl + '/api/teams/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+          .then(response => {
+            response.data.results.forEach(element => (this.form.existant.options_team.push({
+              value: element.id,
+              text: element.name
+            })));
+          })
+    }).catch(reject => {
+      console.log(reject);
+    })
   }
 }
 </script>

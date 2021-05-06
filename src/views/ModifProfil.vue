@@ -135,7 +135,7 @@
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
 import axios from "axios";
-//import * as checker from "../scripts/refresh_credentials"
+import * as checker from "../scripts/refresh_credentials"
 
 export default {
   name: "ModifProfil",
@@ -159,19 +159,23 @@ export default {
       serv_err_type: ""
     }
   },
-  beforeMount() {
-    //checker.default.checkCredentials();
-  },
   mounted() {
-    axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
-        .then(results => {
-          this.form.address = results.data.address;
-          this.form.postal_code = results.data.zip_code;
-          this.form.city = results.data.city;
-          this.form.phone_number = results.data.phone;
-        }).catch(err => {
+    checker.default.checkCredentials().then((resolve) => {
+      console.log(resolve);
+      axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+          .then(results => {
+            this.form.address = results.data.address;
+            this.form.postal_code = results.data.zip_code;
+            this.form.city = results.data.city;
+            this.form.phone_number = results.data.phone;
+            this.form.email = results.data.user.email;
+          }).catch(err => {
+        this.server_error = true;
+        this.serv_err_type = err;
+      });
+    }).catch(reject => {
       this.server_error = true;
-      this.serv_err_type = err;
+      this.serv_err_type = reject;
     })
   },
   methods: {
@@ -208,18 +212,23 @@ export default {
     onClick(event) {
       event.preventDefault();
 
-      var data_to_send = {
-        phone: this.form.phone_number,
-        email: this.form.email,
-        address: this.form.address,
-        zip_code: this.form.postal_code,
-        city: this.form.city
-      }
+      var data_to_send = new URLSearchParams()
+      data_to_send.append('phone', this.form.phone_number)
+      data_to_send.append('email', this.form.email)
+      data_to_send.append('address', this.form.address)
+      data_to_send.append('zip_code', this.form.postal_code)
+      data_to_send.append('city', this.form.city)
 
       if (this.verify()) {
-        axios.put(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', data_to_send, {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+        axios.put(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', data_to_send, {
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Bearer ' + localStorage.getItem('access')
+          }
+        })
             .then(results => {
               console.log(results);
+              this.$router.push({name: "Dashboard"});
             }).catch(err => {
           this.server_error = true;
           this.serv_err_type = err;

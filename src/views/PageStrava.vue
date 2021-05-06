@@ -24,7 +24,7 @@
 <script>
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
-//import * as checker from "../scripts/refresh_credentials"
+import * as checker from "../scripts/refresh_credentials"
 
 export default {
   name: "PageStrava",
@@ -38,8 +38,12 @@ export default {
       window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=http://localhost:8080/&approval_prompt=auto&scope=activity:read'
     }
   },
-  mounted() {
-    //checker.default.checkCredentials();
+  created() {
+    checker.default.checkCredentials().then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    });
   }
 }
 </script>,

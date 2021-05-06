@@ -312,7 +312,7 @@ export default {
           localStorage.setItem('refresh', response.data.refresh);
           localStorage.setItem('uid', response.data.id);
           this.$router.push({name: 'Strava'})
-        }).catch(err => {
+        }).catch((err) => {
           console.log(err);
           this.serv_err_type = err;
           this.server_error = true;

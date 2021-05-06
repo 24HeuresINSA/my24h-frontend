@@ -5,34 +5,46 @@ import router from '../router/'
 
 export default {
     checkCredentials() {
-        if (!localStorage.getItem('access')) {
-            router.push({name: 'Home'}); //on redirige à la page d'accueil si ya pas de cache enregistré
-        } else {
-            var token = localStorage.getItem('access');
-            var decoded = jwt(token);
+        return new Promise((resolve, reject) => {
+            if (!localStorage.getItem('access')) {
+                reject('pas de cache trouvé !')
+                router.push({name: 'Home'}); //on redirige à la page d'accueil si ya pas de cache enregistré
+            } else {
+                var token = localStorage.getItem('access');
+                var decoded = jwt(token);
 
-            if (decoded.exp < Date.now()) {
-                //on refresh le token avec le refresh_token si celui est encore valide
-                var refresh_token = localStorage.getItem('access');
-                var refresh_decoded = jwt(refresh_token);
+                var current_timestamp = (Date.now() / 1000);
 
-                if (refresh_decoded.exp > Date.now()) {
-                    axios.post(this.$baseUrl + '/api/token/refresh/', {refresh: refresh_token})
-                        .then(response => {
-                            localStorage.setItem('refresh', response.data.refresh);
-                            localStorage.setItem('access', response.data.access);
-                            localStorage.setItem('uid', response.data.id);
-                        }).catch(err => {
-                        console.log(err);
-                        router.push({name: "Login"}); //si ça marche pas on demande à l'utilisateur de se reconnecter
-                    })
+                if (decoded.exp < current_timestamp) {
+                    //on refresh le token avec le refresh_token si celui est encore valide
+                    var refresh_token = localStorage.getItem('refresh');
+                    var refresh_decoded = jwt(refresh_token);
+
+                    if (refresh_decoded.exp > current_timestamp) {
+
+                        var data_to_send = new URLSearchParams()
+                        data_to_send.append('refresh', refresh_token);
+                        axios.post('http://localhost:8080/api/token/refresh/', data_to_send, {headers: {'content-type': 'application/x-www-form-urlencoded'}}) //TODO changer l'url de base !!
+                            .then(response => {
+                                resolve('refresh complete !');
+                                localStorage.setItem('refresh', response.data.refresh);
+                                localStorage.setItem('access', response.data.access);
+                            }).catch(err => {
+                            reject('Server error')
+                            console.log(err);
+                            router.push({name: "Login"}); //si ça marche pas on demande à l'utilisateur de se reconnecter
+                        })
+                    } else {
+                        reject("refresh expired !")
+                        router.push({name: "Login"}); //si le refresh est foutu, il faut se reconnecter avec ses credentials
+                    }
                 } else {
-                    router.push({name: "Login"}); //si le refresh est foutu, il faut se reconnecter avec ses credentials
+                    resolve('pas besoin de refresh le token')
                 }
             }
-            //sinon on fait rien
-        }
 
+
+        })
     }
 }
 

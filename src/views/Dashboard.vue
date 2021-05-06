@@ -32,7 +32,7 @@
                       <b-card-text><strong>Nom : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{profile.name}}</b-card-text>
+                      <b-card-text>{{ profile.name }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -43,7 +43,7 @@
                       <b-card-text><strong>Prénom : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{profile.surname}}</b-card-text>
+                      <b-card-text>{{ profile.surname }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -51,10 +51,10 @@
                   <b-row>
                     <b-col sm="4"></b-col>
                     <b-col sm="2">
-                      <b-card-text><strong>Age : </strong></b-card-text>
+                      <b-card-text><strong>Date de naissance: </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{profile.age}} ans</b-card-text>
+                      <b-card-text>{{ profile.birthdate }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -65,7 +65,7 @@
                       <b-card-text><strong>E-Mail : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{profile.email}}</b-card-text>
+                      <b-card-text>{{ profile.email }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -107,18 +107,22 @@
               <b-tab title="Ma course">
                 <b-container>
                   <b-row>
-                    <b-row><b-col><br></b-col></b-row>
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
                     <b-col sm="4"></b-col>
                     <b-col sm="2">
                       <b-card-text><strong>Type de course : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.race_type}}</b-card-text>
+                      <b-card-text>{{ race.race_type }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
 
-                  <b-row><b-col><br></b-col></b-row>
+                  <b-row>
+                    <b-col><br></b-col>
+                  </b-row>
 
                   <b-row>
                     <b-col sm="4"></b-col>
@@ -126,7 +130,7 @@
                       <b-card-text><strong>Distance cumulée : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.cumul_distance}} km</b-card-text>
+                      <b-card-text>{{ race.cumul_distance }} km</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -137,7 +141,7 @@
                       <b-card-text><strong>Vitesse moyenne : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.avg_speed}} km/h</b-card-text>
+                      <b-card-text>{{ race.avg_speed }} km/h</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -148,7 +152,7 @@
                       <b-card-text><strong>Dénivelé moyen : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.avg_elev_gain}} m</b-card-text>
+                      <b-card-text>{{ race.avg_elev_gain }} m</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -159,7 +163,7 @@
                       <b-card-text><strong>Temps cumulé : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.cumul_time}} / 24h00</b-card-text>
+                      <b-card-text>{{ race.cumul_time }} / 24h00</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -181,7 +185,7 @@
                       <b-card-text><strong>Record distance : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.max_distance}} km</b-card-text>
+                      <b-card-text>{{ race.max_distance }} km</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -192,7 +196,7 @@
                       <b-card-text><strong>Record temps : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.max_time}}</b-card-text>
+                      <b-card-text>{{ race.max_time }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -203,7 +207,7 @@
                       <b-card-text><strong>Record dénivelé : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.max_elev_gain}} m</b-card-text>
+                      <b-card-text>{{ race.max_elev_gain }} m</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -214,12 +218,14 @@
                       <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.max_avg_speed}} km/h</b-card-text>
+                      <b-card-text>{{ race.max_avg_speed }} km/h</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
 
-                  <b-row><b-col><br><br></b-col></b-row>
+                  <b-row>
+                    <b-col><br><br></b-col>
+                  </b-row>
 
                   <b-row>
                     <b-col sm="4"></b-col>
@@ -227,7 +233,7 @@
                       <b-card-text><strong>Nombre de points total : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.total_points}} point(s)</b-card-text>
+                      <b-card-text>{{ race.total_points }} point(s)</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -238,7 +244,7 @@
                       <b-card-text><strong>Nombre d'activités Strava : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.activity_count}} activité(s)</b-card-text>
+                      <b-card-text>{{ race.activity_count }} activité(s)</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -249,7 +255,7 @@
                       <b-card-text><strong>Votre rang : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{race.rank}} / {{race.total_runners}} coureurs</b-card-text>
+                      <b-card-text>{{ race.rank }} / {{ race.total_runners }} coureurs</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -265,7 +271,8 @@
               </b-tab>
 
               <b-tab title="Mon équipe">
-                <b-card-text v-show="show_no_team">Oups, il semblerait que vous ne soyez pas affilié à une équipe...</b-card-text>
+                <b-card-text v-show="show_no_team">Oups, il semblerait que vous ne soyez pas affilié à une équipe...
+                </b-card-text>
                 <b-button v-show="show_no_team" variant="success" to="/team">Rejoindre une équipe</b-button>
 
                 <b-container v-show="show_no_team">
@@ -289,7 +296,7 @@
                       <b-card-text><strong>type : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{team.type}}</b-card-text>
+                      <b-card-text>{{ team.type }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -300,12 +307,14 @@
                       <b-card-text><strong>Taille : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{team.members}} membres</b-card-text>
+                      <b-card-text>{{ team.members }} membres</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
 
-                  <b-row><b-col><br><br></b-col></b-row>
+                  <b-row>
+                    <b-col><br><br></b-col>
+                  </b-row>
 
                   <b-row>
                     <b-col sm="4"></b-col>
@@ -313,7 +322,7 @@
                       <b-card-text><strong>Record distance : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{team.max_distance}} km</b-card-text>
+                      <b-card-text>{{ team.max_distance }} km</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -324,7 +333,7 @@
                       <b-card-text><strong>Record temps : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{team.max_time}}</b-card-text>
+                      <b-card-text>{{ team.max_time }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -335,7 +344,7 @@
                       <b-card-text><strong>Record dénivelé : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{team.max_elev_gain}} m</b-card-text>
+                      <b-card-text>{{ team.max_elev_gain }} m</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -346,7 +355,7 @@
                       <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{team.max_avg_speed}} km/h</b-card-text>
+                      <b-card-text>{{ team.max_avg_speed }} km/h</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -357,12 +366,14 @@
                       <b-card-text><strong>Record points individuel : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{team.max_points}} points</b-card-text>
+                      <b-card-text>{{ team.max_points }} points</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
 
-                  <b-row><b-col><br><br></b-col></b-row>
+                  <b-row>
+                    <b-col><br><br></b-col>
+                  </b-row>
 
                   <b-row>
                     <b-col sm="4"></b-col>
@@ -370,7 +381,7 @@
                       <b-card-text><strong>Nombre de points total : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{team.total_points}} point(s)</b-card-text>
+                      <b-card-text>{{ team.total_points }} point(s)</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -398,7 +409,9 @@
 
               <b-tab title="Classements et records">
                 <b-container>
-                  <b-row><b-col><br></b-col></b-row>
+                  <b-row>
+                    <b-col><br></b-col>
+                  </b-row>
                   <b-row>
                     <b-col sm="4"></b-col>
                     <b-col sm="2">
@@ -410,7 +423,9 @@
                     <b-col sm="2"></b-col>
                   </b-row>
 
-                  <b-row><b-col><br><br></b-col></b-row>
+                  <b-row>
+                    <b-col><br><br></b-col>
+                  </b-row>
 
                   <b-row>
                     <b-col sm="4"></b-col>
@@ -418,7 +433,7 @@
                       <b-card-text><strong>Record distance : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{records.max_distance}} km</b-card-text>
+                      <b-card-text>{{ records.max_distance }} km</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -429,7 +444,7 @@
                       <b-card-text><strong>Record temps : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{records.max_time}}</b-card-text>
+                      <b-card-text>{{ records.max_time }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -440,7 +455,7 @@
                       <b-card-text><strong>Record dénivelé : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{records.max_elev_gain}} m</b-card-text>
+                      <b-card-text>{{ records.max_elev_gain }} m</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -451,12 +466,14 @@
                       <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{records.max_avg_speed}} km/h</b-card-text>
+                      <b-card-text>{{ records.max_avg_speed }} km/h</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
 
-                  <b-row><b-col><br><br></b-col></b-row>
+                  <b-row>
+                    <b-col><br><br></b-col>
+                  </b-row>
 
                 </b-container>
 
@@ -480,7 +497,7 @@
 
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
-//import * as checker from "../scripts/refresh_credentials";
+import * as checker from "../scripts/refresh_credentials";
 import axios from 'axios';
 
 export default {
@@ -494,14 +511,14 @@ export default {
       profile: {
         name: "",
         surname: "",
-        age: 0,
+        birthdate: "",
         phone: "",
         email: "",
-        address: "20 av albert einsetin",
-        zip_code: "69100",
-        city: "Villeurbanne"
+        address: "",
+        zip_code: "",
+        city: ""
       },
-      race:{
+      race: {
         race_type: "Course à pied en équipe",
         cumul_distance: 52,
         cumul_time: "18h03",
@@ -516,7 +533,7 @@ export default {
         rank: 5,
         total_runners: 150
       },
-      team:{
+      team: {
         name: "Pédales",
         type: "Course à pied en équipe",
         members: 4,
@@ -530,7 +547,7 @@ export default {
         rank: 1,
         total_teams: 12
       },
-      records:{
+      records: {
         max_avg_speed: 17,
         max_elev_gain: 560,
         max_distance: 20,
@@ -558,28 +575,35 @@ export default {
     onDisconnect(event) {
       event.preventDefault();
       //TODO requete post pour dire au serveur de drop le token
-      localStorage.clear(); //on erase toutes les données persistentes avec les token
+      localStorage.clear(); //on erase toutes les données persistantes avec les token
       this.$router.push({name: 'Home'});
     }
   },
-  beforeMount() { //TODO faire redirection pour changer mot de passe
-    //TODO check si l'user a bien lié son compte Strava, sinon le renvoyer vers la page spécifique Strava, il n'a pas le droit d'aller plus loin tant que c'est pas fait
-    //checker.default.checkCredentials()
-    //check le strava, maybe le faire dans le script dédié, mais ça voudrait dire que ça checke à chaque fois qu'onn accède à une page authentifiée, c'est chiant
-  },
+  //TODO faire redirection pour changer mot de passe
   mounted() {
-    axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
-        .then(results => {
-          this.profile.address = results.data.address;
-          this.profile.postal_code = results.data.zip_code;
-          this.profile.city = results.data.city;
-          this.profile.phone_number = results.data.phone;
+    checker.default.checkCredentials().then((resolve) => {
+      console.log(resolve);
+      axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+          .then(results => {
+            this.profile.name = results.data.user.last_name;
+            this.profile.surname = results.data.user.first_name;
+            this.profile.address = results.data.address;
+            this.profile.postal_code = results.data.zip_code;
+            this.profile.city = results.data.city;
+            this.profile.phone_number = results.data.phone;
+            this.profile.email = results.data.user.email;
+            this.profile.birthdate = results.data.birthday;
+            console.log(results)
 
-          if (results.data.strava_id === null) {
-            this.$router.push({name: "Strava"}); //on redirige vers la page strava si pas de strava_id
-          }
+            if (results.data.strava_id === null) {
+              this.$router.push({name: "Strava"}); //on redirige vers la page strava si pas de strava_id
+            }
 
-        }).catch(err => {
+          }).catch(err => {
+        this.server_error = true;
+        this.serv_err_type = err;
+      })
+    }).catch(err => {
       this.server_error = true;
       this.serv_err_type = err;
     })
@@ -589,7 +613,7 @@ export default {
 
 <style scoped>
 
-#body{
+#body {
   height: auto;
   width: auto;
   margin: 0;
@@ -615,7 +639,7 @@ export default {
   padding: 4%;
 }
 
-.card_titles{
+.card_titles {
   text-align: center;
   font-weight: bold;
 }
