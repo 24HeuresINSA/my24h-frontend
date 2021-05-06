@@ -47,18 +47,34 @@
                 <b-container>
                   <b-row>
                     <br>
-                    <b-col sm="7">
+                    <b-col sm="5">
                       <label class="label">Nom d'équipe :</label>
                     </b-col>
                     <b-col sm="5">
                       <b-form-input class="input" type="text" v-model="form.new.team_name"
                                     placeholder="Votre nom d'équipe"></b-form-input>
+                      <p>Au moins 5 caractères</p>
                       <br>
                     </b-col>
+                    <b-col sm="2"></b-col>
                   </b-row>
 
                   <b-row>
-                    <b-col sm="7">
+                    <b-col sm="5">
+                      <label class="label">Choisir une course :</label>
+                      <br>
+                    </b-col>
+                    <b-col sm="5">
+                      <b-form-select class="input" v-model="form.new.race_selected"
+                                     :options="form.new.race_options"></b-form-select>
+                      <br>
+                      <br>
+                    </b-col>
+                    <b-col sm="2"></b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col sm="5">
                       <label class="label">Nombre de participants :</label>
                       <br>
                     </b-col>
@@ -68,17 +84,22 @@
                       <br>
                       <br>
                     </b-col>
+                    <b-col sm="2"></b-col>
                   </b-row>
 
                   <b-row>
-                    <b-col sm="7">
+                    <b-col sm="5">
                       <label class="label">Clé pour rejoindre :</label>
                     </b-col>
                     <b-col sm="5">
                       <b-form-input class="input" type="text" v-model="form.new.team_joint_code"
                                     placeholder="Saisir la clé"></b-form-input>
+                      <p>Au moins 5 caractères<br></p>
+                      <p><strong>Important ! Notez ce code! Il permettra à vos coéquipiers de rejoindre votre
+                        équipe.</strong></p>
                       <br>
                     </b-col>
+                    <b-col sm="2"></b-col>
                   </b-row>
                 </b-container>
               </b-collapse>
@@ -90,26 +111,41 @@
                           class="collapse-team">
                 <b-container>
                   <b-row>
-                    <b-col sm="7">
+                    <b-col sm="5">
                       <label class="label">Choisir l'équipe :</label>
                     </b-col>
                     <b-col sm="5">
                       <b-form-select class="input" v-model="form.existant.selected_team"
-                                     :options="form.existant.options_team"></b-form-select>
+                                     :options="form.existant.options_team" @change="onChangeTeams"></b-form-select>
                       <br>
                       <br>
                     </b-col>
+                    <b-col sm="2"></b-col>
                   </b-row>
 
                   <b-row>
-                    <b-col sm="7">
+                    <b-col sm="5">
+                      <label class="label">Type de course de l'équipe :</label>
+                    </b-col>
+                    <b-col sm="5">
+                      <p>{{ form.existant.current_race }}</p>
+                      <br>
+                      <br>
+                    </b-col>
+                    <b-col sm="2"></b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col sm="5">
                       <label class="label">Saisir la clé :</label>
                     </b-col>
                     <b-col sm="5">
                       <b-form-input class="input" type="text" v-model="form.existant.team_joint_code"
                                     placeholder="Clé d'équipe"></b-form-input>
+                      <p>Rapprochez-vous du créateur de l'équipe pour connaître la clé.</p>
                       <br>
                     </b-col>
+                    <b-col sm="2"></b-col>
                   </b-row>
                 </b-container>
               </b-collapse>
@@ -125,7 +161,7 @@
             </b-row>
             <b-row>
               <b-col style="text-align: center">
-                <b-button variant="success">Suivant</b-button>
+                <b-button variant="success" @click="onClick">Suivant</b-button>
               </b-col>
             </b-row>
           </b-container>
@@ -140,6 +176,7 @@
 import NavBar from '../components/NavBar';
 import FootBar from "@/components/FootBar";
 import * as checker from '../scripts/refresh_credentials';
+
 import axios from 'axios'
 
 export default {
@@ -155,17 +192,21 @@ export default {
         team_type: '',
         new: {
           team_name: '', //champs name
-          category_id: 0, //remplacer par category_id à get choix comme le race inscriptions
+          race_selected: '',
+          race_options: [],
+          category_id: null, //remplacer par category_id à get choix comme le race inscriptions
           team_joint_code: '' //joint_code
         },
         existant: {
-          selected_team: 0,
+          current_race: "",
+          teams_races: [],
+          selected_team: null,
           team_joint_code: '', //get team pour que l'user choisisse l'équipe
           options_team: [] //team_id
         }
       },
-      team_size_options: [{value: 4, text: "2 à 4"}, {value: 12, text: "5 à 12"}],
-      show_alert: true,
+      team_size_options: [],
+      show_alert: false,
       message: ""
     }
   },
@@ -173,12 +214,101 @@ export default {
     onChange() {
       this.form.team_checked = !this.form.team_checked
     },
+    onChangeTeams() {
+      this.form.existant.current_race = this.form.existant.teams_races[this.form.existant.selected_team - 1].race_name;
+    },
+    assignRaceType(race_id) {
+      this.form.new.race_options.forEach(x => {
+        if (x.value === race_id) {
+          return x.text;
+        } else {
+          return '';
+        }
+      });
+      return '';
+    },
     onClick(event) {
       event.preventDefault()
+      console.log("click !")
+      if (this.verify()) {
+        console.log("vérif ok")
+
+        if (this.form.team_type === 'Existant') {
+          var join_data = new URLSearchParams()
+          join_data.append('join_code', this.form.existant.team_joint_code);
+
+          console.log("ready to post existant team");
+
+          axios.post(this.$baseUrl + '/api/teams/' + this.form.existant.selected_team + '/join/', join_data, {
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+              'Authorization': 'Bearer ' + localStorage.getItem('access')
+            }
+          })
+              .then(res => {
+                console.log(res);
+                this.$router.push({name: "Dashboard"});
+
+              }).catch(err => {
+            this.message = "Erreur du serveur, l'équipe que vous essayez de rejoindre est probablement pleine, ou la clé n'est pas bonne. Code erreur : " + err
+            this.show_alert = true;
+          });
+
+        } else if (this.form.team_type === 'New') {
+          var new_team_data = new URLSearchParams()
+          new_team_data.append('name', this.form.new.team_name);
+          new_team_data.append('join_code', this.form.new.team_joint_code);
+          new_team_data.append('category_id', this.form.new.category_id);
+          new_team_data.append('race_id', this.form.new.race_selected);
+
+          console.log("ready to post new team");
+
+          axios.post(this.$baseUrl + '/api/teams/', new_team_data, {
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+              'Authorization': 'Bearer ' + localStorage.getItem('access')
+            }
+          })
+              .then(res => {
+                console.log(res);
+                this.$router.push({name: "Dashboard"});
+
+              }).catch(err => {
+            this.message = "Erreur du serveur, l'équipe que vous essayez de créer existe probablement déjà. Code erreur : " + err
+            this.show_alert = true;
+          });
+        }
+      } else {
+        this.show_alert = true;
+      }
 
     },
     verify() {
-      //TODO vérifier les champs d'équipe
+      if (this.form.team_type === 'Existant') {
+
+        if (this.form.existant.team_joint_code.length < 5) {
+          this.message = "Clé saisie invalide";
+        }
+
+        if (this.form.existant.selected_team === null) {
+          this.message = "Veuillez sélectionner une équipe à rejoindre";
+        }
+
+      } else if (this.form.team_type === 'New') {
+
+        if (this.form.new.team_joint_code.length < 5) {
+          this.message = "Clé saisie invalide";
+        }
+        if (this.form.new.category_id === null) {
+          this.message = "Veuillez sélectionner une taille d'équipe";
+        }
+        if (this.form.new.team_name.length < 5) {
+          this.message = "Nom d'équipe invalide";
+        }
+
+      }
+
+      return this.message === '';
     }
   },
   mounted() {
@@ -186,11 +316,40 @@ export default {
       console.log(resolve);
       axios.get(this.$baseUrl + '/api/teams/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
           .then(response => {
-            response.data.results.forEach(element => (this.form.existant.options_team.push({
+            response.data.results.forEach(element => {
+              this.form.existant.options_team.push({
+                value: element.id,
+                text: element.name
+              });
+              this.form.existant.teams_races.push({
+                id: element.race,
+                race_name: this.assignRaceType(element.race)
+              });
+            })
+          }).catch(err => {
+        this.show_alert = true;
+        this.message = "Impossible de récupérer les données du serveur, contactez courses@24heures.org | code : " + err;
+      });
+
+      axios.get(this.$baseUrl + '/api/categories/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+          .then(response => {
+            response.data.results.forEach(element => (this.team_size_options.push({
               value: element.id,
               text: element.name
-            })));
-          })
+            })))
+          }).catch(err => {
+        this.show_alert = true;
+        this.message = "Impossible de récupérer les données du serveur, contactez courses@24heures.org | code : " + err;
+      });
+
+      axios.get(this.$baseUrl + '/api/races/').then(response => {
+        response.data.results.forEach(element => (this.form.new.race_options.push({
+          value: element.id,
+          text: element.name
+        })));
+        console.log(response);
+      }).catch(error => console.log(error));
+
     }).catch(reject => {
       console.log(reject);
     })

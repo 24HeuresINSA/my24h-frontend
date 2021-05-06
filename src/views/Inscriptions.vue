@@ -211,7 +211,8 @@
                 <b-row class="lines">
                   <b-col>
                     <b-alert v-model="server_error" variant="danger"><strong>Erreur du serveur</strong><br> code :
-                      {{ serv_err_type }} <br> Si cette erreur persiste, contactez courses@24heures.org
+                      {{ serv_err_type }} <br>Soit le serveur est injoignable, soit votre nom d'utilisateur/pseudo est
+                      probablement déjà pris !<br> Si cette erreur persiste, contactez courses@24heures.org
                     </b-alert>
                   </b-col>
                 </b-row>
