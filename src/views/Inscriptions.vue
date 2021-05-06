@@ -291,6 +291,7 @@ export default {
   methods: {
     onClick(event) {
       event.preventDefault()
+      var birthday = this.form.birthday.toISOString().slice(0, 10)
       const data_to_send = new URLSearchParams()
       data_to_send.append('username', this.form.username)
       data_to_send.append('first_name', this.form.surname)
@@ -302,7 +303,7 @@ export default {
       data_to_send.append('city', this.form.city)
       data_to_send.append('phone', this.form.phone_number)
       data_to_send.append('race_id', this.form.race)
-      data_to_send.append('birthdate', this.form.birthday.toISOString().slice(0, 10))
+      data_to_send.append('birthdate', birthday)
       data_to_send.append('email', this.form.email)
 
       console.log(this.form.race)
