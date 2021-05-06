@@ -10,7 +10,8 @@
           <br>
           <P>Les courses de 24 heures sont le cœur historique du festival, et nous ne pouvons imaginer cette édition
             sans elles. Cependant, l’incertitude dans laquelle nous sommes plongés quant aux mesures sanitaires qui
-            auront court fin mai ne nous permet pas de proposer une course avec un tracé fixe et une date unique. À la
+            seront en vigueur fin mai ne nous permet pas de proposer une course avec un tracé fixe et une date unique. À
+            la
             place, nous organisons une course « virtuelle ».
             <br><br>
             Le principe est simple : vous aurez la possibilité de courir où vous voulez et quand vous le voulez ! Vous
@@ -28,9 +29,9 @@
             récompensés par divers lots au cours d’une cérémonie de remise des prix en distanciel.</P>
           <br>
           <p>N'hésitez pas à consulter notre
-            <b-link to="/reglement">règlement</b-link>
+            <b-link href="https://www.24heures.org/courses/24heuresdecourses">règlement</b-link>
             et notre page
-            <b-link to="/faq">informations</b-link>
+            <b-link href="https://www.24heures.org/courses/informations">informations</b-link>
             pour plus de précisions. En cas de problème sur notre site,
             ou de questions, vous pouvez nous contacter par mail à
             <b-link href="mailto:courses@24heures.org">courses@24heures.org</b-link>
