@@ -97,7 +97,7 @@
                       <br>
                       <b-button class="buttons" variant="success" to="/modifProfile">Modifier le profil</b-button>
                       <b-button class="buttons" variant="primary">Changer mot de passe</b-button>
-                      <b-button class="buttons" variant="danger">Déconnexion</b-button>
+                      <b-button class="buttons" variant="danger" @click="onDisconnect">Déconnexion</b-button>
                     </b-col>
                   </b-row>
 
@@ -554,7 +554,15 @@ export default {
       serv_err_type: ""
     }
   },
-  beforeMount() {
+  methods: {
+    onDisconnect(event) {
+      event.preventDefault();
+      //TODO requete post pour dire au serveur de drop le token
+      localStorage.clear(); //on erase toutes les données persistentes avec les token
+      this.$router.push({name: 'Home'});
+    }
+  },
+  beforeMount() { //TODO faire redirection pour changer mot de passe
     //TODO check si l'user a bien lié son compte Strava, sinon le renvoyer vers la page spécifique Strava, il n'a pas le droit d'aller plus loin tant que c'est pas fait
     //checker.default.checkCredentials()
     //check le strava, maybe le faire dans le script dédié, mais ça voudrait dire que ça checke à chaque fois qu'onn accède à une page authentifiée, c'est chiant
@@ -562,10 +570,15 @@ export default {
   mounted() {
     axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
         .then(results => {
-          this.form.address = results.data.address;
-          this.form.postal_code = results.data.zip_code;
-          this.form.city = results.data.city;
-          this.form.phone_number = results.data.phone;
+          this.profile.address = results.data.address;
+          this.profile.postal_code = results.data.zip_code;
+          this.profile.city = results.data.city;
+          this.profile.phone_number = results.data.phone;
+
+          if (results.data.strava_id === null) {
+            this.$router.push({name: "Strava"}); //on redirige vers la page strava si pas de strava_id
+          }
+
         }).catch(err => {
       this.server_error = true;
       this.serv_err_type = err;

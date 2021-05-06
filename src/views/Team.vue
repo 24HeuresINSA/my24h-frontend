@@ -63,7 +63,7 @@
                       <br>
                     </b-col>
                     <b-col sm="5">
-                      <b-form-select class="input" v-model="form.new.team_size"
+                      <b-form-select class="input" v-model="form.new.category_id"
                                      :options="team_size_options"></b-form-select>
                       <br>
                       <br>
@@ -89,6 +89,18 @@
               <b-collapse id="collapse-existant" visible v-if="form.team_type==='Existant'&&form.team_checked===true"
                           class="collapse-team">
                 <b-container>
+                  <b-row>
+                    <b-col sm="7">
+                      <label class="label">Choisir l'équipe :</label>
+                    </b-col>
+                    <b-col sm="5">
+                      <b-form-select class="input" v-model="form.existant.selected_team"
+                                     :options="form.existant.options_team"></b-form-select>
+                      <br>
+                      <br>
+                    </b-col>
+                  </b-row>
+
                   <b-row>
                     <b-col sm="7">
                       <label class="label">Saisir la clé :</label>
@@ -127,7 +139,7 @@
 <script>
 import NavBar from '../components/NavBar';
 import FootBar from "@/components/FootBar";
-import * as checker from '../scripts/refresh_credentials';
+//import * as checker from '../scripts/refresh_credentials';
 
 export default {
   name: "Team",
@@ -136,17 +148,19 @@ export default {
     NavBar
   },
   data() {
-    return {
+    return { //on sait si le mec est admin d'équipe en faisant un get athlete
       form: {
         team_checked: false,
         team_type: '',
         new: {
-          team_name: '',
-          team_size: 4,
-          team_joint_code: ''
+          team_name: '', //champs name
+          category_id: 0, //remplacer par category_id à get choix comme le race inscriptions
+          team_joint_code: '' //joint_code
         },
         existant: {
-          team_joint_code: ''
+          selected_team: 0,
+          team_joint_code: '', //get team pour que l'user choisisse l'équipe
+          options_team: [] //team_id
         }
       },
       team_size_options: [{value: 4, text: "2 à 4"}, {value: 12, text: "5 à 12"}],
@@ -164,8 +178,8 @@ export default {
 
     }
   },
-  mounted() {
-    checker.default.checkCredentials(); //permet de vérifier que le gars est connecté, et de refresh son token si besoin
+  beforeMount() {
+    //checker.default.checkCredentials(); //permet de vérifier que le gars est connecté, et de refresh son token si besoin
   }
 }
 </script>

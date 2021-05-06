@@ -36,13 +36,16 @@ export default {
       this.$router.push({name: 'Home'}) //on redirige le gars vers le home s'il est arrivé par erreur à cette adresse
     } else {
       const stravaAuthToken = this.cleanUpAuthToken(location.search)
-      if (localStorage.my24_user_cache) {
+      if (localStorage.getItem('access')) {
 
-        const data_to_send = {
-          strava_code: stravaAuthToken
-        }
+        const data_to_send = new URLSearchParams()
+        data_to_send.append('authorization_code', stravaAuthToken)
+
         const options = {
-          headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Bearer ' + localStorage.getItem('access')
+          }
         }
 
         axios.post(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/strava/', data_to_send, options)
@@ -55,7 +58,7 @@ export default {
               this.error_active = true;
               this.error = "le serveur renvoit une erreur, vous allez être redirigé dans 5s";
               setTimeout(this.redirectToStrava, 5000)
-            })//TODO à vérifier avec François
+            })
       } else {
         //erreur, c'est pas normal qu'il arrive avec une url strava sans avoir d'id, maybe le gars désactive ses cookies et là on est baisés
         this.error_active = true;

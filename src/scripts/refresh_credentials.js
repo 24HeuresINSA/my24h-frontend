@@ -17,17 +17,17 @@ export default {
                 var refresh_decoded = jwt(refresh_token);
 
                 if (refresh_decoded.exp > Date.now()) {
-                    axios.post(this.$baseUrl + '/api/token/refresh/', {refresh: refresh_token}) //TODO check les champs avec François
+                    axios.post(this.$baseUrl + '/api/token/refresh/', {refresh: refresh_token})
                         .then(response => {
                             localStorage.setItem('refresh', response.data.refresh);
                             localStorage.setItem('access', response.data.access);
                             localStorage.setItem('uid', response.data.id);
                         }).catch(err => {
                         console.log(err);
-                        this.$router.push({name: "Login"}); //si ça marche pas on demande à l'utilisateur de se reconnecter
+                        router.push({name: "Login"}); //si ça marche pas on demande à l'utilisateur de se reconnecter
                     })
                 } else {
-                    this.$router.push({name: "Login"}); //si le refresh est foutu, il faut se reconnecter avec ses credentials
+                    router.push({name: "Login"}); //si le refresh est foutu, il faut se reconnecter avec ses credentials
                 }
             }
             //sinon on fait rien

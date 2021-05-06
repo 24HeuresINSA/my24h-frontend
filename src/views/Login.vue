@@ -108,14 +108,14 @@ export default {
   methods: {
     onClick(event) {
       event.preventDefault();
-      const data_to_send = {
-        username: this.form.email,
-        password: this.form.password
-      }
-      axios.post(this.$baseUrl + '/api/token/', data_to_send).then(response => {
+      const data_to_send = new URLSearchParams()
+      data_to_send.append('username', this.form.email)
+      data_to_send.append('password', this.form.password)
+
+      axios.post(this.$baseUrl + '/api/token/', data_to_send, {headers: {'content-type': 'application/x-www-form-urlencoded'}}).then(response => {
         localStorage.setItem('access', response.data.access);
         localStorage.setItem('refresh', response.data.refresh);
-        localStorage.setItem('uid', response.data.id); //TODO dire à François qu'il me renvoit l'id de l'utilisateur lors de la connection
+        localStorage.setItem('uid', response.data.id);
         this.$router.push("Dashboard");
       }).catch(err => {
         console.log(err);

@@ -26,7 +26,15 @@
             meilleures » heures de course.
             À l’issue de la semaine du défi, les coureurs ayant parcouru la plus grande distance en 24 heures se verront
             récompensés par divers lots au cours d’une cérémonie de remise des prix en distanciel.</P>
-          <p><strong>Expliquer comment ça marche et tout et faire un lien vers la FAQ</strong></p>
+          <br>
+          <p>N'hésitez pas à consulter notre
+            <b-link to="/reglement">règlement</b-link>
+            et notre page
+            <b-link to="/faq">informations</b-link>
+            pour plus de précisions. En cas de problème sur notre site,
+            ou de questions, vous pouvez nous contacter par mail à
+            <b-link href="mailto:courses@24heures.org">courses@24heures.org</b-link>
+          </p>
           <br>
           <b-button class="button" to="/inscriptions" variant="success">S'inscrire</b-button>
           <b-button class="button" to="/login" variant="outline-success">Se connecter</b-button>

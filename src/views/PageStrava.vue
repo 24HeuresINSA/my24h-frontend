@@ -24,7 +24,7 @@
 <script>
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
-import * as checker from "../scripts/refresh_credentials"
+//import * as checker from "../scripts/refresh_credentials"
 
 export default {
   name: "PageStrava",
@@ -39,7 +39,7 @@ export default {
     }
   },
   mounted() {
-    checker.default.checkCredentials();
+    //checker.default.checkCredentials();
   }
 }
 </script>,

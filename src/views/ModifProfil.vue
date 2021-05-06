@@ -217,7 +217,7 @@ export default {
       }
 
       if (this.verify()) {
-        axios.post(this.$baseUrl + '/athletes/' + localStorage.getItem('uid') + /update/, data_to_send, {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+        axios.put(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', data_to_send, {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
             .then(results => {
               console.log(results);
             }).catch(err => {

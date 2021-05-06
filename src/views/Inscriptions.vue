@@ -20,7 +20,7 @@
                     <label class="label">Civilité :</label>
                   </b-col>
                   <b-col sm="5">
-                    <b-form-select class="input" v-model="form.sex" :options="options_sex" required></b-form-select>
+                    <b-form-select class="input" v-model="form.sex" :options="options_sex"></b-form-select>
                   </b-col>
                   <b-col sm="2"></b-col>
                 </b-row>
@@ -290,24 +290,24 @@ export default {
   methods: {
     onClick(event) {
       event.preventDefault()
-      const data_to_send = {
-        username: this.form.username,
-        first_name: this.form.surname,
-        last_name: this.form.name,
-        email: this.form.email,
-        password: this.form.password,
-        gender: this.form.sex,
-        address: this.form.address,
-        zip_code: this.form.postal_code,
-        city: this.form.city,
-        phone: this.form.phone,
-        race_id: this.form.race,
-        birthdate: this.form.birthday.toISOString().slice(0, 10)
-      }
+      const data_to_send = new URLSearchParams()
+      data_to_send.append('username', this.form.username)
+      data_to_send.append('first_name', this.form.surname)
+      data_to_send.append('last_name', this.form.name)
+      data_to_send.append('password', this.form.password)
+      data_to_send.append('gender', this.form.sex)
+      data_to_send.append('address', this.form.address)
+      data_to_send.append('zip_code', this.form.postal_code)
+      data_to_send.append('city', this.form.city)
+      data_to_send.append('phone', this.form.phone_number)
+      data_to_send.append('race_id', this.form.race)
+      data_to_send.append('birthdate', this.form.birthday.toISOString().slice(0, 10))
+      data_to_send.append('email', this.form.email)
+
       console.log(this.form.race)
       if (this.verify()) {
 
-        axios.post(this.$baseUrl + '/api/athletes/', data_to_send).then(response => {
+        axios.post(this.$baseUrl + '/api/athletes/', data_to_send, {headers: {'content-type': 'application/x-www-form-urlencoded'}}).then(response => {
           localStorage.setItem('access', response.data.access);
           localStorage.setItem('refresh', response.data.refresh);
           localStorage.setItem('uid', response.data.id);
@@ -327,7 +327,7 @@ export default {
       var regex_password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
       var regex_phone = /^([0-9]{10})$/;
       var regex_zipcode = /^([0-9]{5})$/;
-      //TODO check les champs, vérifier date de naissance
+
       if (this.form.sex === "") {
         this.field_pb.push("Sélectionnez votre genre");
       }
