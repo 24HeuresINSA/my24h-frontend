@@ -96,12 +96,18 @@
 <script>
 import NavBar from '../components/NavBar.vue'
 import FootBar from '../components/FootBar.vue'
+import * as checker from '../scripts/refresh_credentials';
 
 export default {
   name: "Home",
   components: {
     NavBar,
     FootBar
+  },
+  methods: {
+    connected(){
+      checker.default.isConnected()
+    }
   }
 }
 </script>

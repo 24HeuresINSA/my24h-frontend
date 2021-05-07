@@ -40,9 +40,8 @@
           <li><a href="/#/home">24H DE COURSES</a></li>
           <li><a href="/#/pimpMyBike">PIMP MY BIKE</a></li>
           <li><a href="https://www.24heures.org/courses/course-caritative">COURSE CARITATIVE</a></li>
-          <li><a href="/#/dashboard">TABLEAU DE BORD</a></li>
-          <li><a href="https://www.24heures.org/courses/informations">INFORMATIONS</a></li>
           <li><a href="https://www.24heures.org/courses/resultats">RESULTATS</a></li>
+          <li><a href="https://www.24heures.org/courses/informations">INFORMATIONS</a></li>
         </ul>
       </div>
       <a href="https://www.24heures.org/billetterie" class="dropdown">BILLETTERIE</a>
