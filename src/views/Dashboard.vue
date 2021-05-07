@@ -17,6 +17,11 @@
             {{ serv_err_type }} <br> Si cette erreur persiste, contactez courses@24heures.org
           </b-alert>
           <br>
+          <b-alert variant="info" show>Merci de vous être inscrit à nos courses ! Pour le moment la plate-forme My24h ne
+            permet que de
+            s'inscrire. Le reste des fonctionnalités va être progressivement déployé d'ici le début des courses. Soyez
+            prêts le vendredi 14 mai à 14h !
+          </b-alert>
           <br>
 
           <b-card no-body>
@@ -96,7 +101,7 @@
                     <b-col style="text-align: center">
                       <br>
                       <b-button class="buttons" variant="success" to="/modifProfile">Modifier le profil</b-button>
-                      <b-button class="buttons" variant="primary">Changer mot de passe</b-button>
+                      <b-button class="buttons" variant="primary" v-show="false">Changer mot de passe</b-button>
                       <b-button class="buttons" variant="danger" @click="onDisconnect">Déconnexion</b-button>
                     </b-col>
                   </b-row>
@@ -104,7 +109,7 @@
                 </b-container>
               </b-tab>
 
-              <b-tab title="Ma course">
+              <b-tab title="Ma course" disabled>
                 <b-container>
                   <b-row>
                     <b-row>
@@ -270,7 +275,7 @@
                 </b-container>
               </b-tab>
 
-              <b-tab title="Mon équipe">
+              <b-tab title="Mon équipe" disabled>
                 <b-card-text v-show="show_no_team">Oups, il semblerait que vous ne soyez pas affilié à une équipe...
                 </b-card-text>
                 <b-button v-show="show_no_team" variant="success" to="/team">Rejoindre une équipe</b-button>
@@ -407,7 +412,7 @@
                 </b-container>
               </b-tab>
 
-              <b-tab title="Classements et records">
+              <b-tab title="Classements et records" disabled>
                 <b-container>
                   <b-row>
                     <b-col><br></b-col>

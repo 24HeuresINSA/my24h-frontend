@@ -35,7 +35,7 @@ export default {
   methods: {
     stravaConnect(event) {
       event.preventDefault();
-      window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=http://localhost:8080/&approval_prompt=auto&scope=activity:read'
+      window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=https://my24h.24heures.org/&approval_prompt=auto&scope=activity:read'
     }
   },
   created() {
