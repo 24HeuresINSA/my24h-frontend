@@ -125,18 +125,6 @@
 
                   <b-row>
                     <b-col sm="5">
-                      <label class="label">Type de course de l'équipe :</label>
-                    </b-col>
-                    <b-col sm="5">
-                      <p>{{ form.existant.current_race }}</p>
-                      <br>
-                      <br>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
-
-                  <b-row>
-                    <b-col sm="5">
                       <label class="label">Saisir la clé :</label>
                     </b-col>
                     <b-col sm="5">

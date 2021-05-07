@@ -6,25 +6,46 @@
       <div id="content">
         <div id="page">
           <h1>Nos partenaires</h1>
+          <br>
+          <br>
           <b-container>
             <b-row>
               <b-col>
-                <b-img class="img_logo" :src="require('../assets/logo_24.png')" alt="Logo des 24_2021" fluid></b-img>
-                <p>Partenaire 1</p>
+                <br>
+                <br>
+                <b-img class="img_logo" :src="require('../assets/TerredeRunning.png')" alt="Logo TDR" fluid
+                       href="https://www.terrederunning.com/"></b-img>
+                <p>
+                  <b-link href="https://www.terrederunning.com/">Terre de Running</b-link>
+                </p>
               </b-col>
               <b-col>
-                <b-img class="img_logo" :src="require('../assets/logo_24.png')" alt="Logo des 24_2021" fluid></b-img>
-                <p>Partenaire 2</p>
+                <b-img class="img_logo" :src="require('../assets/oneGum.png')" alt="Logo OneGum" fluid></b-img>
+                <p>
+                  <b-link href="https://www.onegum.eu/">OneGum</b-link>
+                </p>
               </b-col>
             </b-row>
             <b-row>
               <b-col>
-                <b-img class="img_logo" :src="require('../assets/logo_24.png')" alt="Logo des 24_2021" fluid></b-img>
-                <p>Partenaire 3</p>
+                <br>
+                <br>
+                <p>Nous soutenons cette année Vaincre la mucoviscidose. N'hésitez pas à faire un don à l'association.
+                  Plus d'infos sur notre
+                  <b-link href="https://www.24heures.org/courses/course-caritative">page dédiée.</b-link>
+                </p>
+                <b-img class="img_logo" :src="require('../assets/vlm.png')" alt="Logo des 24_2021" fluid></b-img>
+                <p>
+                  <b-link href="https://www.vaincrelamuco.org/">Vaincre la mucoviscidose</b-link>
+                </p>
               </b-col>
+            </b-row>
+
+            <b-row>
               <b-col>
-                <b-img class="img_logo" :src="require('../assets/logo_24.png')" alt="Logo des 24_2021" fluid></b-img>
-                <p>Partenaire 4</p>
+                <br>
+                <br>
+                <b-button variant="success" to="/home">Retour accueil</b-button>
               </b-col>
             </b-row>
           </b-container>
