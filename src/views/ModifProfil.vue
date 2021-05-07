@@ -114,7 +114,9 @@
                 <b-row>
                   <b-col>
                     <br>
-                    <b-button @click="onClick" variant="success">Suivant</b-button>
+                    <b-button class="button" variant="outline-success" to="/dashboard">Revenir au tableau de bord
+                    </b-button>
+                    <b-button class="button" @click="onClick" variant="success">Suivant</b-button>
                     <br>
                   </b-col>
                 </b-row>
@@ -274,5 +276,9 @@ export default {
 
 .label {
   font-weight: bold;
+}
+
+.button {
+  margin: 0.5em;
 }
 </style>

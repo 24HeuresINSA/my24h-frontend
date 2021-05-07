@@ -40,6 +40,10 @@
           <b-button class="button" to="/inscriptions" variant="success">S'inscrire</b-button>
           <b-button class="button" to="/login" variant="outline-success">Se connecter</b-button>
           <br>
+          <br>
+          <p>Malgré l'annulation de nos courses, nos partenaires continuent de nous soutenir ! Un grand MERCI à <strong>Terre
+            de Running et OneGum.</strong></p>
+          <b-button class="button" variant="outline-secondary" to="/sponsors">Aller à la page partenariats</b-button>
         </div>
       </div>
     </div>
