@@ -20,11 +20,6 @@ const routes = [
     component: () => import('../views/FAQ.vue')
   },
   {
-    path: '/reglement',
-    name: 'Reglement',
-    component: () => import('../views/Reglement.vue')
-  },
-  {
     path: '/inscriptions',
     name : 'Inscriptions',
     component: () => import('../views/Inscriptions')
@@ -33,11 +28,6 @@ const routes = [
     path: '/team',
     name : 'Team',
     component: () => import('../views/Team')
-  },
-  {
-    path: '/sponsors',
-    name: 'Sponsors',
-    component: () => import('../views/Sponsors.vue')
   },
   {
     path: '/dashboard',
@@ -73,6 +63,11 @@ const routes = [
     path: '/echecAuth',
     name: "EchecAuth",
     component: () => import('../views/EchecAuth')
+  },
+  {
+    path: '/pimpMyBike',
+    name: "PimpMyBike",
+    component: () => import('../views/PimpMyBike')
   },
   {
     path: '*',

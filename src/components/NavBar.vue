@@ -37,14 +37,12 @@
         <a href="#" data-toggle="dropdown">COURSES</a>
         <b-icon stacked icon="chevron-down" class="icons"></b-icon>
         <ul class="dropdown-menu">
-          <li><a href="https://www.24heures.org/courses/24heuresdecourse">24H DE COURSES</a></li>
-          <li><a href="https://www.24heures.org/courses/pimpmybike">PIMP MY BIKE</a></li>
-          <li><a href="https://www.24heures.org/courses/resultats">RESULTATS</a></li>
+          <li><a href="/#/home">24H DE COURSES</a></li>
+          <li><a href="/#/pimpMyBike">PIMP MY BIKE</a></li>
           <li><a href="https://www.24heures.org/courses/course-caritative">COURSE CARITATIVE</a></li>
           <li><a href="/#/dashboard">TABLEAU DE BORD</a></li>
           <li><a href="https://www.24heures.org/courses/informations">INFORMATIONS</a></li>
-          <li><a href="https://www.24heures.org/courses/24heuresdecourse">REGLEMENT</a></li>
-          <li><a href="/#/sponsors">PARTENAIRES</a></li>
+          <li><a href="https://www.24heures.org/courses/resultats">RESULTATS</a></li>
         </ul>
       </div>
       <a href="https://www.24heures.org/billetterie" class="dropdown">BILLETTERIE</a>
@@ -113,6 +111,7 @@ export default {
 .dropdown-menu > li{
   margin: 0.2em 0;
   font-size: 14px;
+  min-width: 10.5rem;
 }
 
 .dropdown-menu > li > a {
