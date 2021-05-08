@@ -17,15 +17,16 @@
               Pour participer, décores ton vélo, transforme-le… rends-le le plus original possible ! 🤪
               <br><br>
               Ensuite, du dimanche 16 mai au dimanche 23 mai, tu auras une semaine pour nous envoyer une photo ou une vidéo de ton œuvre sur
-              <a href="https://www.facebook.com/events/462940684927497/?acontext=%7B%22event_action_history%22%3A[%7B%22extra_data%22%3A%22%22%2C%22mechanism%22%3A%22page_upcoming_events_card%22%2C%22surface%22%3A%22page%22%7D%2C%7B%22extra_data%22%3A%22%22%2C%22mechanism%22%3A%22surface%22%2C%22surface%22%3A%22create_dialog%22%7D]%7D&amp;onload_action=online_event_upsell_dialog">
-              notre événement facebook des courses.
+              <a class="link"
+                 href="https://www.facebook.com/events/462940684927497/?acontext=%7B%22event_action_history%22%3A[%7B%22extra_data%22%3A%22%22%2C%22mechanism%22%3A%22page_upcoming_events_card%22%2C%22surface%22%3A%22page%22%7D%2C%7B%22extra_data%22%3A%22%22%2C%22mechanism%22%3A%22surface%22%2C%22surface%22%3A%22create_dialog%22%7D]%7D&amp;onload_action=online_event_upsell_dialog">
+                notre événement facebook des courses.
               </a>
               Un vote aura lieu le dimanche entre les 6 meilleures participations choisies par notre équipe sur la page facebook des 24h. Le lundi 24, nous annoncerons le grand gagnant, qui sera bien évidemment récompensé 😉
               <br><br>
               Le règlement du concours
-              <a href="https://www.24heures.org/documents/R%C3%A9glement-Concours-Pimp-my-bike.pdf">
-                  sur ce lien
-              </a>
+            <a class="link" href="https://www.24heures.org/documents/R%C3%A9glement-Concours-Pimp-my-bike.pdf">
+              sur ce lien
+            </a>
               <br><br>
               On compte sur vous, soyez créatifs !
           </p>
@@ -80,7 +81,11 @@ export default {
   padding: 4%;
 }
 
-.button{
+.button {
   margin: 0.5em;
+}
+
+.link {
+  color: #007bff !important;
 }
 </style>

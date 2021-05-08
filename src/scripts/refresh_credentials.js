@@ -46,12 +46,10 @@ export default {
     },
 
     isConnected() {
-        return new Promise(() => {
             if (localStorage.getItem('access')) {
                 //reject('pas de cache trouvé !')
-                router.push({name: 'dashboard'}); //on redirige au tableau de bord si il est connecté
+                router.push({name: 'Dashboard'}); //on redirige au tableau de bord si il est connecté
             }
-        })
     }
 }
 
