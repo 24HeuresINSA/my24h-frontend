@@ -29,12 +29,13 @@
             récompensés par divers lots au cours d’une cérémonie de remise des prix en distanciel.</P>
           <br>
           <p>N'hésitez pas à consulter notre
-            <b-link href="https://www.24heures.org/documents/reglement_24h_de_courses_2021.pdf">règlement</b-link>
+            <b-link class="link" href="https://www.24heures.org/documents/reglement_24h_de_courses_2021.pdf">règlement
+            </b-link>
             et notre page
-            <b-link href="https://www.24heures.org/courses/informations">informations</b-link>
+            <b-link class="link" href="https://www.24heures.org/courses/informations">informations</b-link>
             pour plus de précisions. En cas de problème sur notre site,
             ou de questions, vous pouvez nous contacter par mail à
-            <b-link href="mailto:courses@24heures.org">courses@24heures.org</b-link>
+            <b-link class="link" href="mailto:courses@24heures.org">courses@24heures.org</b-link>
           </p>
           <br>
           <b-button class="button" to="/inscriptions" variant="success">S'inscrire</b-button>
@@ -60,13 +61,13 @@
                 <b-img class="img_logo" :src="require('../assets/TerredeRunning.png')" alt="Logo TDR" fluid
                        href="https://www.terrederunning.com/"></b-img>
                 <p>
-                  <b-link href="https://www.terrederunning.com/">Terre de Running</b-link>
+                  <b-link class="link" href="https://www.terrederunning.com/">Terre de Running</b-link>
                 </p>
               </b-col>
               <b-col>
                 <b-img class="img_logo" :src="require('../assets/oneGum.png')" alt="Logo OneGum" fluid></b-img>
                 <p>
-                  <b-link href="https://www.onegum.eu/">OneGum</b-link>
+                  <b-link class="link" href="https://www.onegum.eu/">OneGum</b-link>
                 </p>
               </b-col>
             </b-row>
@@ -76,11 +77,11 @@
                 <br>
                 <p>Nous soutenons cette année Vaincre la mucoviscidose. N'hésitez pas à faire un don à l'association.
                   Plus d'infos sur notre
-                  <b-link href="https://www.24heures.org/courses/course-caritative">page dédiée.</b-link>
+                  <b-link class="link" href="https://www.24heures.org/courses/course-caritative">page dédiée.</b-link>
                 </p>
                 <b-img class="img_logo" :src="require('../assets/vlm.png')" alt="Logo des 24_2021" fluid></b-img>
                 <p>
-                  <b-link href="https://www.vaincrelamuco.org/">Vaincre la mucoviscidose</b-link>
+                  <b-link class="link" href="https://www.vaincrelamuco.org/">Vaincre la mucoviscidose</b-link>
                 </p>
               </b-col>
             </b-row>
@@ -96,12 +97,16 @@
 <script>
 import NavBar from '../components/NavBar.vue'
 import FootBar from '../components/FootBar.vue'
+import * as checker from '../scripts/refresh_credentials';
 
 export default {
   name: "Home",
   components: {
     NavBar,
     FootBar
+  },
+  mounted() {
+    checker.default.isConnected()
   }
 }
 </script>
@@ -134,7 +139,11 @@ export default {
   padding: 4%;
 }
 
-.button{
+.button {
   margin: 0.5em;
+}
+
+.link {
+  color: #007bff !important;
 }
 </style>

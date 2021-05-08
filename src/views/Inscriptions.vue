@@ -222,7 +222,9 @@
                   <b-col>
                     <br>
                     <p>En cliquant sur <strong>Suivant</strong> vous acceptez le
-                      <b-link href="https://www.24heures.org/documents/reglement_24h_de_courses_2021.pdf">règlement</b-link>
+                      <b-link style="color: #007bff !important;"
+                              href="https://www.24heures.org/documents/reglement_24h_de_courses_2021.pdf">règlement
+                      </b-link>
                       des courses 2021, notamment en vous engageant à jouer le jeu et à ne pas tricher
                     </p>
                   </b-col>

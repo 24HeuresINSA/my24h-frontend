@@ -42,9 +42,14 @@ export default {
                     resolve('pas besoin de refresh le token')
                 }
             }
-
-
         })
+    },
+
+    isConnected() {
+            if (localStorage.getItem('access')) {
+                //reject('pas de cache trouvé !')
+                router.push({name: 'Dashboard'}); //on redirige au tableau de bord si il est connecté
+            }
     }
 }
 
