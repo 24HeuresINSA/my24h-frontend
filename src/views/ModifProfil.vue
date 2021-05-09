@@ -182,6 +182,7 @@ export default {
   },
   methods: {
     verify() {
+      this.field_pb = [] //on réinitialise
       var regex_email = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       var regex_phone = /^([0-9]{10})$/;
       var regex_zipcode = /^([0-9]{5})$/;

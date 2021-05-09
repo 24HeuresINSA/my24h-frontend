@@ -593,9 +593,9 @@ export default {
             this.profile.name = results.data.user.last_name;
             this.profile.surname = results.data.user.first_name;
             this.profile.address = results.data.address;
-            this.profile.postal_code = results.data.zip_code;
+            this.profile.zip_code = results.data.zip_code;
             this.profile.city = results.data.city;
-            this.profile.phone_number = results.data.phone;
+            this.profile.phone = results.data.phone;
             this.profile.email = results.data.user.email;
             this.profile.birthdate = results.data.birthday;
             console.log(results)

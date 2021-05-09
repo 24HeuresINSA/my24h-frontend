@@ -13,7 +13,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueRouter)
 
-Vue.prototype.$baseUrl = 'https://www.24heures.org/My24h' //http://localhost:8080 en local
+Vue.prototype.$baseUrl = 'http://localhost:8080' //http://localhost:8080 en local
 
 new Vue({
   router,

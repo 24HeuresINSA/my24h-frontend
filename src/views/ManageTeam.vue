@@ -10,7 +10,9 @@
           <p>Vous retrouverez ici les membres de votre équipe</p>
           <br>
 
-          <p><strong>Clé pour rejoindre votre équipe : </strong>{{ joint_key }}</p>
+          <p><strong>Nom de l'équipe : </strong>{{ name }}</p>
+          <p><strong>Type de course : </strong>{{ race_type }}</p>
+          <p><strong>Catégorie : </strong>{{ category }}</p>
 
           <br>
           <br>
@@ -84,12 +86,13 @@ export default {
   },
   data() {
     return {
-      joint_key: "test",
+      name: "test_equipe",
+      race_type: "cap",
+      category: "loisir",
       isAdmin: true,
-      team_fields: [{key: "name", label: "Nom", sortable: true},
-        {key: "surname", label: "Prénom", sortable: true},
-        {key: "total_points", label: "Points cumulés", sortable: true},
-        {key: "gestion", label: "Gestion"}],
+      team_fields: [{key: "gestion", label: "Sélection"},
+        {key: "name", label: "Nom", sortable: true},
+        {key: "surname", label: "Prénom", sortable: true}],
       team_list: [{name: "Test", surname: "Gars", total_points: 213},
         {name: "Test2", surname: "Gars2", total_points: 54}],
       selected: []
