@@ -10,7 +10,9 @@
           <p>Vous retrouverez ici les membres de votre équipe</p>
           <br>
 
-          <p><strong>Clé pour rejoindre votre équipe : </strong>{{ joint_key }}</p>
+          <p><strong>Nom de l'équipe : </strong>{{ name }}</p>
+          <p><strong>Type de course : </strong>{{ race_type }}</p>
+          <p><strong>Catégorie : </strong>{{ category }}</p>
 
           <br>
           <br>
@@ -19,7 +21,7 @@
             <p>Vous vous apprêtez à expulser cette/ces personnes de votre équipe, cette action est irrémédiable.
               <strong>Voulez-vous vraiment continuer ?</strong></p>
             <br>
-            <p v-for="element in selected" :key="element"><strong>{{ element.name }} {{ element.surname }}</strong><br>
+            <p v-for="element in selected" :key="element"><strong> - {{ element.username }}</strong><br>
             </p>
             <br>
             <b-container align="center">
@@ -46,6 +48,10 @@
                 </template>
               </template>
             </b-table>
+            <br>
+            <b-alert variant="danger" v-model="delete_err">Nous n'avons pas pu supprimer la totalité de votre sélection
+              à cause d'une erreur serveur, veuillez réessayer. Si ce problème persiste, contactez courses@24heures.org
+            </b-alert>
 
             <br>
             <b-button class="buttons_modal" variant="outline-success" to="/dashboard">Retour tableau de bord</b-button>
@@ -56,11 +62,12 @@
 
           <div v-show="!isAdmin">
 
-            <b-table striped hover :items="team_list" :fields="team_fields" responsive="true"
+            <b-table striped hover :items="team_list" :fields="team_fields_non_admin" responsive="true"
                      sticky-header="true">
 
             </b-table>
             <br>
+            <b-button class="buttons_modal" variant="outline-success" to="/dashboard">Retour tableau de bord</b-button>
           </div>
 
         </div>
@@ -75,6 +82,8 @@
 
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
+import * as checker from "../scripts/refresh_credentials";
+import axios from 'axios';
 
 export default {
   name: "ManageTeam",
@@ -84,15 +93,17 @@ export default {
   },
   data() {
     return {
-      joint_key: "test",
-      isAdmin: true,
-      team_fields: [{key: "name", label: "Nom", sortable: true},
-        {key: "surname", label: "Prénom", sortable: true},
-        {key: "total_points", label: "Points cumulés", sortable: true},
-        {key: "gestion", label: "Gestion"}],
-      team_list: [{name: "Test", surname: "Gars", total_points: 213},
-        {name: "Test2", surname: "Gars2", total_points: 54}],
-      selected: []
+      name: "",
+      race_type: "",
+      category: "",
+      team_id: null,
+      isAdmin: false,
+      team_fields: [{key: "gestion", label: "Sélection"},
+        {key: "username", label: "Nom d'utilisateur", sortable: true}],
+      team_fields_non_admin: [{key: "username", label: "Nom d'utilisateur", sortable: true}],
+      team_list: [],
+      selected: [],
+      delete_err: false
     }
   },
   methods: {
@@ -101,9 +112,55 @@ export default {
     },
     onClickErase(event) {
       event.preventDefault();
-      //supprimer le gars
+      checker.default.checkCredentials().then(resolve => {
+        console.log(resolve);
+        this.selected.forEach(elem => {
+          var user_to_erase = new URLSearchParams();
+          user_to_erase.append('athlete_id', elem.id);
+          user_to_erase.append('user_id', localStorage.getItem('uid'));
+          axios.post(this.$baseUrl + '/api/teams/' + this.team_id + '/members/', user_to_erase, {
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+              'Authorization': 'Bearer ' + localStorage.getItem('access')
+            }
+          }).then(res => {
+            console.log(res);
+          }).catch(err => {
+            console.log(err);
+            this.delete_err = true;
+          })
+        })
+      }).catch(reject => {
+        console.log(reject);
+      })
       this.$refs['modal_suppression'].hide();
+      location.reload()
     }
+  },
+  mounted() {
+    checker.default.checkCredentials().then(resolve => {
+      console.log(resolve);
+      axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+          .then(results => {
+            this.team_id = results.data.team.id;
+            axios.get(this.$baseUrl + '/api/teams/' + this.team_id + '/members/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+                .then(res => {
+                  this.category = res.data.category.name;
+                  this.name = res.data.name;
+                  this.race_type = res.data.race;
+                  if (res.data.admins[0].id === parseInt(localStorage.getItem('uid'))) {
+                    this.isAdmin = true;
+                  }
+                  res.data.members.forEach(element => (this.team_list.push({
+                    id: element.id,
+                    username: element.user
+                  })));
+                })
+          })
+    }).catch(err => {
+      console.log(err);
+
+    });
   }
 }
 </script>

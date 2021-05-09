@@ -24,6 +24,19 @@
           </b-alert>
           <br>
 
+          <b-modal id="confirm_quit" ref="confirm_quit" title="Êtes-vous sûr?" hide-footer>
+            <p>Vous vous apprêtez à quitter votre équipe, cette action est irrémédiable.
+              <strong>Voulez-vous vraiment continuer ?</strong></p>
+            <br>
+            <b-container align="center">
+              <b-button class="buttons" variant="outline-success" @click="$refs['confirm_quit'].hide()">
+                Annuler
+              </b-button>
+              <b-button class="buttons" variant="danger" @click="leaveTeam">Oui, continuer</b-button>
+            </b-container>
+
+          </b-modal>
+
           <b-card no-body>
             <b-tabs fill justified card>
               <b-tab title="Mon profil" active>
@@ -275,12 +288,12 @@
                 </b-container>
               </b-tab>
 
-              <b-tab title="Mon équipe" disabled>
+              <b-tab title="Mon équipe">
                 <b-card-text v-show="show_no_team">Oups, il semblerait que vous ne soyez pas affilié à une équipe...
                 </b-card-text>
                 <b-button v-show="show_no_team" variant="success" to="/team">Rejoindre une équipe</b-button>
 
-                <b-container v-show="show_no_team">
+                <b-container v-show="!show_no_team">
                   <b-row>
                     <b-col><br></b-col>
                   </b-row>
@@ -298,7 +311,7 @@
                   <b-row>
                     <b-col sm="4"></b-col>
                     <b-col sm="2">
-                      <b-card-text><strong>type : </strong></b-card-text>
+                      <b-card-text><strong>Type : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
                       <b-card-text>{{ team.type }}</b-card-text>
@@ -309,10 +322,10 @@
                   <b-row>
                     <b-col sm="4"></b-col>
                     <b-col sm="2">
-                      <b-card-text><strong>Taille : </strong></b-card-text>
+                      <b-card-text><strong>Catégorie : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{ team.members }} membres</b-card-text>
+                      <b-card-text>{{ team.members }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -366,17 +379,6 @@
                   </b-row>
 
                   <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record points individuel : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ team.max_points }} points</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
-
-                  <b-row>
                     <b-col><br><br></b-col>
                   </b-row>
 
@@ -406,6 +408,7 @@
                     <b-col style="text-align: center">
                       <br>
                       <b-button class="buttons" variant="success" to="/manageTeam">Voir mon équipe en détail</b-button>
+                      <b-button class="buttons" v-b-modal.confirm_quit variant="danger">Quitter mon équipe</b-button>
                     </b-col>
                   </b-row>
 
@@ -521,36 +524,37 @@ export default {
         email: "",
         address: "",
         zip_code: "",
-        city: ""
+        city: "",
+        team_id: ""
       },
       race: {
-        race_type: "Course à pied en équipe",
-        cumul_distance: 52,
-        cumul_time: "18h03",
-        avg_speed: 13,
-        avg_elev_gain: 250,
-        max_avg_speed: 17,
-        max_elev_gain: 560,
-        max_distance: 20,
-        max_time: "5h54",
-        activity_count: 4,
-        total_points: 560,
-        rank: 5,
-        total_runners: 150
+        race_type: "",
+        cumul_distance: null,
+        cumul_time: "",
+        avg_speed: null,
+        avg_elev_gain: null,
+        max_avg_speed: null,
+        max_elev_gain: null,
+        max_distance: null,
+        max_time: "",
+        activity_count: null,
+        total_points: null,
+        rank: null,
+        total_runners: null
       },
       team: {
-        name: "Pédales",
-        type: "Course à pied en équipe",
-        members: 4,
-        cumul_distance: 150,
-        max_avg_speed: 17,
-        max_elev_gain: 560,
-        max_distance: 20,
-        max_time: "5h54",
-        max_points: 123,
-        total_points: 897,
-        rank: 1,
-        total_teams: 12
+        name: "",
+        type: "",
+        members: null,
+        cumul_distance: "--",
+        max_avg_speed: "--",
+        max_elev_gain: "--",
+        max_distance: "--",
+        max_time: "--",
+        max_points: "--",
+        total_points: "--",
+        rank: "--",
+        total_teams: "--"
       },
       records: {
         max_avg_speed: 17,
@@ -558,7 +562,7 @@ export default {
         max_distance: 20,
         max_time: "5h54",
       },
-      show_no_team: true,
+      show_no_team: false,
       selected_race: "",
       all_races: [
         {value: "cap_equipe", text: "Course à pied par équipe"}
@@ -582,6 +586,27 @@ export default {
       //TODO requete post pour dire au serveur de drop le token
       localStorage.clear(); //on erase toutes les données persistantes avec les token
       this.$router.push({name: 'Home'});
+    },
+    leaveTeam(event) {
+      event.preventDefault();
+      var erase = new URLSearchParams();
+      erase.append('user_id', localStorage.getItem('uid'));
+      checker.default.checkCredentials().then(resolve => {
+        console.log(resolve);
+        axios.post(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/leave/', erase, {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+            .then(res => {
+              console.log(res);
+              location.reload();
+            }).catch(err => {
+          console.log(err);
+          this.server_error = true;
+          this.serv_err_type = "Impossible de quitter l'équipe, réessayez. Si le problème persiste contactez courses@24heures.org. Code : " + err
+        });
+      }).catch(reject => {
+        console.log(reject)
+      })
+
+      this.$refs['confirm_quit'].hide()
     }
   },
   //TODO faire redirection pour changer mot de passe
@@ -593,25 +618,40 @@ export default {
             this.profile.name = results.data.user.last_name;
             this.profile.surname = results.data.user.first_name;
             this.profile.address = results.data.address;
-            this.profile.postal_code = results.data.zip_code;
+            this.profile.zip_code = results.data.zip_code;
             this.profile.city = results.data.city;
-            this.profile.phone_number = results.data.phone;
+            this.profile.phone = results.data.phone;
             this.profile.email = results.data.user.email;
             this.profile.birthdate = results.data.birthday;
+            if (results.data.team !== null) {
+              this.profile.team_id = results.data.team.id;
+            } else {
+              this.show_no_team = true;
+            }
             console.log(results)
 
             if (results.data.strava_id === null) {
               this.$router.push({name: "Strava"}); //on redirige vers la page strava si pas de strava_id
             }
 
+            axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/members/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+                .then(res => {
+                  this.team.members = res.data.category.name;
+                  this.team.name = res.data.name;
+                  this.team.type = res.data.race;
+                }).catch(err => {
+              console.log(err);
+            });
+
           }).catch(err => {
         this.server_error = true;
         this.serv_err_type = err;
-      })
+      });
+
     }).catch(err => {
       this.server_error = true;
       this.serv_err_type = err;
-    })
+    });
   }
 }
 </script>
