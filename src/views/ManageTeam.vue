@@ -21,7 +21,7 @@
             <p>Vous vous apprêtez à expulser cette/ces personnes de votre équipe, cette action est irrémédiable.
               <strong>Voulez-vous vraiment continuer ?</strong></p>
             <br>
-            <p v-for="element in selected" :key="element"><strong>{{ element.name }} {{ element.surname }}</strong><br>
+            <p v-for="element in selected" :key="element"><strong> - {{ element.username }}</strong><br>
             </p>
             <br>
             <b-container align="center">
@@ -48,6 +48,10 @@
                 </template>
               </template>
             </b-table>
+            <br>
+            <b-alert variant="danger" v-model="delete_err">Nous n'avons pas pu supprimer la totalité de votre sélection
+              à cause d'une erreur serveur, veuillez réessayer. Si ce problème persiste, contactez courses@24heures.org
+            </b-alert>
 
             <br>
             <b-button class="buttons_modal" variant="outline-success" to="/dashboard">Retour tableau de bord</b-button>
@@ -77,6 +81,8 @@
 
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
+import * as checker from "../scripts/refresh_credentials";
+import axios from 'axios';
 
 export default {
   name: "ManageTeam",
@@ -86,16 +92,16 @@ export default {
   },
   data() {
     return {
-      name: "test_equipe",
-      race_type: "cap",
-      category: "loisir",
+      name: "",
+      race_type: "",
+      category: "",
+      team_id: null,
       isAdmin: true,
       team_fields: [{key: "gestion", label: "Sélection"},
-        {key: "name", label: "Nom", sortable: true},
-        {key: "surname", label: "Prénom", sortable: true}],
-      team_list: [{name: "Test", surname: "Gars", total_points: 213},
-        {name: "Test2", surname: "Gars2", total_points: 54}],
-      selected: []
+        {key: "username", label: "Nom d'utilisateur", sortable: true}],
+      team_list: [],
+      selected: [],
+      delete_err: false
     }
   },
   methods: {
@@ -104,9 +110,52 @@ export default {
     },
     onClickErase(event) {
       event.preventDefault();
-      //supprimer le gars
+      this.selected.forEach(elem => {
+        var user_to_erase = new URLSearchParams();
+        var user = parseInt(elem.id)
+        user_to_erase.append('user_id', user);
+        axios({
+          method: 'delete',
+          url: this.$baseUrl + '/api/teams/' + this.team_id + '/members/',
+          data: user_to_erase,
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('access'),
+            'content-type': 'application/x-www-form-urlencoded'
+          }
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err);
+          this.delete_err = true;
+        })
+      })
       this.$refs['modal_suppression'].hide();
     }
+  },
+  mounted() {
+    checker.default.checkCredentials().then(resolve => {
+      console.log(resolve);
+      axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+          .then(results => {
+            this.team_id = results.data.team.id;
+            axios.get(this.$baseUrl + '/api/teams/' + this.team_id + '/members/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+                .then(res => {
+                  this.category = res.data.category.name;
+                  this.name = res.data.name;
+                  this.race_type = res.data.race;
+                  if (res.data.admins.id === localStorage.getItem('uid')) {
+                    this.isAdmin = true;
+                  }
+                  res.data.members.forEach(element => (this.team_list.push({
+                    id: element.id,
+                    username: element.user
+                  })));
+                })
+          })
+    }).catch(err => {
+      console.log(err);
+
+    });
   }
 }
 </script>
