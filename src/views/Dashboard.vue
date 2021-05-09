@@ -600,7 +600,7 @@ export default {
             }).catch(err => {
           console.log(err);
           this.server_error = true;
-          this.serv_err_type = "Impossible de quitter l'équipe, réessayez. Si le problème persiste contactez courses@24heures.org"
+          this.serv_err_type = "Impossible de quitter l'équipe, réessayez. Si le problème persiste contactez courses@24heures.org. Code : " + err
         });
       }).catch(reject => {
         console.log(reject)

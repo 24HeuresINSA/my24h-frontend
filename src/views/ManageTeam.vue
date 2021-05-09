@@ -62,11 +62,12 @@
 
           <div v-show="!isAdmin">
 
-            <b-table striped hover :items="team_list" :fields="team_fields" responsive="true"
+            <b-table striped hover :items="team_list" :fields="team_fields_non_admin" responsive="true"
                      sticky-header="true">
 
             </b-table>
             <br>
+            <b-button class="buttons_modal" variant="outline-success" to="/dashboard">Retour tableau de bord</b-button>
           </div>
 
         </div>
@@ -99,6 +100,7 @@ export default {
       isAdmin: false,
       team_fields: [{key: "gestion", label: "Sélection"},
         {key: "username", label: "Nom d'utilisateur", sortable: true}],
+      team_fields_non_admin: [{key: "username", label: "Nom d'utilisateur", sortable: true}],
       team_list: [],
       selected: [],
       delete_err: false
@@ -114,15 +116,12 @@ export default {
         console.log(resolve);
         this.selected.forEach(elem => {
           var user_to_erase = new URLSearchParams();
-          var user = parseInt(elem.id)
-          user_to_erase.append('user_id', user);
-          axios({
-            method: 'delete',
-            url: this.$baseUrl + '/api/teams/' + this.team_id + '/members/',
-            data: user_to_erase,
+          user_to_erase.append('athlete_id', elem.id);
+          user_to_erase.append('user_id', localStorage.getItem('uid'));
+          axios.post(this.$baseUrl + '/api/teams/' + this.team_id + '/members/', user_to_erase, {
             headers: {
-              'Authorization': 'Bearer ' + localStorage.getItem('access'),
-              'content-type': 'application/x-www-form-urlencoded'
+              'content-type': 'application/x-www-form-urlencoded',
+              'Authorization': 'Bearer ' + localStorage.getItem('access')
             }
           }).then(res => {
             console.log(res);
@@ -134,8 +133,8 @@ export default {
       }).catch(reject => {
         console.log(reject);
       })
-
       this.$refs['modal_suppression'].hide();
+      location.reload()
     }
   },
   mounted() {
@@ -149,7 +148,7 @@ export default {
                   this.category = res.data.category.name;
                   this.name = res.data.name;
                   this.race_type = res.data.race;
-                  if (res.data.admins.id === localStorage.getItem('uid')) {
+                  if (res.data.admins[0].id === parseInt(localStorage.getItem('uid'))) {
                     this.isAdmin = true;
                   }
                   res.data.members.forEach(element => (this.team_list.push({
