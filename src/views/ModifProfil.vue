@@ -215,30 +215,36 @@ export default {
     onClick(event) {
       event.preventDefault();
 
-      var data_to_send = new URLSearchParams()
-      data_to_send.append('phone', this.form.phone_number)
-      data_to_send.append('email', this.form.email)
-      data_to_send.append('address', this.form.address)
-      data_to_send.append('zip_code', this.form.postal_code)
-      data_to_send.append('city', this.form.city)
+      checker.default.checkCredentials().then(resolve => {
+        console.log(resolve);
 
-      if (this.verify()) {
-        axios.put(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', data_to_send, {
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Bearer ' + localStorage.getItem('access')
-          }
-        })
-            .then(results => {
-              console.log(results);
-              this.$router.push({name: "Dashboard"});
-            }).catch(err => {
-          this.server_error = true;
-          this.serv_err_type = err;
-        });
-      } else {
-        this.verify_fields = true;
-      }
+        var data_to_send = new URLSearchParams()
+        data_to_send.append('phone', this.form.phone_number)
+        data_to_send.append('email', this.form.email)
+        data_to_send.append('address', this.form.address)
+        data_to_send.append('zip_code', this.form.postal_code)
+        data_to_send.append('city', this.form.city)
+
+        if (this.verify()) {
+          axios.put(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', data_to_send, {
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+              'Authorization': 'Bearer ' + localStorage.getItem('access')
+            }
+          })
+              .then(results => {
+                console.log(results);
+                this.$router.push({name: "Dashboard"});
+              }).catch(err => {
+            this.server_error = true;
+            this.serv_err_type = err;
+          });
+        } else {
+          this.verify_fields = true;
+        }
+      }).catch(reject => {
+        console.log(reject);
+      })
     }
   }
 }

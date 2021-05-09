@@ -96,7 +96,7 @@ export default {
       race_type: "",
       category: "",
       team_id: null,
-      isAdmin: true,
+      isAdmin: false,
       team_fields: [{key: "gestion", label: "Sélection"},
         {key: "username", label: "Nom d'utilisateur", sortable: true}],
       team_list: [],
@@ -110,25 +110,31 @@ export default {
     },
     onClickErase(event) {
       event.preventDefault();
-      this.selected.forEach(elem => {
-        var user_to_erase = new URLSearchParams();
-        var user = parseInt(elem.id)
-        user_to_erase.append('user_id', user);
-        axios({
-          method: 'delete',
-          url: this.$baseUrl + '/api/teams/' + this.team_id + '/members/',
-          data: user_to_erase,
-          headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('access'),
-            'content-type': 'application/x-www-form-urlencoded'
-          }
-        }).then(res => {
-          console.log(res);
-        }).catch(err => {
-          console.log(err);
-          this.delete_err = true;
+      checker.default.checkCredentials().then(resolve => {
+        console.log(resolve);
+        this.selected.forEach(elem => {
+          var user_to_erase = new URLSearchParams();
+          var user = parseInt(elem.id)
+          user_to_erase.append('user_id', user);
+          axios({
+            method: 'delete',
+            url: this.$baseUrl + '/api/teams/' + this.team_id + '/members/',
+            data: user_to_erase,
+            headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem('access'),
+              'content-type': 'application/x-www-form-urlencoded'
+            }
+          }).then(res => {
+            console.log(res);
+          }).catch(err => {
+            console.log(err);
+            this.delete_err = true;
+          })
         })
+      }).catch(reject => {
+        console.log(reject);
       })
+
       this.$refs['modal_suppression'].hide();
     }
   },
