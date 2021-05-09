@@ -9,7 +9,13 @@
           <br>
 
           <p>Vous trouverez ci-dessous la liste des activités éligibles trouvées sur votre compte Strava lié.
-            Sélectionnez celles que vous souhaitez faire prendre en compte dans le classement puis cliquez sur <strong>Importer</strong>
+            Sélectionnez celles que vous souhaitez faire prendre en compte dans le classement puis cliquez sur <strong>Importer</strong>.
+            Nous vous rappellons que pour qu'une activité soit valide, elle doit avoir été réalisée entre le <strong>vendredi
+              14 mai 2021 à 14h00</strong> et
+            le <strong>dimanche 23 mai 2021 14h00</strong>. De plus, cette activité doit être déclarée en <strong>mode
+              public</strong> sur Strava, et doit être obligatoirement
+            associée à une <strong>trace GPS</strong>. <strong>Toute activité ne répondant pas à ces critères pourra
+              être retirée par les organisateurs, sans préavis, conformément à notre règlement.</strong>
           </p>
           <br>
           <br>
