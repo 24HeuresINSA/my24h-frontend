@@ -21,7 +21,7 @@
           <br>
 
           <b-table striped hover :items="activity_list" :fields="fields" responsive="true"
-                  sticky-header="true" selectable selected-variant="success" @row-selected="onRowSelected">
+                   sticky-header="true" selectable selected-variant="success" @row-selected="onRowSelected">
             <template #cell(selected)="{ rowSelected }">
               <template v-if="rowSelected">
                 <span aria-hidden="true">&check;</span>
@@ -39,8 +39,15 @@
             activités Strava ne peut se faire qu'une fois toutes les 15 minutes environ
           </b-alert>
           <br>
+
+          <b-alert v-model="server_error" variant="danger"><strong>Erreur du serveur, les activités n'ont pas été
+            importées</strong><br> code :
+            {{ serv_err_type }} <br> Si cette erreur persiste, contactez courses@24heures.org
+          </b-alert>
+          <br>
           <b-button class="buttons" variant="primary" to="/dashboard">Retour tableau de bord</b-button>
-          <b-button class="buttons" variant="success" :disabled="selected.length===0">Importer</b-button>
+          <b-button class="buttons" variant="success" @click="onClick" :disabled="selected.length===0">Importer
+          </b-button>
           <br>
 
         </div>
@@ -55,6 +62,8 @@
 
 import NavBar from "@/components/NavBar";
 import FootBar from "@/components/FootBar";
+import * as checker from "../scripts/refresh_credentials";
+import axios from 'axios';
 
 export default {
   name: "Activite",
@@ -66,28 +75,79 @@ export default {
     return {
       fields: [
         {key: 'selected', label: "Sélection"},
-        {key: 'nom', label: "Nom de l'activité", sortable: true},
+        {key: 'name', label: "Nom de l'activité", sortable: true},
         {key: 'type', label: "Type", sortable: true},
         {key: 'date', label: "Date", sortable: true},
         {key: 'distance', label: "Distance (km)", sortable: true},
-        {key: 'temps', label: "Temps", sortable: true},
-        {key: 'vitesse_moy', label: "Vitesse moyenne", sortable: true},
-        {key: 'denivele', label: "Dénivelé (m)", sortable: true},
-        {key: 'points', label: "Points", sortable: true}
+        {key: 'time', label: "Temps", sortable: true},
+        {key: 'avg_speed', label: "Vitesse moyenne", sortable: true},
+        {key: 'elev_gain', label: "Dénivelé (m)", sortable: true}
       ],
-      activity_list: [
-        {nom: "test", type: "Run", distance: 25, temps: 2256, activity_id: 256847},
-        {nom: "test2", type: "Run", distance: 25, temps: 2256, activity_id: 256877},
-        {nom: "test3", type: "Run", distance: 25, temps: 2256, activity_id: 256857}
-      ],
+      activity_list: [],
       selected: [],
-      show_alert: true
+      show_alert: true,
+      server_error: false,
+      serv_err_type: ""
     }
   },
-  methods:{
-    onRowSelected(items){
+  methods: {
+    onRowSelected(items) {
       this.selected = items
+    },
+    onClick(event) {
+      event.preventDefault();
+
+      checker.default.checkCredentials().then(resolve => {
+        console.log(resolve);
+
+        this.selected.forEach(elem => {
+
+          const activity_to_send = new URLSearchParams();
+          activity_to_send.append('activity_id', elem.activity_id); //TODO check avec François des champs qu'il veut
+
+          axios.post(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/activites/', activity_to_send, {
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+              'Authorization': 'Bearer ' + localStorage.getItem('access')
+            }
+          }).then(res => {
+            console.log(res);
+          }).catch(err => {
+            console.log(err);
+            this.server_error = true;
+            this.serv_err_type = err;
+          })
+        })
+      }).catch(reject => {
+        console.log(reject);
+      })
+
     }
+  },
+  mounted() {
+    checker.default.checkCredentials().then(res => {
+      console.log(res);
+      axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/strava_activities/', {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access')
+        }
+      }).then(response => {
+        response.data.forEach(element => {
+          this.activity_list.push({
+            name: element.name,
+            type: element.type,
+            distance: element.distance,
+            time: element.moving_time,
+            activity_id: element.id,
+            date: element.start_date,
+            elev_gain: element.total_elevation_gain,
+            avg_speed: element.distance / element.moving_time //TODO demander à François de me la sortir du back
+          })
+        })
+      })
+    }).catch(err => {
+      console.log(err);
+    });
   }
 }
 </script>

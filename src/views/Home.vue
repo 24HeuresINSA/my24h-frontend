@@ -43,10 +43,15 @@
           <br>
           <br>
           <br>
+          <p>Besoin d'aide pour utiliser Strava? N'hésitez pas à consulter notre vidéo :</p>
+          <div>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/bzAg4R1gMbM"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
           <br>
           <hr>
-          <br>
-          <br>
           <br>
           <br>
           <h1>Nos partenaires</h1>

@@ -139,107 +139,228 @@
                   </b-row>
 
                   <b-row>
-                    <b-col><br></b-col>
+                    <b-col><br><br></b-col>
                   </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Distance cumulée : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ race.cumul_distance }} km</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                  <div v-show="!duathlon">
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Vitesse moyenne : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ race.avg_speed }} km/h</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Distance cumulée : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ race.cumul_distance }} km</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Dénivelé moyen : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ race.avg_elev_gain }} m</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Vitesse moyenne : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ race.avg_speed }} km/h</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Temps cumulé : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ race.cumul_time }} / 24h00</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Dénivelé moyen : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ race.avg_elev_gain }} m</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="3"></b-col>
-                    <b-col sm="6">
-                      <br>
-                      <b-progress show-progress value="75" variant="success" striped></b-progress>
-                      <br>
-                      <br>
-                    </b-col>
-                    <b-col sm="3"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Temps cumulé : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ race.cumul_time }} / 24h00</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record distance : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ race.max_distance }} km</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record distance : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ race.max_distance }} km</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record temps : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ race.max_time }}</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record temps : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ race.max_time }}</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record dénivelé : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ race.max_elev_gain }} m</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record dénivelé : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ race.max_elev_gain }} m</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ race.max_avg_speed }} km/h</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ race.max_avg_speed }} km/h</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                  </div>
+
+                  <div v-show="duathlon">
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Distance cumulée : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ race.cumul_distance }} km en course à pied</b-card-text>
+                        <b-card-text>{{ race.cumul_distance_duat_velo }} km en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Vitesse moyenne : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ race.avg_speed }} km/h en course à pied</b-card-text>
+                        <b-card-text>{{ race.avg_speed_duat_velo }} km/h en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Dénivelé moyen : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ race.avg_elev_gain }} m en course à pied</b-card-text>
+                        <b-card-text>{{ race.avg_elev_gain_duat_velo }} m en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Temps cumulé : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ race.cumul_time }} / 8h00 en course à pied</b-card-text>
+                        <b-card-text>{{ race.cumul_time_duat_velo }} / 16h00 en course vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record distance : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ race.max_distance }} km en course à pied</b-card-text>
+                        <b-card-text>{{ race.max_distance_duat_velo }} km en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record temps : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ race.max_time }} en course à pied</b-card-text>
+                        <b-card-text>{{ race.max_time_duat_velo }} en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record dénivelé : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ race.max_elev_gain }} m en course à pied</b-card-text>
+                        <b-card-text>{{ race.max_elev_gain_duat_velo }} m en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ race.max_avg_speed }} km/h en course à pied</b-card-text>
+                        <b-card-text>{{ race.max_avg_speed_duat_velo }} km/h en pied</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                  </div>
 
                   <b-row>
                     <b-col><br><br></b-col>
@@ -435,49 +556,114 @@
                     <b-col><br><br></b-col>
                   </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record distance : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ records.max_distance }} km</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                  <div v-show="!duathlon">
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record distance : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ records.max_distance }} km</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record temps : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ records.max_time }}</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record temps : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ records.max_time }}</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record dénivelé : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ records.max_elev_gain }} m</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record dénivelé : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ records.max_elev_gain }} m</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ records.max_avg_speed }} km/h</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ records.max_avg_speed }} km/h</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+                  </div>
+
+                  <div v-show="duathlon">
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record distance : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ records.max_distance }} km en course à pied</b-card-text>
+                        <b-card-text>{{ records.max_distance_duat_velo }} km en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record temps : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ records.max_time }} en course à pied</b-card-text>
+                        <b-card-text>{{ records.max_time_duat_velo }} en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record dénivelé : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ records.max_elev_gain }} m en course à pied</b-card-text>
+                        <b-card-text>{{ records.max_elev_gain_duat_velo }} m en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ records.max_avg_speed }} km/h en course à pied</b-card-text>
+                        <b-card-text>{{ records.max_avg_speed_duat_velo }} km/h en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+                  </div>
+
 
                   <b-row>
                     <b-col><br><br></b-col>
@@ -517,26 +703,34 @@ export default {
   data() {
     return {
       profile: {
-        name: "",
-        surname: "",
-        birthdate: "",
-        phone: "",
-        email: "",
-        address: "",
-        zip_code: "",
-        city: "",
+        name: "--",
+        surname: "--",
+        birthdate: "--",
+        phone: "--",
+        email: "--",
+        address: "--",
+        zip_code: "--",
+        city: "--",
         team_id: ""
       },
       race: {
-        race_type: "",
+        race_type: "--",
         cumul_distance: null,
-        cumul_time: "",
+        cumul_distance_duat_velo: null,
+        cumul_time: "--",
+        cumul_time_duat_velo: "--",
         avg_speed: null,
+        avg_speed_duat_velo: null,
         avg_elev_gain: null,
+        evg_elev_gain_duat_velo: null,
         max_avg_speed: null,
+        max_avg_speed_duat_velo: null,
         max_elev_gain: null,
+        max_elev_gain_duat_velo: null,
         max_distance: null,
-        max_time: "",
+        max_distance_duat_velo: null,
+        max_time: "--",
+        max_time_duat_velo: "--",
         activity_count: null,
         total_points: null,
         rank: null,
@@ -557,10 +751,14 @@ export default {
         total_teams: "--"
       },
       records: {
-        max_avg_speed: 17,
-        max_elev_gain: 560,
-        max_distance: 20,
-        max_time: "5h54",
+        max_avg_speed: null,
+        max_avg_speed_duat_velo: null,
+        max_elev_gain: null,
+        max_elev_gain_duat_velo: null,
+        max_distance: null,
+        max_distance_duat_velo: null,
+        max_time: "--",
+        max_time_duat_velo: "--"
       },
       show_no_team: false,
       selected_race: "",
@@ -577,7 +775,8 @@ export default {
         {rank: 1, name: "Dupont", cumul_time: "19h45", total_points: 526}
       ],
       server_error: false,
-      serv_err_type: ""
+      serv_err_type: "",
+      duathlon: false
     }
   },
   methods: {
@@ -691,5 +890,9 @@ export default {
 
 .buttons {
   margin: 0.5em;
+}
+
+.margin-zero {
+  margin: 0;
 }
 </style>
