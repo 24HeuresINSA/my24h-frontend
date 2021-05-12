@@ -115,7 +115,8 @@
                   <b-col sm="5">
                     <b-form-input class="input" type="password" v-model="form.password"
                                   placeholder="Votre mot de passe"></b-form-input>
-                    <p>Au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre</p>
+                    <p>Au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre. Attention, les caractères spéciaux
+                      semblent poser problème.</p>
                   </b-col>
                   <b-col sm="2"></b-col>
                 </b-row>
