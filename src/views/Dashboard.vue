@@ -122,7 +122,7 @@
                 </b-container>
               </b-tab>
 
-              <b-tab title="Ma course" disabled>
+              <b-tab title="Ma course">
                 <b-container>
                   <b-row>
                     <b-row>
@@ -169,10 +169,10 @@
                     <b-row>
                       <b-col sm="4"></b-col>
                       <b-col sm="2">
-                        <b-card-text><strong>Dénivelé moyen : </strong></b-card-text>
+                        <b-card-text><strong>Dénivelé total : </strong></b-card-text>
                       </b-col>
                       <b-col sm="4">
-                        <b-card-text>{{ race.avg_elev_gain }} m</b-card-text>
+                        <b-card-text>{{ race.total_elev_gain }} m</b-card-text>
                       </b-col>
                       <b-col sm="2"></b-col>
                     </b-row>
@@ -271,11 +271,11 @@
                     <b-row>
                       <b-col sm="4"></b-col>
                       <b-col sm="2">
-                        <b-card-text><strong>Dénivelé moyen : </strong></b-card-text>
+                        <b-card-text><strong>Dénivelé total : </strong></b-card-text>
                       </b-col>
                       <b-col sm="4">
-                        <b-card-text class="margin-zero">{{ race.avg_elev_gain }} m en course à pied</b-card-text>
-                        <b-card-text>{{ race.avg_elev_gain_duat_velo }} m en vélo</b-card-text>
+                        <b-card-text class="margin-zero">{{ race.total_elev_gain }} m en course à pied</b-card-text>
+                        <b-card-text>{{ race.total_elev_gain_duat_velo }} m en vélo</b-card-text>
                       </b-col>
                       <b-col sm="2"></b-col>
                     </b-row>
@@ -455,49 +455,117 @@
                     <b-col><br><br></b-col>
                   </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record distance : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ team.max_distance }} km</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                  <div v-show="!duathlon">
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record temps : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ team.max_time }}</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record distance cumulée: </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ team.max_distance }} km</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record dénivelé : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ team.max_elev_gain }} m</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record temps cumulé: </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ team.max_time }}</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ team.max_avg_speed }} km/h</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record dénivelé cumulé: </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ team.max_elev_gain }} m</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ team.max_avg_speed }} km/h</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                  </div>
+
+                  <div v-show="duathlon">
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record distance cumulée: </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ team.max_distance }} km en course à pied</b-card-text>
+                        <b-card-text>{{ team.max_distance_duat_velo }} km en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record temps cumulé: </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ team.max_time }} en course à pied</b-card-text>
+                        <b-card-text>{{ team.max_time_duat_velo }} en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record dénivelé cumulé: </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ team.max_elev_gain }} m en course à pied</b-card-text>
+                        <b-card-text>{{ team.max_elev_gain_duat_velo }} m en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col><br></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text class="margin-zero">{{ team.max_avg_speed }} km/h en course à pied</b-card-text>
+                        <b-card-text>{{ team.max_avg_speed_duat_velo }} km/h en vélo</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                  </div>
 
                   <b-row>
                     <b-col><br><br></b-col>
@@ -536,7 +604,7 @@
                 </b-container>
               </b-tab>
 
-              <b-tab title="Classements et records" disabled>
+              <b-tab title="Classements et records">
                 <b-container>
                   <b-row>
                     <b-col><br></b-col>
@@ -721,8 +789,8 @@ export default {
         cumul_time_duat_velo: "--",
         avg_speed: null,
         avg_speed_duat_velo: null,
-        avg_elev_gain: null,
-        evg_elev_gain_duat_velo: null,
+        total_elev_gain: null,
+        total_elev_gain_duat_velo: null,
         max_avg_speed: null,
         max_avg_speed_duat_velo: null,
         max_elev_gain: null,
@@ -742,13 +810,19 @@ export default {
         members: null,
         cumul_distance: "--",
         max_avg_speed: "--",
+        max_avg_speed_duat_velo: "--",
         max_elev_gain: "--",
+        max_elev_gain_duat_velo: "--",
         max_distance: "--",
+        max_distance_duat_velo: "--",
         max_time: "--",
+        max_time_duat_velo: "--",
         max_points: "--",
         total_points: "--",
         rank: "--",
-        total_teams: "--"
+        total_teams: "--",
+        type_id: null,
+        category_id: null
       },
       records: {
         max_avg_speed: null,
@@ -822,6 +896,7 @@ export default {
             this.profile.phone = results.data.phone;
             this.profile.email = results.data.user.email;
             this.profile.birthdate = results.data.birthday;
+            this.race.race_type = results.data.race.name;
             if (results.data.team !== null) {
               this.profile.team_id = results.data.team.id;
             } else {
@@ -836,15 +911,88 @@ export default {
             axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/members/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
                 .then(res => {
                   this.team.members = res.data.category.name;
+                  this.team.category_id = res.data.category.id;
+                  this.team.type_id = res.data.race.id;
                   this.team.name = res.data.name;
-                  this.team.type = res.data.race;
+                  this.team.type = res.data.race.name;
                 }).catch(err => {
               console.log(err);
+              this.server_error = true;
+              this.serv_err_type = "Impossible de récupérer les données équipes, veuillez recharger la page. Code erreur : " + err;
             });
+
+            axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/stats/', {
+              headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('access')
+              }
+            }).then(res => {
+              if (res.data.length === 2) {
+                this.duathlon = true;
+                this.team.max_distance = res.data["Course à pied"].record_distance;
+                this.team.max_time = res.data["Course à pied"].record_time;
+                this.team.max_avg_speed = res.data["Course à pied"].record_avg_speed;
+                this.team.max_elev_gain = res.data["Course à pied"].record_elevation;
+                this.team.max_distance_duat_velo = res.data["Course cycliste"].record_distance;
+                this.team.max_time_duat_velo = res.data["Course cycliste"].record_time;
+                this.team.max_avg_speed_duat_velo = res.data["Course cycliste"].record_avg_speed;
+                this.team.max_elev_gain_duat_velo = res.data["Course cycliste"].record_elevation;
+                this.team.total_points = res.data["Course à pied"].points + res.data["Course cycliste"].points;
+              } else {
+                this.team.max_distance = res.data[this.team.type].record_distance;
+                this.team.max_time = res.data[this.team.type].record_time;
+                this.team.max_avg_speed = res.data[this.team.type].record_avg_speed;
+                this.team.max_elev_gain = res.data[this.team.type].record_elevation;
+                this.team.total_points = res.data[this.team.type].points;
+              }
+            }).catch(err => {
+              console.log(err);
+              this.server_error = true;
+              this.serv_err_type = "Impossible de récupérer les données équipes, veuillez recharger la page. Code erreur : " + err;
+            });
+
+            axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/stats/', {
+              headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('access')
+              }
+            }).then(res => {
+              if (res.data.length === 2) {
+                this.duathlon = true;
+                this.race.max_distance = res.data["Course à pied"].record_distance;
+                this.race.max_distance_duat_velo = res.data["Course cycliste"].record_distance;
+                this.race.max_time = res.data["Course à pied"].record_time;
+                this.race.max_time = res.data["Course cycliste"].record_time;
+                this.race.max_avg_speed = res.data["Course à pied"].record_avg_speed;
+                this.race.max_avg_speed = res.data["Course cycliste"].record_avg_speed;
+                this.race.max_elev_gain = res.data["Course à pied"].record_elevation;
+                this.race.max_elev_gain = res.data["Course cycliste"].record_elevation;
+                this.race.total_points = res.data["Course à pied"].points + res.data["Course cycliste"].points;
+                this.race.cumul_time = res.data["Course à pied"].total_time;
+                this.race.cumul_time = res.data["Course cycliste"].total_time;
+                this.race.cumul_distance = res.data["Course à pied"].total_km;
+                this.race.cumul_distance = res.data["Course cycliste"].total_km;
+                this.race.avg_speed = res.data["Course à pied"].total_avg_speed;
+                this.race.avg_speed = res.data["Course cycliste"].total_avg_speed;
+                this.race.total_elev_gain = res.data["Course à pied"].total_elevation;
+                this.race.total_elev_gain = res.data["Course cycliste"].total_elevation;
+                this.race.activity_count = res.data["Course à pied"].nb_activities + res.data["Course cycliste"].nb_activities;
+
+              } else {
+                this.race.max_distance = res.data[this.profile.race_type].record_distance;
+                this.race.max_time = res.data[this.profile.race_type].record_time;
+                this.race.max_avg_speed = res.data[this.profile.race_type].record_avg_speed;
+                this.race.max_elev_gain = res.data[this.profile.race_type].record_elevation;
+                this.race.total_points = res.data[this.profile.race_type].points;
+                this.race.cumul_time = res.data[this.profile.race_type].total_time;
+                this.race.cumul_distance = res.data[this.profile.race_type].total_km;
+                this.race.avg_speed = res.data[this.profile.race_type].total_avg_speed;
+                this.race.total_elev_gain = res.data[this.profile.race_type].total_elevation;
+                this.race.activity_count = res.data[this.profile.race_type].nb_activities;
+              }
+            })
 
           }).catch(err => {
         this.server_error = true;
-        this.serv_err_type = err;
+        this.serv_err_type = "Impossible de récupérer les données coureur, veuillez recharger la page. Code erreur : " + err;
       });
 
     }).catch(err => {
