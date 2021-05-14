@@ -838,7 +838,7 @@ export default {
                 .then(res => {
                   this.team.members = res.data.category.name;
                   this.team.name = res.data.name;
-                  this.team.type = res.data.race;
+                  this.team.type = res.data.race.name;
                 }).catch(err => {
               console.log(err);
             });

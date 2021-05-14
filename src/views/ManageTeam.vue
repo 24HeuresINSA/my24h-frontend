@@ -147,9 +147,12 @@ export default {
                 .then(res => {
                   this.category = res.data.category.name;
                   this.name = res.data.name;
-                  this.race_type = res.data.race;
-                  if (res.data.admins[0].id === parseInt(localStorage.getItem('uid'))) {
-                    this.isAdmin = true;
+                  this.race_type = res.data.race.name;
+
+                  if (res.data.admins.length !== 0) {
+                    if (res.data.admins[0].id === parseInt(localStorage.getItem('uid'))) {
+                      this.isAdmin = true;
+                    }
                   }
                   res.data.members.forEach(element => (this.team_list.push({
                     id: element.id,
