@@ -51,7 +51,12 @@ export default {
         axios.post(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/strava/', data_to_send, options)
             .then(response => {
               console.log(response);
-              this.$router.push({name: 'Team'}); //si c'est ok on finalise l'inscription en lui proposant une team
+              if (!localStorage.getItem('stravaConnected')) {
+                this.$router.push({name: 'Team'}); //si c'est ok on finalise l'inscription en lui proposant une team
+              } else {
+                this.$router.push({name: 'Activity'}); //ou on le renvoit vers ajout d'activité si déjà connecté précedemment
+              }
+
             })
             .catch(error => {
               console.log(error);
@@ -62,7 +67,7 @@ export default {
       } else {
         //erreur, c'est pas normal qu'il arrive avec une url strava sans avoir d'id, maybe le gars désactive ses cookies et là on est baisés
         this.error_active = true;
-        this.error = "impossible de lire le cache de votre navigateur et de vous authentifier, vos cookies sont peut-être désactivés ? Vous allez être redirigé dans 5s pour vous authentifier";
+        this.error = "impossible de lire le cache de votre navigateur et de vous authentifier, vos cookies, ou votre cache sont peut-être désactivés ? Vous allez être redirigé dans 5s pour vous authentifier";
         setTimeout(this.redirectToHome, 5000)
       }
 

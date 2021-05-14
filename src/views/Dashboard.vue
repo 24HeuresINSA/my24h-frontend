@@ -402,7 +402,7 @@
                   <b-row>
                     <b-col style="text-align: center">
                       <br>
-                      <b-button class="buttons" variant="success" to="/activity">Ajouter une activité</b-button>
+                      <b-button class="buttons" variant="success" @click="stravaRefresh">Ajouter une activité</b-button>
                     </b-col>
                   </b-row>
 
@@ -860,6 +860,17 @@ export default {
       localStorage.clear(); //on erase toutes les données persistantes avec les token
       this.$router.push({name: 'Home'});
     },
+    stravaRefresh(event) {
+      event.preventDefault();
+      //TODO changer l'url de redirection si localhost
+      checker.default.checkCredentials().then(resolve => {
+        console.log(resolve);
+        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=http://localhost:8080/&approval_prompt=auto&scope=activity:read';
+      }).catch(reject => {
+        console.log(reject);
+      })
+
+    },
     leaveTeam(event) {
       event.preventDefault();
       var erase = new URLSearchParams();
@@ -906,6 +917,8 @@ export default {
 
             if (results.data.strava_id === null) {
               this.$router.push({name: "Strava"}); //on redirige vers la page strava si pas de strava_id
+            } else {
+              localStorage.setItem('stravaConnected', 'true');
             }
 
             axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/members/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
@@ -921,7 +934,7 @@ export default {
               this.serv_err_type = "Impossible de récupérer les données équipes, veuillez recharger la page. Code erreur : " + err;
             });
 
-            axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/stats/', {
+            axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/stat/', {
               headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access')
               }
@@ -950,7 +963,7 @@ export default {
               this.serv_err_type = "Impossible de récupérer les données équipes, veuillez recharger la page. Code erreur : " + err;
             });
 
-            axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/stats/', {
+            axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/stat/', {
               headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access')
               }
@@ -993,6 +1006,32 @@ export default {
           }).catch(err => {
         this.server_error = true;
         this.serv_err_type = "Impossible de récupérer les données coureur, veuillez recharger la page. Code erreur : " + err;
+      });
+
+      axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/ranking/', {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access')
+        }
+      }).then(res => {
+        console.log(res);
+        //TODO finir le classement
+      }).catch(err => {
+        console.log(err);
+        this.server_error = true;
+        this.serv_err_type = "Impossible de récupérer les données de classement équipes, veuillez recharger votre page. Code erreur : " + err;
+      });
+
+      axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/ranking/', {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access')
+        }
+      }).then(res => {
+        console.log(res);
+        //TODO finir le classement
+      }).catch(err => {
+        console.log(err);
+        this.server_error = true;
+        this.serv_err_type = "Impossible de récupérer les données de classement équipes, veuillez recharger votre page. Code erreur : " + err;
       });
 
     }).catch(err => {

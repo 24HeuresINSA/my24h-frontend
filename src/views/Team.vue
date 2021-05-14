@@ -307,6 +307,7 @@ export default {
       console.log(resolve);
       axios.get(this.$baseUrl + '/api/teams/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
           .then(response => {
+            console.log(response);
             response.data.results.forEach(element => {
               this.form.existant.options_team.push({
                 value: element.id,
