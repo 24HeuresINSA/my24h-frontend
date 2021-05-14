@@ -17,10 +17,11 @@
             {{ serv_err_type }} <br> Si cette erreur persiste, contactez courses@24heures.org
           </b-alert>
           <br>
-          <b-alert variant="info" show>Merci de vous être inscrit à nos courses ! Pour le moment la plate-forme My24h ne
-            permet que de
-            s'inscrire. Le reste des fonctionnalités va être progressivement déployé d'ici le début des courses. Soyez
-            prêts le vendredi 14 mai à 14h !
+          <b-alert variant="info" show>Merci de vous être inscrit à nos courses ! La fonctionnalité d'ajout de vos
+            activités Strava, et de classement sera disponible très prochainement.
+            Ne vous inquiétez pas si vous ne pouvez pas ajouter d'activités alors que les courses ont officiellement
+            démarré, vous pourrez les ajouter jusqu'au
+            <strong>23 mai 14h</strong>. Bon courage !
           </b-alert>
           <br>
 
