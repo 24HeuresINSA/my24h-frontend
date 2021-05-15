@@ -80,7 +80,6 @@ export default {
         {key: 'date', label: "Date", sortable: true},
         {key: 'distance', label: "Distance (km)", sortable: true},
         {key: 'time', label: "Temps", sortable: true},
-        {key: 'avg_speed', label: "Vitesse moyenne", sortable: true},
         {key: 'elev_gain', label: "Dénivelé (m)", sortable: true}
       ],
       activity_list: [],
@@ -101,17 +100,18 @@ export default {
         console.log(resolve);
 
         this.selected.forEach(elem => {
-
+          console.log(elem.activity_id);
           const activity_to_send = new URLSearchParams();
-          activity_to_send.append('activity_id', elem.activity_id); //TODO check avec François des champs qu'il veut
+          activity_to_send.append('strava_id', elem.activity_id);
 
-          axios.post(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/activites/', activity_to_send, {
+          axios.post(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/activities/', activity_to_send, {
             headers: {
               'content-type': 'application/x-www-form-urlencoded',
               'Authorization': 'Bearer ' + localStorage.getItem('access')
             }
           }).then(res => {
             console.log(res);
+            this.$router.push({name: "Dashboard"});
           }).catch(err => {
             console.log(err);
             this.server_error = true;
@@ -136,13 +136,12 @@ export default {
           this.activity_list.push({
             name: element.name,
             type: element.type,
-            distance: element.distance,
+            distance: (element.distance / 1000).toFixed(2),
             time: element.moving_time,
-            activity_id: element.id,
-            date: element.start_date,
-            elev_gain: element.total_elevation_gain,
-            avg_speed: element.distance / element.moving_time //TODO demander à François de me la sortir du back
-          })
+            activity_id: element.strava_id,
+            date: element.start_date.substr(0, 10),
+            elev_gain: element.total_elevation_gain
+          });
         })
       })
     }).catch(err => {

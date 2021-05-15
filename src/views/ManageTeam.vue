@@ -148,7 +148,6 @@ export default {
                   this.category = res.data.category.name;
                   this.name = res.data.name;
                   this.race_type = res.data.race.name;
-
                   if (res.data.admins.length !== 0) {
                     if (res.data.admins[0].id === parseInt(localStorage.getItem('uid'))) {
                       this.isAdmin = true;
