@@ -17,10 +17,11 @@
             {{ serv_err_type }} <br> Si cette erreur persiste, contactez courses@24heures.org
           </b-alert>
           <br>
-          <b-alert variant="info" show>Merci de vous être inscrit à nos courses ! Pour le moment la plate-forme My24h ne
-            permet que de
-            s'inscrire. Le reste des fonctionnalités va être progressivement déployé d'ici le début des courses. Soyez
-            prêts le vendredi 14 mai à 14h !
+          <b-alert variant="info" show>Merci de vous être inscrit à nos courses ! La plate-forme est maintenant
+            pleinement fonctionnelle.
+            Pour importer une activité, allez dans Ma course, puis ajouter une activité. Vous avez jusqu'au <strong>dimanche
+              23 mai 14h</strong>
+            pour importer vos activités Strava. En cas de problème, contactez courses@24heures.org. Bon courage à tous !
           </b-alert>
           <br>
 
@@ -155,16 +156,16 @@
                       <b-col sm="2"></b-col>
                     </b-row>
 
-                    <b-row>
-                      <b-col sm="4"></b-col>
-                      <b-col sm="2">
-                        <b-card-text><strong>Vitesse moyenne : </strong></b-card-text>
-                      </b-col>
-                      <b-col sm="4">
-                        <b-card-text>{{ race.avg_speed }} km/h</b-card-text>
-                      </b-col>
-                      <b-col sm="2"></b-col>
-                    </b-row>
+                    <!--                    <b-row>-->
+                    <!--                      <b-col sm="4"></b-col>-->
+                    <!--                      <b-col sm="2">-->
+                    <!--                        <b-card-text><strong>Vitesse moyenne : </strong></b-card-text>-->
+                    <!--                      </b-col>-->
+                    <!--                      <b-col sm="4">-->
+                    <!--                        <b-card-text>{{ race.avg_speed }} km/h</b-card-text>-->
+                    <!--                      </b-col>-->
+                    <!--                      <b-col sm="2"></b-col>-->
+                    <!--                    </b-row>-->
 
                     <b-row>
                       <b-col sm="4"></b-col>
@@ -183,7 +184,7 @@
                         <b-card-text><strong>Temps cumulé : </strong></b-card-text>
                       </b-col>
                       <b-col sm="4">
-                        <b-card-text>{{ race.cumul_time }} / 24h00</b-card-text>
+                        <b-card-text>{{ race.cumul_time }} / 24:00:00</b-card-text>
                       </b-col>
                       <b-col sm="2"></b-col>
                     </b-row>
@@ -252,17 +253,17 @@
                       <b-col><br></b-col>
                     </b-row>
 
-                    <b-row>
-                      <b-col sm="4"></b-col>
-                      <b-col sm="2">
-                        <b-card-text><strong>Vitesse moyenne : </strong></b-card-text>
-                      </b-col>
-                      <b-col sm="4">
-                        <b-card-text class="margin-zero">{{ race.avg_speed }} km/h en course à pied</b-card-text>
-                        <b-card-text>{{ race.avg_speed_duat_velo }} km/h en vélo</b-card-text>
-                      </b-col>
-                      <b-col sm="2"></b-col>
-                    </b-row>
+                    <!--                    <b-row>-->
+                    <!--                      <b-col sm="4"></b-col>-->
+                    <!--                      <b-col sm="2">-->
+                    <!--                        <b-card-text><strong>Vitesse moyenne : </strong></b-card-text>-->
+                    <!--                      </b-col>-->
+                    <!--                      <b-col sm="4">-->
+                    <!--                        <b-card-text class="margin-zero">{{ race.avg_speed }} km/h en course à pied</b-card-text>-->
+                    <!--                        <b-card-text>{{ race.avg_speed_duat_velo }} km/h en vélo</b-card-text>-->
+                    <!--                      </b-col>-->
+                    <!--                      <b-col sm="2"></b-col>-->
+                    <!--                    </b-row>-->
 
                     <b-row>
                       <b-col><br></b-col>
@@ -290,8 +291,8 @@
                         <b-card-text><strong>Temps cumulé : </strong></b-card-text>
                       </b-col>
                       <b-col sm="4">
-                        <b-card-text class="margin-zero">{{ race.cumul_time }} / 8h00 en course à pied</b-card-text>
-                        <b-card-text>{{ race.cumul_time_duat_velo }} / 16h00 en course vélo</b-card-text>
+                        <b-card-text class="margin-zero">{{ race.cumul_time }} / 8:00:00 en course à pied</b-card-text>
+                        <b-card-text>{{ race.cumul_time_duat_velo }} / 16:00:00 en course vélo</b-card-text>
                       </b-col>
                       <b-col sm="2"></b-col>
                     </b-row>
@@ -652,7 +653,7 @@
                       <b-card-text><strong>Classement oneGum : </strong></b-card-text>
                     </b-col>
                       <b-col sm="4">
-                        <b-card-text>{{ records.max_time }} par {{ records.max_time_username }}</b-card-text>
+                        <b-card-text>{{ records.max_time }} points par {{ records.max_time_username }}</b-card-text>
                       </b-col>
                       <b-col sm="2"></b-col>
                     </b-row>
@@ -663,7 +664,10 @@
                         <b-card-text><strong>Classement TDR : </strong></b-card-text>
                       </b-col>
                       <b-col sm="4">
-                        <b-card-text>{{ records.max_elev_gain }} m par{{ records.max_elev_gain_username }}</b-card-text>
+                        <b-card-text>{{ records.max_elev_gain }} m cumulés par {{
+                            records.max_elev_gain_username
+                          }}
+                        </b-card-text>
                       </b-col>
                       <b-col sm="2"></b-col>
                     </b-row>
@@ -796,7 +800,7 @@ export default {
       //TODO changer l'url de redirection si localhost
       checker.default.checkCredentials().then(resolve => {
         console.log(resolve);
-        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=http://localhost:8080/&approval_prompt=auto&scope=activity:read';
+        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=https://my24h.24heures.org/&approval_prompt=auto&scope=activity:read';
       }).catch(reject => {
         console.log(reject);
       })
@@ -825,6 +829,7 @@ export default {
     },
     onRaceSelected(event) {
       event.preventDefault();
+      this.ranking_list = [];
       checker.default.checkCredentials().then(resolve => {
         console.log(resolve);
 
@@ -832,19 +837,19 @@ export default {
           var data_to_send = new URLSearchParams();
           data_to_send.append('race_id', this.selected_race);
 
-          axios.post(this.$baseUrl + '/api/athlete/' + localStorage.getItem('uid') + '/ranking/', data_to_send, {
+          axios.post(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/ranking/', data_to_send, {
             headers: {
               'Authorization': 'Bearer ' + localStorage.getItem('access'),
               'content-type': 'application/x-www-form-urlencoded'
             }
           }).then(res => {
-            res.data.forEach(elem => {
-              this.ranking_list.push({ //TODO vérifier les champs
-                rank: elem.key, //TODO à tester
-                name: elem.username,
-                total_points: elem.total_points
+            for (const [key, value] of Object.entries(res.data)) {
+              this.ranking_list.push({
+                rank: key,
+                name: value.username,
+                total_points: (value.total_points / 1000).toFixed(1)
               });
-            });
+            }
           }).catch(err => {
             this.server_error = true;
             this.serv_err_type = "Impossible de récupérer le classement, veuillez réessayer. Code erreur : " + err;
@@ -861,13 +866,13 @@ export default {
               'content-type': 'application/x-www-form-urlencoded'
             }
           }).then(res => {
-            res.data.forEach(elem => {
-              this.ranking_list.push({ //TODO vérifier les champs
-                rank: elem.key, //TODO à tester
-                name: elem.team_name,
-                total_points: elem.total_points
+            for (const [key, value] of Object.entries(res.data)) {
+              this.ranking_list.push({
+                rank: key,
+                name: value.name,
+                total_points: (value.total_points / 1000).toFixed(1)
               });
-            });
+            }
           }).catch(err => {
             this.server_error = true;
             this.serv_err_type = "Impossible de récupérer le classement, veuillez réessayer. Code erreur : " + err;
@@ -930,13 +935,13 @@ export default {
                       this.team.max_time_duat_velo = new Date(res.data["Course cycliste"].record_time * 1000).toTimeString().substr(0, 8)
                       this.team.max_avg_speed_duat_velo = res.data["Course cycliste"].record_avg_speed;
                       this.team.max_elev_gain_duat_velo = res.data["Course cycliste"].record_elevation;
-                      this.team.total_points = res.data["Course à pied"].points + res.data["Course cycliste"].points;
+                      this.team.total_points = ((res.data["Course à pied"].points + res.data["Course cycliste"].points) / 1000).toFixed(1);
                     } else {
                       this.team.max_distance = (res.data[this.team.type].record_distance / 1000).toFixed(2);
                       this.team.max_time = new Date(res.data[this.team.type].record_time * 1000).toTimeString().substr(0, 8)
                       this.team.max_avg_speed = res.data[this.team.type].record_avg_speed;
                       this.team.max_elev_gain = res.data[this.team.type].record_elevation;
-                      this.team.total_points = res.data[this.team.type].points;
+                      this.team.total_points = (res.data[this.team.type].points / 1000).toFixed(1);
                     }
                   }).catch(err => {
                     console.log(err);
@@ -959,7 +964,6 @@ export default {
                         this.team.rank = key;
                       }
                     }
-                    this.team.rank = res.data[this.profile.team_id];
                     this.team.total_teams = Object.keys(res.data).length;
 
                   }).catch(err => {
@@ -985,37 +989,37 @@ export default {
                 this.race.max_distance_duat_velo = (res.data["Course cycliste"].record_distance / 1000).toFixed(2);
                 this.race.max_time = new Date(res.data["Course à pied"].record_time * 1000).toTimeString().substr(0, 8);
                 this.race.max_time_duat_velo = new Date(res.data["Course cycliste"].record_time * 1000).toTimeString().substr(0, 8);
-                this.race.max_avg_speed = res.data["Course à pied"].record_avg_speed;
-                this.race.max_avg_speed_duat_velo = res.data["Course cycliste"].record_avg_speed;
+                this.race.max_avg_speed = (res.data["Course à pied"].record_avg_speed / 1).toFixed(1);
+                this.race.max_avg_speed_duat_velo = (res.data["Course cycliste"].record_avg_speed / 1).toFixed(1);
                 this.race.max_elev_gain = res.data["Course à pied"].record_elevation;
                 this.race.max_elev_gain_duat_velo = res.data["Course cycliste"].record_elevation;
-                this.race.total_points = res.data["Course à pied"].points + res.data["Course cycliste"].points;
+                this.race.total_points = ((res.data["Course à pied"].points + res.data["Course cycliste"].points) / 1000).toFixed(1);
                 this.race.cumul_time = new Date(res.data["Course à pied"].total_time * 1000).toTimeString().substr(0, 8);
                 this.race.cumul_time_duat_velo = new Date(res.data["Course cycliste"].total_time * 1000).toTimeString().substr(0, 8)
                 this.race.cumul_distance = (res.data["Course à pied"].total_km / 1000).toFixed(2);
                 this.race.cumul_distance_duat_velo = (res.data["Course cycliste"].total_km / 1000).toFixed(2);
-                this.race.avg_speed = res.data["Course à pied"].total_avg_speed;
-                this.race.avg_speed_duat_velo = res.data["Course cycliste"].total_avg_speed;
+                //this.race.avg_speed = res.data["Course à pied"].total_avg_speed;
+                //this.race.avg_speed_duat_velo = res.data["Course cycliste"].total_avg_speed;
                 this.race.total_elev_gain = res.data["Course à pied"].total_elevation;
                 this.race.total_elev_gain_duat_velo = res.data["Course cycliste"].total_elevation;
                 this.race.activity_count = res.data["Course à pied"].nb_activities + res.data["Course cycliste"].nb_activities;
 
               } else {
-                this.race.max_distance = (res.data[this.profile.race_type].record_distance / 1000).toFixed(2);
-                this.race.max_time = new Date(res.data[this.profile.race_type].record_time * 1000).toTimeString().substr(0, 8)
-                this.race.max_avg_speed = res.data[this.profile.race_type].record_avg_speed;
-                this.race.max_elev_gain = res.data[this.profile.race_type].record_elevation;
-                this.race.total_points = res.data[this.profile.race_type].points;
-                this.race.cumul_time = new Date(res.data[this.profile.race_type].total_time * 1000).toTimeString().substr(0, 8)
-                this.race.cumul_distance = (res.data[this.profile.race_type].total_km / 1000).toFixed(2);
-                this.race.avg_speed = res.data[this.profile.race_type].total_avg_speed;
-                this.race.total_elev_gain = res.data[this.profile.race_type].total_elevation;
-                this.race.activity_count = res.data[this.profile.race_type].nb_activities;
+                this.race.max_distance = (res.data[this.race.race_type].record_distance / 1000).toFixed(2);
+                this.race.max_time = new Date(res.data[this.race.race_type].record_time * 1000).toTimeString().substr(0, 8)
+                this.race.max_avg_speed = res.data[this.race.race_type].record_avg_speed;
+                this.race.max_elev_gain = res.data[this.race.race_type].record_elevation;
+                this.race.total_points = (res.data[this.race.race_type].points / 1000).toFixed(1);
+                this.race.cumul_time = new Date(res.data[this.race.race_type].total_time * 1000).toTimeString().substr(0, 8)
+                this.race.cumul_distance = (res.data[this.race.race_type].total_km / 1000).toFixed(2);
+                //this.race.avg_speed = res.data[this.race.race_type].total_avg_speed;
+                this.race.total_elev_gain = res.data[this.race.race_type].total_elevation;
+                this.race.activity_count = res.data[this.race.race_type].nb_activities;
               }
             })
 
             var athlete_ranking = new URLSearchParams();
-            athlete_ranking.append('race_id', this.race.race_id); //TODO check les champs pour le post
+            athlete_ranking.append('race_id', this.race.race_id);
 
             axios.post(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/ranking/', athlete_ranking, {
               headers: {
@@ -1025,7 +1029,7 @@ export default {
               console.log(res);
               this.race.total_runners = Object.keys(res.data).length;
               for (const [key, value] of Object.entries(res.data)) {
-                if (value.athlete_id === localStorage.getItem('uid')) {
+                if (value.athlete_id === parseInt(localStorage.getItem('uid'))) {
                   this.race.rank = key;
                 }
               }
@@ -1054,13 +1058,33 @@ export default {
                 'Authorization': 'Bearer ' + localStorage.getItem('access')
               }
             }).then(res => {
-              this.records.max_elev_gain = res.data.duration_points;
-              this.records.max_elev_gain_username = res.data.username;
+              console.log(res);
+              this.records.max_time = res.data.duration_points;
+              this.records.max_time_username = res.data.username;
             }).catch(err => {
               console.log(err);
               this.server_error = true;
               this.serv_err_type = "Erreur dans la récupération du classement OneGum, veuilez recharger la page. Code erreur : " + err;
             });
+
+            axios.get(this.$baseUrl + '/api/categories/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+                .then(response => {
+                  response.data.results.forEach(element => (this.all_categories.push({
+                    value: element.id,
+                    text: element.name
+                  })))
+                }).catch(err => {
+              this.show_alert = true;
+              this.message = "Impossible de récupérer les données du serveur, contactez courses@24heures.org | code : " + err;
+            });
+
+            axios.get(this.$baseUrl + '/api/races/').then(response => {
+              response.data.results.forEach(element => (this.all_races.push({
+                value: element.id,
+                text: element.name
+              })));
+              console.log(response);
+            }).catch(error => console.log(error));
 
           }).catch(err => {
         this.server_error = true;
