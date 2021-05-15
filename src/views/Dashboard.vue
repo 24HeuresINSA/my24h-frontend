@@ -621,17 +621,38 @@
                   </b-row>
 
                   <b-row>
+                    <b-col sm="4"></b-col>
+                    <b-col sm="2">
+                      <b-card-text><strong>Choisir une catégorie : </strong></b-card-text>
+                    </b-col>
+                    <b-col sm="4">
+                      <b-form-select v-model="selected_category" :options="all_categories"
+                                     style="width: 60%"></b-form-select>
+                    </b-col>
+                    <b-col sm="2"></b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col><br></b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col align="center">
+                      <b-button variant="success" @click="onRaceSelected">Afficher le classement</b-button>
+                    </b-col>
+                  </b-row>
+
+                  <b-row>
                     <b-col><br><br></b-col>
                   </b-row>
 
-                  <div v-show="!duathlon">
-                    <b-row>
-                      <b-col sm="4"></b-col>
-                      <b-col sm="2">
-                        <b-card-text><strong>Record distance : </strong></b-card-text>
-                      </b-col>
+                  <b-row>
+                    <b-col sm="4"></b-col>
+                    <b-col sm="2">
+                      <b-card-text><strong>Classement oneGum : </strong></b-card-text>
+                    </b-col>
                       <b-col sm="4">
-                        <b-card-text>{{ records.max_distance }} km</b-card-text>
+                        <b-card-text>{{ records.max_time }} par {{ records.max_time_username }}</b-card-text>
                       </b-col>
                       <b-col sm="2"></b-col>
                     </b-row>
@@ -639,99 +660,13 @@
                     <b-row>
                       <b-col sm="4"></b-col>
                       <b-col sm="2">
-                        <b-card-text><strong>Record temps : </strong></b-card-text>
+                        <b-card-text><strong>Classement TDR : </strong></b-card-text>
                       </b-col>
                       <b-col sm="4">
-                        <b-card-text>{{ records.max_time }}</b-card-text>
+                        <b-card-text>{{ records.max_elev_gain }} m par{{ records.max_elev_gain_username }}</b-card-text>
                       </b-col>
                       <b-col sm="2"></b-col>
                     </b-row>
-
-                    <b-row>
-                      <b-col sm="4"></b-col>
-                      <b-col sm="2">
-                        <b-card-text><strong>Record dénivelé : </strong></b-card-text>
-                      </b-col>
-                      <b-col sm="4">
-                        <b-card-text>{{ records.max_elev_gain }} m</b-card-text>
-                      </b-col>
-                      <b-col sm="2"></b-col>
-                    </b-row>
-
-                    <b-row>
-                      <b-col sm="4"></b-col>
-                      <b-col sm="2">
-                        <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
-                      </b-col>
-                      <b-col sm="4">
-                        <b-card-text>{{ records.max_avg_speed }} km/h</b-card-text>
-                      </b-col>
-                      <b-col sm="2"></b-col>
-                    </b-row>
-                  </div>
-
-                  <div v-show="duathlon">
-                    <b-row>
-                      <b-col sm="4"></b-col>
-                      <b-col sm="2">
-                        <b-card-text><strong>Record distance : </strong></b-card-text>
-                      </b-col>
-                      <b-col sm="4">
-                        <b-card-text class="margin-zero">{{ records.max_distance }} km en course à pied</b-card-text>
-                        <b-card-text>{{ records.max_distance_duat_velo }} km en vélo</b-card-text>
-                      </b-col>
-                      <b-col sm="2"></b-col>
-                    </b-row>
-
-                    <b-row>
-                      <b-col><br></b-col>
-                    </b-row>
-
-                    <b-row>
-                      <b-col sm="4"></b-col>
-                      <b-col sm="2">
-                        <b-card-text><strong>Record temps : </strong></b-card-text>
-                      </b-col>
-                      <b-col sm="4">
-                        <b-card-text class="margin-zero">{{ records.max_time }} en course à pied</b-card-text>
-                        <b-card-text>{{ records.max_time_duat_velo }} en vélo</b-card-text>
-                      </b-col>
-                      <b-col sm="2"></b-col>
-                    </b-row>
-
-                    <b-row>
-                      <b-col><br></b-col>
-                    </b-row>
-
-                    <b-row>
-                      <b-col sm="4"></b-col>
-                      <b-col sm="2">
-                        <b-card-text><strong>Record dénivelé : </strong></b-card-text>
-                      </b-col>
-                      <b-col sm="4">
-                        <b-card-text class="margin-zero">{{ records.max_elev_gain }} m en course à pied</b-card-text>
-                        <b-card-text>{{ records.max_elev_gain_duat_velo }} m en vélo</b-card-text>
-                      </b-col>
-                      <b-col sm="2"></b-col>
-                    </b-row>
-
-                    <b-row>
-                      <b-col><br></b-col>
-                    </b-row>
-
-                    <b-row>
-                      <b-col sm="4"></b-col>
-                      <b-col sm="2">
-                        <b-card-text><strong>Record vitesse moyenne : </strong></b-card-text>
-                      </b-col>
-                      <b-col sm="4">
-                        <b-card-text class="margin-zero">{{ records.max_avg_speed }} km/h en course à pied</b-card-text>
-                        <b-card-text>{{ records.max_avg_speed_duat_velo }} km/h en vélo</b-card-text>
-                      </b-col>
-                      <b-col sm="2"></b-col>
-                    </b-row>
-                  </div>
-
 
                   <b-row>
                     <b-col><br><br></b-col>
@@ -826,29 +761,24 @@ export default {
         category_id: null
       },
       records: {
-        max_avg_speed: null,
-        max_avg_speed_duat_velo: null,
         max_elev_gain: null,
-        max_elev_gain_duat_velo: null,
-        max_distance: null,
-        max_distance_duat_velo: null,
+        max_elev_gain_username: "--",
         max_time: "--",
-        max_time_duat_velo: "--"
+        max_time_username: "--"
       },
       show_no_team: false,
       selected_race: "",
-      all_races: [
-        {value: "cap_equipe", text: "Course à pied par équipe"}
+      selected_category: "",
+      all_races: [],
+      all_categories: [
+        {value: 0, text: 'Solo'}
       ],
       ranking_fields: [
         {key: 'rank', label: "Rang"},
         {key: 'name', label: "Nom", sortable: true},
-        {key: 'cumul_time', label: "Temps cumulé", sortable: true},
         {key: 'total_points', label: "Points", sortable: true}
       ],
-      ranking_list: [
-        {rank: 1, name: "Dupont", cumul_time: "19h45", total_points: 526}
-      ],
+      ranking_list: [],
       server_error: false,
       serv_err_type: "",
       duathlon: false
@@ -892,9 +822,63 @@ export default {
       })
 
       this.$refs['confirm_quit'].hide()
+    },
+    onRaceSelected(event) {
+      event.preventDefault();
+      checker.default.checkCredentials().then(resolve => {
+        console.log(resolve);
+
+        if (this.selected_category === 0) {
+          var data_to_send = new URLSearchParams();
+          data_to_send.append('race_id', this.selected_race);
+
+          axios.post(this.$baseUrl + '/api/athlete/' + localStorage.getItem('uid') + '/ranking/', data_to_send, {
+            headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem('access'),
+              'content-type': 'application/x-www-form-urlencoded'
+            }
+          }).then(res => {
+            res.data.forEach(elem => {
+              this.ranking_list.push({ //TODO vérifier les champs
+                rank: elem.key, //TODO à tester
+                name: elem.username,
+                total_points: elem.total_points
+              });
+            });
+          }).catch(err => {
+            this.server_error = true;
+            this.serv_err_type = "Impossible de récupérer le classement, veuillez réessayer. Code erreur : " + err;
+          });
+
+        } else {
+          var rank_to_claim = new URLSearchParams();
+          rank_to_claim.append('race_id', this.selected_race);
+          rank_to_claim.append('category_id', this.selected_category);
+
+          axios.post(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/ranking/', rank_to_claim, {
+            headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem('access'),
+              'content-type': 'application/x-www-form-urlencoded'
+            }
+          }).then(res => {
+            res.data.forEach(elem => {
+              this.ranking_list.push({ //TODO vérifier les champs
+                rank: elem.key, //TODO à tester
+                name: elem.team_name,
+                total_points: elem.total_points
+              });
+            });
+          }).catch(err => {
+            this.server_error = true;
+            this.serv_err_type = "Impossible de récupérer le classement, veuillez réessayer. Code erreur : " + err;
+          })
+        }
+      }).catch(reject => {
+        console.log(reject);
+      })
+
     }
   },
-  //TODO faire redirection pour changer mot de passe
   mounted() {
     checker.default.checkCredentials().then((resolve) => {
       console.log(resolve);
@@ -1031,7 +1015,7 @@ export default {
             })
 
             var athlete_ranking = new URLSearchParams();
-            athlete_ranking.append('race_id', this.race.race_id);
+            athlete_ranking.append('race_id', this.race.race_id); //TODO check les champs pour le post
 
             axios.post(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/ranking/', athlete_ranking, {
               headers: {
@@ -1039,11 +1023,43 @@ export default {
               }
             }).then(res => {
               console.log(res);
-              //TODO finir le classement
+              this.race.total_runners = Object.keys(res.data).length;
+              for (const [key, value] of Object.entries(res.data)) {
+                if (value.athlete_id === localStorage.getItem('uid')) {
+                  this.race.rank = key;
+                }
+              }
+
             }).catch(err => {
               console.log(err);
               this.server_error = true;
               this.serv_err_type = "Impossible de récupérer les données de classement équipes, veuillez recharger votre page. Code erreur : " + err;
+            });
+
+            axios.get(this.$baseUrl + '/api/races/' + this.race.race_id + '/challenge_elevation/', {
+              headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('access')
+              }
+            }).then(res => {
+              this.records.max_elev_gain = res.data.elevation_points;
+              this.records.max_elev_gain_username = res.data.username;
+            }).catch(err => {
+              console.log(err);
+              this.server_error = true;
+              this.serv_err_type = "Erreur dans la récupération du classement TDR, veuilez recharger la page. Code erreur : " + err;
+            });
+
+            axios.get(this.$baseUrl + '/api/races/' + this.race.race_id + '/challenge_duration/', {
+              headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('access')
+              }
+            }).then(res => {
+              this.records.max_elev_gain = res.data.duration_points;
+              this.records.max_elev_gain_username = res.data.username;
+            }).catch(err => {
+              console.log(err);
+              this.server_error = true;
+              this.serv_err_type = "Erreur dans la récupération du classement OneGum, veuilez recharger la page. Code erreur : " + err;
             });
 
           }).catch(err => {
