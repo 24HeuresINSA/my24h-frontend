@@ -652,25 +652,25 @@
                     <b-col sm="2">
                       <b-card-text><strong>Classement oneGum : </strong></b-card-text>
                     </b-col>
-                      <b-col sm="4">
-                        <b-card-text>{{ records.max_time }} points par {{ records.max_time_username }}</b-card-text>
-                      </b-col>
-                      <b-col sm="2"></b-col>
-                    </b-row>
+                    <b-col sm="4">
+                      <b-card-text>{{ records.max_time }} points par {{ records.max_time_username }}</b-card-text>
+                    </b-col>
+                    <b-col sm="2"></b-col>
+                  </b-row>
 
-                    <b-row>
-                      <b-col sm="4"></b-col>
-                      <b-col sm="2">
-                        <b-card-text><strong>Classement TDR : </strong></b-card-text>
-                      </b-col>
-                      <b-col sm="4">
-                        <b-card-text>{{ records.max_elev_gain }} m cumulés par {{
-                            records.max_elev_gain_username
-                          }}
-                        </b-card-text>
-                      </b-col>
-                      <b-col sm="2"></b-col>
-                    </b-row>
+                  <b-row>
+                    <b-col sm="4"></b-col>
+                    <b-col sm="2">
+                      <b-card-text><strong>Classement TDR : </strong></b-card-text>
+                    </b-col>
+                    <b-col sm="4">
+                      <b-card-text>{{ records.max_elev_gain }} m cumulés par {{
+                          records.max_elev_gain_username
+                        }}
+                      </b-card-text>
+                    </b-col>
+                    <b-col sm="2"></b-col>
+                  </b-row>
 
                   <b-row>
                     <b-col><br><br></b-col>
@@ -800,7 +800,7 @@ export default {
       //TODO changer l'url de redirection si localhost
       checker.default.checkCredentials().then(resolve => {
         console.log(resolve);
-        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=https://my24h.24heures.org/&approval_prompt=auto&scope=activity:read';
+        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=http://localhost:8080/&approval_prompt=auto&scope=activity:read';
       }).catch(reject => {
         console.log(reject);
       })
@@ -882,7 +882,18 @@ export default {
         console.log(reject);
       })
 
-    }
+    },
+    secondsToHms(d) {
+      d = Number(d);
+      var h = Math.floor(d / 3600);
+      var m = Math.floor(d % 3600 / 60);
+      var s = Math.floor(d % 3600 % 60);
+
+      var hDisplay = h > 0 ? h + (h === 1 ? ":" : ":") : "";
+      var mDisplay = m > 0 ? m + (m === 1 ? ":" : ":") : "";
+      var sDisplay = s > 0 ? s + (s === 1 ? ":" : "") : "";
+      return hDisplay + mDisplay + sDisplay;
+    },
   },
   mounted() {
     checker.default.checkCredentials().then((resolve) => {
@@ -928,17 +939,17 @@ export default {
                     if (Object.keys(res.data).length === 2) {
                       this.duathlon = true;
                       this.team.max_distance = (res.data["Course à pied"].record_distance / 1000).toFixed(2);
-                      this.team.max_time = new Date(res.data["Course à pied"].record_time * 1000).toTimeString().substr(0, 8);
+                      this.team.max_time = this.secondsToHms(res.data["Course à pied"].record_time);
                       this.team.max_avg_speed = res.data["Course à pied"].record_avg_speed;
                       this.team.max_elev_gain = res.data["Course à pied"].record_elevation;
                       this.team.max_distance_duat_velo = (res.data["Course cycliste"].record_distance / 1000).toFixed(2);
-                      this.team.max_time_duat_velo = new Date(res.data["Course cycliste"].record_time * 1000).toTimeString().substr(0, 8)
+                      this.team.max_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].record_time);
                       this.team.max_avg_speed_duat_velo = res.data["Course cycliste"].record_avg_speed;
                       this.team.max_elev_gain_duat_velo = res.data["Course cycliste"].record_elevation;
                       this.team.total_points = ((res.data["Course à pied"].points + res.data["Course cycliste"].points) / 1000).toFixed(1);
                     } else {
                       this.team.max_distance = (res.data[this.team.type].record_distance / 1000).toFixed(2);
-                      this.team.max_time = new Date(res.data[this.team.type].record_time * 1000).toTimeString().substr(0, 8)
+                      this.team.max_time = this.secondsToHms(res.data[this.team.type].record_time);
                       this.team.max_avg_speed = res.data[this.team.type].record_avg_speed;
                       this.team.max_elev_gain = res.data[this.team.type].record_elevation;
                       this.team.total_points = (res.data[this.team.type].points / 1000).toFixed(1);
@@ -983,19 +994,20 @@ export default {
                 'Authorization': 'Bearer ' + localStorage.getItem('access')
               }
             }).then(res => {
+              console.log(res);
               if (Object.keys(res.data).length === 2) {
                 this.duathlon = true;
                 this.race.max_distance = (res.data["Course à pied"].record_distance / 1000).toFixed(2);
                 this.race.max_distance_duat_velo = (res.data["Course cycliste"].record_distance / 1000).toFixed(2);
-                this.race.max_time = new Date(res.data["Course à pied"].record_time * 1000).toTimeString().substr(0, 8);
-                this.race.max_time_duat_velo = new Date(res.data["Course cycliste"].record_time * 1000).toTimeString().substr(0, 8);
+                this.race.max_time = this.secondsToHms(res.data["Course à pied"].record_time);
+                this.race.max_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].record_time);
                 this.race.max_avg_speed = (res.data["Course à pied"].record_avg_speed / 1).toFixed(1);
                 this.race.max_avg_speed_duat_velo = (res.data["Course cycliste"].record_avg_speed / 1).toFixed(1);
                 this.race.max_elev_gain = res.data["Course à pied"].record_elevation;
                 this.race.max_elev_gain_duat_velo = res.data["Course cycliste"].record_elevation;
                 this.race.total_points = ((res.data["Course à pied"].points + res.data["Course cycliste"].points) / 1000).toFixed(1);
-                this.race.cumul_time = new Date(res.data["Course à pied"].total_time * 1000).toTimeString().substr(0, 8);
-                this.race.cumul_time_duat_velo = new Date(res.data["Course cycliste"].total_time * 1000).toTimeString().substr(0, 8)
+                this.race.cumul_time = this.secondsToHms(res.data["Course à pied"].total_time);
+                this.race.cumul_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].total_time);
                 this.race.cumul_distance = (res.data["Course à pied"].total_km / 1000).toFixed(2);
                 this.race.cumul_distance_duat_velo = (res.data["Course cycliste"].total_km / 1000).toFixed(2);
                 //this.race.avg_speed = res.data["Course à pied"].total_avg_speed;
@@ -1006,11 +1018,11 @@ export default {
 
               } else {
                 this.race.max_distance = (res.data[this.race.race_type].record_distance / 1000).toFixed(2);
-                this.race.max_time = new Date(res.data[this.race.race_type].record_time * 1000).toTimeString().substr(0, 8)
+                this.race.max_time = this.secondsToHms(res.data[this.race.race_type].record_time);
                 this.race.max_avg_speed = res.data[this.race.race_type].record_avg_speed;
                 this.race.max_elev_gain = res.data[this.race.race_type].record_elevation;
                 this.race.total_points = (res.data[this.race.race_type].points / 1000).toFixed(1);
-                this.race.cumul_time = new Date(res.data[this.race.race_type].total_time * 1000).toTimeString().substr(0, 8)
+                this.race.cumul_time = this.secondsToHms(res.data[this.race.race_type].total_time)
                 this.race.cumul_distance = (res.data[this.race.race_type].total_km / 1000).toFixed(2);
                 //this.race.avg_speed = res.data[this.race.race_type].total_avg_speed;
                 this.race.total_elev_gain = res.data[this.race.race_type].total_elevation;
