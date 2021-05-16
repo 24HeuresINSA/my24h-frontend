@@ -40,14 +40,20 @@
           </b-alert>
           <br>
 
-          <b-alert v-model="server_error" variant="danger"><strong>Erreur du serveur, les activités n'ont pas été
-            importées</strong><br> code :
+          <b-alert v-model="server_error" variant="danger"><strong>Erreur du serveur</strong><br> code :
             {{ serv_err_type }} <br> Si cette erreur persiste, contactez courses@24heures.org
           </b-alert>
           <br>
           <b-button class="buttons" variant="primary" to="/dashboard">Retour tableau de bord</b-button>
           <b-button class="buttons" variant="success" @click="onClick" :disabled="selected.length===0">Importer
           </b-button>
+          <br>
+          <br>
+
+          <p>Activités déjà importées et bien prises en compte par notre système</p>
+
+          <b-table striped hover :items="existant_list" :fields="existant_fields" responsive="true"
+                   sticky-header="true"></b-table>
           <br>
 
         </div>
@@ -82,6 +88,13 @@ export default {
         {key: 'time', label: "Temps", sortable: true},
         {key: 'elev_gain', label: "Dénivelé (m)", sortable: true}
       ],
+      existant_fields: [
+        {key: 'name', label: "Nom de l'activité", sortable: true},
+        {key: 'distance', label: "Distance (km)", sortable: true},
+        {key: 'positive_elevation_gain', label: "Dénivelé (m)", sortable: true},
+        {key: 'run_time', label: "Durée", sortable: true}
+      ],
+      existant_list: [],
       activity_list: [],
       selected: [],
       show_alert: true,
@@ -115,7 +128,7 @@ export default {
           }).catch(err => {
             console.log(err);
             this.server_error = true;
-            this.serv_err_type = err;
+            this.serv_err_type = "Impossible d'importer les activités sélectionnées, veuillez réessayer plus tard. Code erreur : " + err;
           })
         })
       }).catch(reject => {
@@ -143,7 +156,32 @@ export default {
             elev_gain: element.total_elevation_gain
           });
         })
-      })
+      }).catch(err => {
+        console.log(err);
+        this.serv_err_type = "Impossible de récupérer vos activités STRAVA, réessayez plus tard. Code erreur : " + err;
+        this.server_error = true;
+      });
+
+      axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/activities/', {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access')
+        }
+      }).then(res => {
+        console.log(res);
+        res.data.forEach(elem => {
+          this.existant_list.push({
+            name: elem.name,
+            distance: (elem.distance / 1000).toFixed(2),
+            run_time: elem.run_time,
+            positive_elevation_gain: elem.positive_elevation_gain
+          })
+        })
+      }).catch(err => {
+        console.log(err);
+        this.server_error = true;
+        this.serv_err_type = "Impossible de récupérer vos activités déjà importées depuis le serveur (elles ne sont pas perdues, pas d'inquiétudes), réessayez plus tard. Code erreur : " + err;
+      });
+
     }).catch(err => {
       console.log(err);
     });
