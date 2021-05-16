@@ -718,7 +718,7 @@ export default {
         address: "--",
         zip_code: "--",
         city: "--",
-        team_id: ""
+        team_id: null
       },
       race: {
         race_type: "--",
@@ -800,7 +800,7 @@ export default {
       //TODO changer l'url de redirection si localhost
       checker.default.checkCredentials().then(resolve => {
         console.log(resolve);
-        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=http://localhost:8080/&approval_prompt=auto&scope=activity:read';
+        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=https://my24h.24heures.org/&approval_prompt=auto&scope=activity:read';
       }).catch(reject => {
         console.log(reject);
       })
@@ -897,213 +897,222 @@ export default {
   },
   mounted() {
     checker.default.checkCredentials().then((resolve) => {
-      console.log(resolve);
-      axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
-          .then(results => {
-            this.profile.name = results.data.user.last_name;
-            this.profile.surname = results.data.user.first_name;
-            this.profile.address = results.data.address;
-            this.profile.zip_code = results.data.zip_code;
-            this.profile.city = results.data.city;
-            this.profile.phone = results.data.phone;
-            this.profile.email = results.data.user.email;
-            this.profile.birthdate = results.data.birthday;
-            this.race.race_id = results.data.race.id;
-            this.race.race_type = results.data.race.name;
-            if (results.data.team !== null) {
-              this.profile.team_id = results.data.team.id;
-            } else {
-              this.show_no_team = true;
-            }
-            console.log(results)
+          console.log(resolve);
+          axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+              .then(results => {
+                this.profile.name = results.data.user.last_name;
+                this.profile.surname = results.data.user.first_name;
+                this.profile.address = results.data.address;
+                this.profile.zip_code = results.data.zip_code;
+                this.profile.city = results.data.city;
+                this.profile.phone = results.data.phone;
+                this.profile.email = results.data.user.email;
+                this.profile.birthdate = results.data.birthday;
+                this.race.race_id = results.data.race.id;
+                this.race.race_type = results.data.race.name;
+                if (results.data.team !== null) {
+                  this.profile.team_id = results.data.team.id;
+                } else {
+                  this.show_no_team = true;
+                }
+                console.log(results)
 
-            if (results.data.strava_id === null) {
-              this.$router.push({name: "Strava"}); //on redirige vers la page strava si pas de strava_id
-            } else {
-              localStorage.setItem('stravaConnected', 'true');
-            }
+                if (results.data.strava_id === null) {
+                  this.$router.push({name: "Strava"}); //on redirige vers la page strava si pas de strava_id
+                } else {
+                  localStorage.setItem('stravaConnected', 'true');
+                }
 
-            axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/members/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
-                .then(res => {
-                  this.team.members = res.data.category.name;
-                  this.team.category_id = res.data.category.id;
-                  this.team.type_id = res.data.race.id;
-                  this.team.name = res.data.name;
-                  this.team.type = res.data.race.name;
+                axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/members/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+                    .then(res => {
+                      this.team.members = res.data.category.name;
+                      this.team.category_id = res.data.category.id;
+                      this.team.type_id = res.data.race.id;
+                      this.team.name = res.data.name;
+                      this.team.type = res.data.race.name;
 
-                  axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/stat/', {
-                    headers: {
-                      'Authorization': 'Bearer ' + localStorage.getItem('access')
-                    }
-                  }).then(res => {
+                      if (this.profile.team_id !== null) {
+                        axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/stat/', {
+                          headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('access')
+                          }
+                        }).then(res => {
+                          if (Object.keys(res.data).length !== 0) {
+                            if (Object.keys(res.data).length === 2) {
+                              this.duathlon = true;
+                              this.team.max_distance = (res.data["Course à pied"].record_distance / 1000).toFixed(2);
+                              this.team.max_time = this.secondsToHms(res.data["Course à pied"].record_time);
+                              this.team.max_avg_speed = res.data["Course à pied"].record_avg_speed;
+                              this.team.max_elev_gain = res.data["Course à pied"].record_elevation;
+                              this.team.max_distance_duat_velo = (res.data["Course cycliste"].record_distance / 1000).toFixed(2);
+                              this.team.max_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].record_time);
+                              this.team.max_avg_speed_duat_velo = res.data["Course cycliste"].record_avg_speed;
+                              this.team.max_elev_gain_duat_velo = res.data["Course cycliste"].record_elevation;
+                              this.team.total_points = ((res.data["Course à pied"].points + res.data["Course cycliste"].points) / 1000).toFixed(1);
+                            } else {
+                              this.team.max_distance = (res.data[this.team.type].record_distance / 1000).toFixed(2);
+                              this.team.max_time = this.secondsToHms(res.data[this.team.type].record_time);
+                              this.team.max_avg_speed = res.data[this.team.type].record_avg_speed;
+                              this.team.max_elev_gain = res.data[this.team.type].record_elevation;
+                              this.team.total_points = (res.data[this.team.type].points / 1000).toFixed(1);
+                            }
+                          }
+                        }).catch(err => {
+                          console.log(err);
+                          this.server_error = true;
+                          this.serv_err_type = "Impossible de récupérer les données équipes, veuillez recharger la page. Code erreur : " + err;
+                        });
+                      }
+
+                      var data_ranking_team = new URLSearchParams();
+                      data_ranking_team.append('race_id', this.team.type_id);
+                      data_ranking_team.append('category_id', this.team.category_id);
+
+                      axios.post(this.$baseUrl + '/api/teams/1/ranking/', data_ranking_team, {
+                        headers: {
+                          'Authorization': 'Bearer ' + localStorage.getItem('access')
+                        }
+                      }).then(res => {
+                        console.log(res);
+                        for (const [key, value] of Object.entries(res.data)) {
+                          if (value.team_id === this.profile.team_id) {
+                            this.team.rank = key;
+                          }
+                        }
+                        this.team.total_teams = Object.keys(res.data).length;
+
+                      }).catch(err => {
+                        console.log(err);
+                        this.server_error = true;
+                        this.serv_err_type = "Impossible de récupérer les données de classement équipes, veuillez recharger votre page. Code erreur : " + err;
+                      });
+
+                    }).catch(err => {
+                  console.log(err);
+                  this.server_error = true;
+                  this.serv_err_type = "Impossible de récupérer les données équipes, veuillez recharger la page. Code erreur : " + err;
+                });
+
+                axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/stat/', {
+                  headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access')
+                  }
+                }).then(res => {
+                  console.log(res);
+
+                  if (Object.keys(res.data).length !== 0) {
+
                     if (Object.keys(res.data).length === 2) {
                       this.duathlon = true;
-                      this.team.max_distance = (res.data["Course à pied"].record_distance / 1000).toFixed(2);
-                      this.team.max_time = this.secondsToHms(res.data["Course à pied"].record_time);
-                      this.team.max_avg_speed = res.data["Course à pied"].record_avg_speed;
-                      this.team.max_elev_gain = res.data["Course à pied"].record_elevation;
-                      this.team.max_distance_duat_velo = (res.data["Course cycliste"].record_distance / 1000).toFixed(2);
-                      this.team.max_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].record_time);
-                      this.team.max_avg_speed_duat_velo = res.data["Course cycliste"].record_avg_speed;
-                      this.team.max_elev_gain_duat_velo = res.data["Course cycliste"].record_elevation;
-                      this.team.total_points = ((res.data["Course à pied"].points + res.data["Course cycliste"].points) / 1000).toFixed(1);
+                      this.race.max_distance = (res.data["Course à pied"].record_distance / 1000).toFixed(2);
+                      this.race.max_distance_duat_velo = (res.data["Course cycliste"].record_distance / 1000).toFixed(2);
+                      this.race.max_time = this.secondsToHms(res.data["Course à pied"].record_time);
+                      this.race.max_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].record_time);
+                      this.race.max_avg_speed = (res.data["Course à pied"].record_avg_speed / 1).toFixed(1);
+                      this.race.max_avg_speed_duat_velo = (res.data["Course cycliste"].record_avg_speed / 1).toFixed(1);
+                      this.race.max_elev_gain = res.data["Course à pied"].record_elevation;
+                      this.race.max_elev_gain_duat_velo = res.data["Course cycliste"].record_elevation;
+                      this.race.total_points = ((res.data["Course à pied"].points + res.data["Course cycliste"].points) / 1000).toFixed(1);
+                      this.race.cumul_time = this.secondsToHms(res.data["Course à pied"].total_time);
+                      this.race.cumul_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].total_time);
+                      this.race.cumul_distance = (res.data["Course à pied"].total_km / 1000).toFixed(2);
+                      this.race.cumul_distance_duat_velo = (res.data["Course cycliste"].total_km / 1000).toFixed(2);
+                      //this.race.avg_speed = res.data["Course à pied"].total_avg_speed;
+                      //this.race.avg_speed_duat_velo = res.data["Course cycliste"].total_avg_speed;
+                      this.race.total_elev_gain = res.data["Course à pied"].total_elevation;
+                      this.race.total_elev_gain_duat_velo = res.data["Course cycliste"].total_elevation;
+                      this.race.activity_count = res.data["Course à pied"].nb_activities + res.data["Course cycliste"].nb_activities;
+
                     } else {
-                      this.team.max_distance = (res.data[this.team.type].record_distance / 1000).toFixed(2);
-                      this.team.max_time = this.secondsToHms(res.data[this.team.type].record_time);
-                      this.team.max_avg_speed = res.data[this.team.type].record_avg_speed;
-                      this.team.max_elev_gain = res.data[this.team.type].record_elevation;
-                      this.team.total_points = (res.data[this.team.type].points / 1000).toFixed(1);
+                      this.race.max_distance = (res.data[this.race.race_type].record_distance / 1000).toFixed(2);
+                      this.race.max_time = this.secondsToHms(res.data[this.race.race_type].record_time);
+                      this.race.max_avg_speed = res.data[this.race.race_type].record_avg_speed;
+                      this.race.max_elev_gain = res.data[this.race.race_type].record_elevation;
+                      this.race.total_points = (res.data[this.race.race_type].points / 1000).toFixed(1);
+                      this.race.cumul_time = this.secondsToHms(res.data[this.race.race_type].total_time)
+                      this.race.cumul_distance = (res.data[this.race.race_type].total_km / 1000).toFixed(2);
+                      //this.race.avg_speed = res.data[this.race.race_type].total_avg_speed;
+                      this.race.total_elev_gain = res.data[this.race.race_type].total_elevation;
+                      this.race.activity_count = res.data[this.race.race_type].nb_activities;
                     }
-                  }).catch(err => {
-                    console.log(err);
-                    this.server_error = true;
-                    this.serv_err_type = "Impossible de récupérer les données équipes, veuillez recharger la page. Code erreur : " + err;
-                  });
+                    var athlete_ranking = new URLSearchParams();
+                    athlete_ranking.append('race_id', this.race.race_id);
 
-                  var data_ranking_team = new URLSearchParams();
-                  data_ranking_team.append('race_id', this.team.type_id);
-                  data_ranking_team.append('category_id', this.team.category_id);
-
-                  axios.post(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/ranking/', data_ranking_team, {
-                    headers: {
-                      'Authorization': 'Bearer ' + localStorage.getItem('access')
-                    }
-                  }).then(res => {
-                    console.log(res);
-                    for (const [key, value] of Object.entries(res.data)) {
-                      if (value.team_id === this.profile.team_id) {
-                        this.team.rank = key;
+                    axios.post(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/ranking/', athlete_ranking, {
+                      headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access')
                       }
-                    }
-                    this.team.total_teams = Object.keys(res.data).length;
+                    }).then(res => {
+                      console.log(res);
+                      this.race.total_runners = Object.keys(res.data).length;
+                      for (const [key, value] of Object.entries(res.data)) {
+                        if (value.athlete_id === parseInt(localStorage.getItem('uid'))) {
+                          this.race.rank = key;
+                        }
+                      }
 
-                  }).catch(err => {
-                    console.log(err);
-                    this.server_error = true;
-                    this.serv_err_type = "Impossible de récupérer les données de classement équipes, veuillez recharger votre page. Code erreur : " + err;
-                  });
+                    }).catch(err => {
+                      console.log(err);
+                      this.server_error = true;
+                      this.serv_err_type = "Impossible de récupérer les données de classement coureur, veuillez recharger votre page. Code erreur : " + err;
+                    });
+                  }
+                });
 
+
+                axios.get(this.$baseUrl + '/api/races/' + this.race.race_id + '/challenge_elevation/', {
+                  headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access')
+                  }
+                }).then(res => {
+                  this.records.max_elev_gain = res.data.elevation_points;
+                  this.records.max_elev_gain_username = res.data.username;
                 }).catch(err => {
-              console.log(err);
-              this.server_error = true;
-              this.serv_err_type = "Impossible de récupérer les données équipes, veuillez recharger la page. Code erreur : " + err;
-            });
+                  console.log(err);
+                  this.server_error = true;
+                  this.serv_err_type = "Erreur dans la récupération du classement TDR, veuilez recharger la page. Code erreur : " + err;
+                });
 
-            axios.get(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/stat/', {
-              headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access')
-              }
-            }).then(res => {
-              console.log(res);
-              if (Object.keys(res.data).length === 2) {
-                this.duathlon = true;
-                this.race.max_distance = (res.data["Course à pied"].record_distance / 1000).toFixed(2);
-                this.race.max_distance_duat_velo = (res.data["Course cycliste"].record_distance / 1000).toFixed(2);
-                this.race.max_time = this.secondsToHms(res.data["Course à pied"].record_time);
-                this.race.max_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].record_time);
-                this.race.max_avg_speed = (res.data["Course à pied"].record_avg_speed / 1).toFixed(1);
-                this.race.max_avg_speed_duat_velo = (res.data["Course cycliste"].record_avg_speed / 1).toFixed(1);
-                this.race.max_elev_gain = res.data["Course à pied"].record_elevation;
-                this.race.max_elev_gain_duat_velo = res.data["Course cycliste"].record_elevation;
-                this.race.total_points = ((res.data["Course à pied"].points + res.data["Course cycliste"].points) / 1000).toFixed(1);
-                this.race.cumul_time = this.secondsToHms(res.data["Course à pied"].total_time);
-                this.race.cumul_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].total_time);
-                this.race.cumul_distance = (res.data["Course à pied"].total_km / 1000).toFixed(2);
-                this.race.cumul_distance_duat_velo = (res.data["Course cycliste"].total_km / 1000).toFixed(2);
-                //this.race.avg_speed = res.data["Course à pied"].total_avg_speed;
-                //this.race.avg_speed_duat_velo = res.data["Course cycliste"].total_avg_speed;
-                this.race.total_elev_gain = res.data["Course à pied"].total_elevation;
-                this.race.total_elev_gain_duat_velo = res.data["Course cycliste"].total_elevation;
-                this.race.activity_count = res.data["Course à pied"].nb_activities + res.data["Course cycliste"].nb_activities;
+                axios.get(this.$baseUrl + '/api/races/' + this.race.race_id + '/challenge_duration/', {
+                  headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access')
+                  }
+                }).then(res => {
+                  console.log(res);
+                  this.records.max_time = res.data.duration_points;
+                  this.records.max_time_username = res.data.username;
+                }).catch(err => {
+                  console.log(err);
+                  this.server_error = true;
+                  this.serv_err_type = "Erreur dans la récupération du classement OneGum, veuilez recharger la page. Code erreur : " + err;
+                });
 
-              } else {
-                this.race.max_distance = (res.data[this.race.race_type].record_distance / 1000).toFixed(2);
-                this.race.max_time = this.secondsToHms(res.data[this.race.race_type].record_time);
-                this.race.max_avg_speed = res.data[this.race.race_type].record_avg_speed;
-                this.race.max_elev_gain = res.data[this.race.race_type].record_elevation;
-                this.race.total_points = (res.data[this.race.race_type].points / 1000).toFixed(1);
-                this.race.cumul_time = this.secondsToHms(res.data[this.race.race_type].total_time)
-                this.race.cumul_distance = (res.data[this.race.race_type].total_km / 1000).toFixed(2);
-                //this.race.avg_speed = res.data[this.race.race_type].total_avg_speed;
-                this.race.total_elev_gain = res.data[this.race.race_type].total_elevation;
-                this.race.activity_count = res.data[this.race.race_type].nb_activities;
-              }
-            })
+                axios.get(this.$baseUrl + '/api/categories/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
+                    .then(response => {
+                      response.data.results.forEach(element => (this.all_categories.push({
+                        value: element.id,
+                        text: element.name
+                      })))
+                    }).catch(err => {
+                  this.show_alert = true;
+                  this.message = "Impossible de récupérer les données du serveur, contactez courses@24heures.org | code : " + err;
+                });
 
-            var athlete_ranking = new URLSearchParams();
-            athlete_ranking.append('race_id', this.race.race_id);
-
-            axios.post(this.$baseUrl + '/api/athletes/' + localStorage.getItem('uid') + '/ranking/', athlete_ranking, {
-              headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access')
-              }
-            }).then(res => {
-              console.log(res);
-              this.race.total_runners = Object.keys(res.data).length;
-              for (const [key, value] of Object.entries(res.data)) {
-                if (value.athlete_id === parseInt(localStorage.getItem('uid'))) {
-                  this.race.rank = key;
-                }
-              }
-
-            }).catch(err => {
-              console.log(err);
-              this.server_error = true;
-              this.serv_err_type = "Impossible de récupérer les données de classement équipes, veuillez recharger votre page. Code erreur : " + err;
-            });
-
-            axios.get(this.$baseUrl + '/api/races/' + this.race.race_id + '/challenge_elevation/', {
-              headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access')
-              }
-            }).then(res => {
-              this.records.max_elev_gain = res.data.elevation_points;
-              this.records.max_elev_gain_username = res.data.username;
-            }).catch(err => {
-              console.log(err);
-              this.server_error = true;
-              this.serv_err_type = "Erreur dans la récupération du classement TDR, veuilez recharger la page. Code erreur : " + err;
-            });
-
-            axios.get(this.$baseUrl + '/api/races/' + this.race.race_id + '/challenge_duration/', {
-              headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('access')
-              }
-            }).then(res => {
-              console.log(res);
-              this.records.max_time = res.data.duration_points;
-              this.records.max_time_username = res.data.username;
-            }).catch(err => {
-              console.log(err);
-              this.server_error = true;
-              this.serv_err_type = "Erreur dans la récupération du classement OneGum, veuilez recharger la page. Code erreur : " + err;
-            });
-
-            axios.get(this.$baseUrl + '/api/categories/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
-                .then(response => {
-                  response.data.results.forEach(element => (this.all_categories.push({
+                axios.get(this.$baseUrl + '/api/races/').then(response => {
+                  response.data.results.forEach(element => (this.all_races.push({
                     value: element.id,
                     text: element.name
-                  })))
-                }).catch(err => {
-              this.show_alert = true;
-              this.message = "Impossible de récupérer les données du serveur, contactez courses@24heures.org | code : " + err;
-            });
+                  })));
+                  console.log(response);
+                }).catch(error => console.log(error));
 
-            axios.get(this.$baseUrl + '/api/races/').then(response => {
-              response.data.results.forEach(element => (this.all_races.push({
-                value: element.id,
-                text: element.name
-              })));
-              console.log(response);
-            }).catch(error => console.log(error));
+              }).catch(err => {
+            this.server_error = true;
+            this.serv_err_type = "Impossible de récupérer les données coureur, veuillez recharger la page. Code erreur : " + err;
+          });
 
-          }).catch(err => {
-        this.server_error = true;
-        this.serv_err_type = "Impossible de récupérer les données coureur, veuillez recharger la page. Code erreur : " + err;
-      });
-
-    }).catch(err => {
+        }
+    ).catch(err => {
       this.server_error = true;
       this.serv_err_type = err;
     });
