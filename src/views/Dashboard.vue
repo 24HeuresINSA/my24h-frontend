@@ -742,7 +742,8 @@ export default {
         activity_count: null,
         total_points: null,
         rank: null,
-        total_runners: null
+        total_runners: null,
+        discipline_name: ""
       },
       team: {
         name: "",
@@ -934,9 +935,14 @@ export default {
                       .then(res => {
                         this.team.members = res.data.category.name;
                         this.team.category_id = res.data.category.id;
-                        this.team.type_id = res.data.race.id;
+                        this.team.type_id = res.data.team.race.id;
                         this.team.name = res.data.name;
-                        this.team.type = res.data.race.name;
+
+                        if (res.data.team.race.name !== 'Vélo') {
+                          this.team.type = res.data.team.race.name;
+                        } else {
+                          this.team.type = 'Vélo';
+                        }
 
                         if (this.profile.team_id !== null) {
                           axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/stat/', {
@@ -951,11 +957,11 @@ export default {
                                 this.team.max_time = this.secondsToHms(res.data["Course à pied"].record_time);
                                 this.team.max_avg_speed = res.data["Course à pied"].record_avg_speed;
                                 this.team.max_elev_gain = res.data["Course à pied"].record_elevation;
-                                this.team.max_distance_duat_velo = (res.data["Course cycliste"].record_distance / 1000).toFixed(2);
-                                this.team.max_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].record_time);
-                                this.team.max_avg_speed_duat_velo = res.data["Course cycliste"].record_avg_speed;
-                                this.team.max_elev_gain_duat_velo = res.data["Course cycliste"].record_elevation;
-                                this.team.total_points = ((res.data["Course à pied"].points + res.data["Course cycliste"].points) / 1000).toFixed(1);
+                                this.team.max_distance_duat_velo = (res.data["Vélo"].record_distance / 1000).toFixed(2);
+                                this.team.max_time_duat_velo = this.secondsToHms(res.data["Vélo"].record_time);
+                                this.team.max_avg_speed_duat_velo = res.data["Vélo"].record_avg_speed;
+                                this.team.max_elev_gain_duat_velo = res.data["Vélo"].record_elevation;
+                                this.team.total_points = ((res.data["Course à pied"].points + res.data["Vélo"].points) / 1000).toFixed(1);
                               } else {
                                 this.team.max_distance = (res.data[this.team.type].record_distance / 1000).toFixed(2);
                                 this.team.max_time = this.secondsToHms(res.data[this.team.type].record_time);
@@ -1013,23 +1019,23 @@ export default {
                     if (Object.keys(res.data).length === 2) {
                       this.duathlon = true;
                       this.race.max_distance = (res.data["Course à pied"].record_distance / 1000).toFixed(2);
-                      this.race.max_distance_duat_velo = (res.data["Course cycliste"].record_distance / 1000).toFixed(2);
+                      this.race.max_distance_duat_velo = (res.data["Vélo"].record_distance / 1000).toFixed(2);
                       this.race.max_time = this.secondsToHms(res.data["Course à pied"].record_time);
-                      this.race.max_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].record_time);
+                      this.race.max_time_duat_velo = this.secondsToHms(res.data["Vélo"].record_time);
                       this.race.max_avg_speed = (res.data["Course à pied"].record_avg_speed / 1).toFixed(1);
-                      this.race.max_avg_speed_duat_velo = (res.data["Course cycliste"].record_avg_speed / 1).toFixed(1);
+                      this.race.max_avg_speed_duat_velo = (res.data["Vélo"].record_avg_speed / 1).toFixed(1);
                       this.race.max_elev_gain = res.data["Course à pied"].record_elevation;
-                      this.race.max_elev_gain_duat_velo = res.data["Course cycliste"].record_elevation;
-                      this.race.total_points = ((res.data["Course à pied"].points + res.data["Course cycliste"].points) / 1000).toFixed(1);
+                      this.race.max_elev_gain_duat_velo = res.data["Vélo"].record_elevation;
+                      this.race.total_points = ((res.data["Course à pied"].points + res.data["Vélo"].points) / 1000).toFixed(1);
                       this.race.cumul_time = this.secondsToHms(res.data["Course à pied"].total_time);
-                      this.race.cumul_time_duat_velo = this.secondsToHms(res.data["Course cycliste"].total_time);
+                      this.race.cumul_time_duat_velo = this.secondsToHms(res.data["Vélo"].total_time);
                       this.race.cumul_distance = (res.data["Course à pied"].total_km / 1000).toFixed(2);
-                      this.race.cumul_distance_duat_velo = (res.data["Course cycliste"].total_km / 1000).toFixed(2);
+                      this.race.cumul_distance_duat_velo = (res.data["Vélo"].total_km / 1000).toFixed(2);
                       //this.race.avg_speed = res.data["Course à pied"].total_avg_speed;
-                      //this.race.avg_speed_duat_velo = res.data["Course cycliste"].total_avg_speed;
+                      //this.race.avg_speed_duat_velo = res.data["Vélo"].total_avg_speed;
                       this.race.total_elev_gain = res.data["Course à pied"].total_elevation;
-                      this.race.total_elev_gain_duat_velo = res.data["Course cycliste"].total_elevation;
-                      this.race.activity_count = res.data["Course à pied"].nb_activities + res.data["Course cycliste"].nb_activities;
+                      this.race.total_elev_gain_duat_velo = res.data["Vélo"].total_elevation;
+                      this.race.activity_count = res.data["Course à pied"].nb_activities + res.data["Vélo"].nb_activities;
 
                     } else {
                       this.race.max_distance = (res.data[this.race.race_type].record_distance / 1000).toFixed(2);
