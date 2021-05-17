@@ -909,19 +909,23 @@ export default {
                 this.profile.phone = results.data.phone;
                 this.profile.email = results.data.user.email;
                 this.profile.birthdate = results.data.birthday;
+
                 if (results.data.team === null) {
+                  this.show_no_team = true;
                   this.race.race_id = results.data.race.id;
                   this.race.race_type = results.data.race.name;
                 } else {
+                  this.profile.team_id = results.data.team.id;
                   this.race.race_id = results.data.team.race.id;
                   this.race.race_type = results.data.team.race.name;
                 }
 
-                if (results.data.team !== null) {
-                  this.profile.team_id = results.data.team.id;
+                if (results.data.team.race.name !== 'Vélo') {
+                  this.team.type = results.data.team.race.name;
                 } else {
-                  this.show_no_team = true;
+                  this.team.type = 'Vélo';
                 }
+
                 console.log(results)
 
                 if (results.data.strava_id === null) {
@@ -935,14 +939,8 @@ export default {
                       .then(res => {
                         this.team.members = res.data.category.name;
                         this.team.category_id = res.data.category.id;
-                        this.team.type_id = res.data.team.race.id;
+                        this.team.type_id = this.race.race_id;
                         this.team.name = res.data.name;
-
-                        if (res.data.team.race.name !== 'Vélo') {
-                          this.team.type = res.data.team.race.name;
-                        } else {
-                          this.team.type = 'Vélo';
-                        }
 
                         if (this.profile.team_id !== null) {
                           axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/stat/', {
