@@ -24,7 +24,7 @@ export default {
 
                         var data_to_send = new URLSearchParams()
                         data_to_send.append('refresh', refresh_token);
-                        axios.post('http://localhost:8080/api/token/refresh/', data_to_send, {headers: {'content-type': 'application/x-www-form-urlencoded'}}) //TODO changer l'url de base !!
+                        axios.post('https://www.24heures.org/My24h/api/token/refresh/', data_to_send, {headers: {'content-type': 'application/x-www-form-urlencoded'}}) //TODO changer l'url de base !!
                             .then(response => {
                                 resolve('refresh complete !');
                                 localStorage.setItem('refresh', response.data.refresh);

@@ -676,6 +676,15 @@
                     <b-col><br><br></b-col>
                   </b-row>
 
+                  <b-row>
+                    <b-col><p><strong>Rappel :</strong> 1km en course à pied vaut 3 points, 1km en vélo vaut 1 point.
+                    </p></b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col><br><br></b-col>
+                  </b-row>
+
                 </b-container>
 
                 <b-table striped hover :items="ranking_list" :fields="ranking_fields" responsive="true"
@@ -801,7 +810,7 @@ export default {
       //TODO changer l'url de redirection si localhost
       checker.default.checkCredentials().then(resolve => {
         console.log(resolve);
-        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=http://localhost:8080/&approval_prompt=auto&scope=activity:read';
+        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=https://my24h.24heures.org/&approval_prompt=auto&scope=activity:read';
       }).catch(reject => {
         console.log(reject);
       })
