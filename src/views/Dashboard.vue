@@ -436,7 +436,7 @@
                       <b-card-text><strong>Type : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{ team.type }}</b-card-text>
+                      <b-card-text>{{ race.race_type }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -940,12 +940,6 @@ export default {
 
                 }
 
-                if (results.data.team.race.name !== 'Course cycliste') {
-                  this.team.type = results.data.team.race.name;
-                } else {
-                  this.team.type = 'Vélo';
-                }
-
                 console.log(results)
 
                 if (results.data.strava_id === null) {
@@ -981,14 +975,14 @@ export default {
                                 this.team.max_elev_gain_duat_velo = res.data["Vélo"].record_elevation;
                                 this.team.total_points = ((res.data["Course à pied"].points + res.data["Vélo"].points) / 1000).toFixed(1);
                               } else {
-                                console.log(res.data);
-                                console.log(this.team.type);
-                                console.log(res.data[this.team.type]);
-                                this.team.max_distance = (res.data[this.team.type].record_distance / 1000).toFixed(2);
-                                this.team.max_time = this.secondsToHms(res.data[this.team.type].record_time);
-                                this.team.max_avg_speed = res.data[this.team.type].record_avg_speed;
-                                this.team.max_elev_gain = res.data[this.team.type].record_elevation;
-                                this.team.total_points = (res.data[this.team.type].points / 1000).toFixed(1);
+                                console.log(this.race.race_type);
+                                console.log(this.race.race_type);
+                                console.log(res.data[this.race.race_type]);
+                                this.team.max_distance = (res.data[this.race.race_type].record_distance / 1000).toFixed(2);
+                                this.team.max_time = this.secondsToHms(res.data[this.race.race_type].record_time);
+                                this.team.max_avg_speed = res.data[this.race.race_type].record_avg_speed;
+                                this.team.max_elev_gain = res.data[this.race.race_type].record_elevation;
+                                this.team.total_points = (res.data[this.race.race_type].points / 1000).toFixed(1);
                               }
                             }
                           }).catch(err => {
@@ -999,7 +993,7 @@ export default {
                         }
 
                         var data_ranking_team = new URLSearchParams();
-                        data_ranking_team.append('race_id', this.team.type_id);
+                        data_ranking_team.append('race_id', this.race.race_id);
                         data_ranking_team.append('category_id', this.team.category_id);
 
                         axios.post(this.$baseUrl + '/api/teams/1/ranking/', data_ranking_team, {
