@@ -861,7 +861,7 @@ export default {
           rank_to_claim.append('race_id', this.selected_race);
           rank_to_claim.append('category_id', this.selected_category);
 
-          axios.post(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/ranking/', rank_to_claim, {
+          axios.post(this.$baseUrl + '/api/teams/1/ranking/', rank_to_claim, {
             headers: {
               'Authorization': 'Bearer ' + localStorage.getItem('access'),
               'content-type': 'application/x-www-form-urlencoded'
@@ -959,13 +959,13 @@ export default {
                                 this.team.max_time_duat_velo = this.secondsToHms(res.data["Vélo"].record_time);
                                 this.team.max_avg_speed_duat_velo = res.data["Vélo"].record_avg_speed;
                                 this.team.max_elev_gain_duat_velo = res.data["Vélo"].record_elevation;
-                                this.team.total_points = ((res.data["Course à pied"].points + res.data["Vélo"].points) / 1000).toFixed(1);
+                                //this.team.total_points = ((res.data["Course à pied"].points + res.data["Vélo"].points) / 1000).toFixed(1);
                               } else {
                                 this.team.max_distance = (res.data[this.team.type].record_distance / 1000).toFixed(2);
                                 this.team.max_time = this.secondsToHms(res.data[this.team.type].record_time);
                                 this.team.max_avg_speed = res.data[this.team.type].record_avg_speed;
                                 this.team.max_elev_gain = res.data[this.team.type].record_elevation;
-                                this.team.total_points = (res.data[this.team.type].points / 1000).toFixed(1);
+                                //this.team.total_points = (res.data[this.team.type].points / 1000).toFixed(1);
                               }
                             }
                           }).catch(err => {
@@ -988,6 +988,7 @@ export default {
                           for (const [key, value] of Object.entries(res.data)) {
                             if (value.team_id === this.profile.team_id) {
                               this.team.rank = key;
+                              this.team.total_points = (value.total_points / 1000).toFixed(1);
                             }
                           }
                           this.team.total_teams = Object.keys(res.data).length;
@@ -1024,7 +1025,7 @@ export default {
                       this.race.max_avg_speed_duat_velo = (res.data["Vélo"].record_avg_speed / 1).toFixed(1);
                       this.race.max_elev_gain = res.data["Course à pied"].record_elevation;
                       this.race.max_elev_gain_duat_velo = res.data["Vélo"].record_elevation;
-                      this.race.total_points = ((res.data["Course à pied"].points + res.data["Vélo"].points) / 1000).toFixed(1);
+                      //this.race.total_points = ((res.data["Course à pied"].points + res.data["Vélo"].points) / 1000).toFixed(1);
                       this.race.cumul_time = this.secondsToHms(res.data["Course à pied"].total_time);
                       this.race.cumul_time_duat_velo = this.secondsToHms(res.data["Vélo"].total_time);
                       this.race.cumul_distance = (res.data["Course à pied"].total_km / 1000).toFixed(2);
@@ -1040,7 +1041,7 @@ export default {
                       this.race.max_time = this.secondsToHms(res.data[this.race.race_type].record_time);
                       this.race.max_avg_speed = res.data[this.race.race_type].record_avg_speed;
                       this.race.max_elev_gain = res.data[this.race.race_type].record_elevation;
-                      this.race.total_points = (res.data[this.race.race_type].points / 1000).toFixed(1);
+                      //this.race.total_points = (res.data[this.race.race_type].points / 1000).toFixed(1);
                       this.race.cumul_time = this.secondsToHms(res.data[this.race.race_type].total_time)
                       this.race.cumul_distance = (res.data[this.race.race_type].total_km / 1000).toFixed(2);
                       //this.race.avg_speed = res.data[this.race.race_type].total_avg_speed;
@@ -1060,6 +1061,7 @@ export default {
                       for (const [key, value] of Object.entries(res.data)) {
                         if (value.athlete_id === parseInt(localStorage.getItem('uid'))) {
                           this.race.rank = key;
+                          this.race.total_points = (value.total_points / 1000).toFixed(1);
                         }
                       }
 
