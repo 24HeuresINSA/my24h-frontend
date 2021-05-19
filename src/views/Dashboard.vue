@@ -436,7 +436,7 @@
                       <b-card-text><strong>Type : </strong></b-card-text>
                     </b-col>
                     <b-col sm="4">
-                      <b-card-text>{{ team.type }}</b-card-text>
+                      <b-card-text>{{ race.race_type }}</b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
                   </b-row>
@@ -670,6 +670,15 @@
                       </b-card-text>
                     </b-col>
                     <b-col sm="2"></b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col><br><br></b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col><p><strong>Rappel :</strong> 1km en course à pied vaut 3 points, 1km en vélo vaut 1 point.
+                    </p></b-col>
                   </b-row>
 
                   <b-row>
@@ -910,20 +919,25 @@ export default {
                 this.profile.email = results.data.user.email;
                 this.profile.birthdate = results.data.birthday;
 
-                if (results.data.team === null) {
+                if (results.data.team === null) { //c'est vrmt nul à chier ce code mais flemme
                   this.show_no_team = true;
                   this.race.race_id = results.data.race.id;
-                  this.race.race_type = results.data.race.name;
+
+                  if (results.data.race.name !== 'Course cycliste') {
+                    this.race.race_type = results.data.race.name;
+                  } else {
+                    this.race.race_type = 'Vélo';
+                  }
+
                 } else {
                   this.profile.team_id = results.data.team.id;
                   this.race.race_id = results.data.team.race.id;
-                  this.race.race_type = results.data.team.race.name;
-                }
+                  if (results.data.team.race.name !== 'Course cycliste') {
+                    this.race.race_type = results.data.team.race.name;
+                  } else {
+                    this.race.race_type = 'Vélo';
+                  }
 
-                if (results.data.team.race.name !== 'Vélo') {
-                  this.team.type = results.data.team.race.name;
-                } else {
-                  this.team.type = 'Vélo';
                 }
 
                 console.log(results)
@@ -961,11 +975,14 @@ export default {
                                 this.team.max_elev_gain_duat_velo = res.data["Vélo"].record_elevation;
                                 //this.team.total_points = ((res.data["Course à pied"].points + res.data["Vélo"].points) / 1000).toFixed(1);
                               } else {
-                                this.team.max_distance = (res.data[this.team.type].record_distance / 1000).toFixed(2);
-                                this.team.max_time = this.secondsToHms(res.data[this.team.type].record_time);
-                                this.team.max_avg_speed = res.data[this.team.type].record_avg_speed;
-                                this.team.max_elev_gain = res.data[this.team.type].record_elevation;
-                                //this.team.total_points = (res.data[this.team.type].points / 1000).toFixed(1);
+                                console.log(this.race.race_type);
+                                console.log(this.race.race_type);
+                                console.log(res.data[this.race.race_type]);
+                                this.team.max_distance = (res.data[this.race.race_type].record_distance / 1000).toFixed(2);
+                                this.team.max_time = this.secondsToHms(res.data[this.race.race_type].record_time);
+                                this.team.max_avg_speed = res.data[this.race.race_type].record_avg_speed;
+                                this.team.max_elev_gain = res.data[this.race.race_type].record_elevation;
+                                //this.team.total_points = (res.data[this.race.race_type].points / 1000).toFixed(1);
                               }
                             }
                           }).catch(err => {
@@ -976,7 +993,7 @@ export default {
                         }
 
                         var data_ranking_team = new URLSearchParams();
-                        data_ranking_team.append('race_id', this.team.type_id);
+                        data_ranking_team.append('race_id', this.race.race_id);
                         data_ranking_team.append('category_id', this.team.category_id);
 
                         axios.post(this.$baseUrl + '/api/teams/1/ranking/', data_ranking_team, {
@@ -1017,6 +1034,7 @@ export default {
 
                     if (Object.keys(res.data).length === 2) {
                       this.duathlon = true;
+                      console.log(res.data);
                       this.race.max_distance = (res.data["Course à pied"].record_distance / 1000).toFixed(2);
                       this.race.max_distance_duat_velo = (res.data["Vélo"].record_distance / 1000).toFixed(2);
                       this.race.max_time = this.secondsToHms(res.data["Course à pied"].record_time);
