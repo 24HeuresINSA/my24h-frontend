@@ -647,29 +647,39 @@
                     <b-col><br><br></b-col>
                   </b-row>
 
-                  <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Classement oneGum : </strong></b-card-text>
-                    </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ records.max_time }} points par {{ records.max_time_username }}</b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
-                  </b-row>
+                  <!--                  <b-row>-->
+                  <!--                    <b-col sm="4"></b-col>-->
+                  <!--                    <b-col sm="2">-->
+                  <!--                      <b-card-text><strong>Classement oneGum : </strong></b-card-text>-->
+                  <!--                    </b-col>-->
+                  <!--                    <b-col sm="4">-->
+                  <!--                      <b-card-text>{{ records.max_time }} points par {{ records.max_time_username }}</b-card-text>-->
+                  <!--                    </b-col>-->
+                  <!--                    <b-col sm="2"></b-col>-->
+                  <!--                  </b-row>-->
+
+                  <!--                  <b-row>-->
+                  <!--                    <b-col sm="4"></b-col>-->
+                  <!--                    <b-col sm="2">-->
+                  <!--                      <b-card-text><strong>Classement TDR : </strong></b-card-text>-->
+                  <!--                    </b-col>-->
+                  <!--                    <b-col sm="4">-->
+                  <!--                      <b-card-text>{{ records.max_elev_gain }} m cumulés par {{-->
+                  <!--                          records.max_elev_gain_username-->
+                  <!--                        }}-->
+                  <!--                      </b-card-text>-->
+                  <!--                    </b-col>-->
+                  <!--                    <b-col sm="2"></b-col>-->
+                  <!--                  </b-row>-->
 
                   <b-row>
-                    <b-col sm="4"></b-col>
-                    <b-col sm="2">
-                      <b-card-text><strong>Classement TDR : </strong></b-card-text>
+                    <b-col align="center">
+                      <b-button class="buttons" variant="outline-primary" @click="showOneGum">Afficher le classement
+                        OneGum
+                      </b-button>
+                      <b-button class="buttons" variant="outline-danger" @click="showTDR">Afficher le classement TDR
+                      </b-button>
                     </b-col>
-                    <b-col sm="4">
-                      <b-card-text>{{ records.max_elev_gain }} m cumulés par {{
-                          records.max_elev_gain_username
-                        }}
-                      </b-card-text>
-                    </b-col>
-                    <b-col sm="2"></b-col>
                   </b-row>
 
                   <b-row>
@@ -677,7 +687,8 @@
                   </b-row>
 
                   <b-row>
-                    <b-col><p><strong>Rappel :</strong> 1km en course à pied vaut 3 points, 1km en vélo vaut 1 point.
+                    <b-col align="center"><p><strong>Rappel :</strong> 1km en course à pied vaut 3 points, 1km en vélo
+                      vaut 1 point.
                     </p></b-col>
                   </b-row>
 
@@ -810,7 +821,7 @@ export default {
       //TODO changer l'url de redirection si localhost
       checker.default.checkCredentials().then(resolve => {
         console.log(resolve);
-        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=https://my24h.24heures.org/&approval_prompt=auto&scope=activity:read';
+        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=http://localhost:8080/&approval_prompt=auto&scope=activity:read';
       }).catch(reject => {
         console.log(reject);
       })
@@ -904,6 +915,57 @@ export default {
       var sDisplay = s > 0 ? s + (s === 1 ? ":" : "") : "";
       return hDisplay + mDisplay + sDisplay;
     },
+    showOneGum(event) {
+      event.preventDefault();
+
+      this.ranking_list = [];
+
+      axios.get(this.$baseUrl + '/api/races/' + this.race.race_id + '/challenge_duration/', {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access')
+        }
+      }).then(res => {
+
+        for (const [key, value] of Object.entries(res.data)) {
+          this.ranking_list.push({
+            rank: key,
+            name: value.username,
+            total_points: (value.max_duration).toFixed(1)
+          });
+        }
+
+      }).catch(err => {
+        console.log(err);
+        this.server_error = true;
+        this.serv_err_type = "Erreur dans la récupération du classement OneGum, veuilez recharger la page. Code erreur : " + err;
+      });
+
+    },
+    showTDR(event) {
+      event.preventDefault();
+
+      this.ranking_list = [];
+
+      axios.get(this.$baseUrl + '/api/races/' + this.race.race_id + '/challenge_elevation/', {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access')
+        }
+      }).then(res => {
+
+        for (const [key, value] of Object.entries(res.data)) {
+          this.ranking_list.push({
+            rank: key,
+            name: value.username,
+            total_points: (value.total_elevation).toFixed(1)
+          });
+        }
+
+      }).catch(err => {
+        console.log(err);
+        this.server_error = true;
+        this.serv_err_type = "Erreur dans la récupération du classement TDR, veuilez recharger la page. Code erreur : " + err;
+      });
+    }
   },
   mounted() {
     checker.default.checkCredentials().then((resolve) => {
@@ -1091,33 +1153,6 @@ export default {
                   }
                 });
 
-
-                axios.get(this.$baseUrl + '/api/races/' + this.race.race_id + '/challenge_elevation/', {
-                  headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access')
-                  }
-                }).then(res => {
-                  this.records.max_elev_gain = res.data.elevation_points;
-                  this.records.max_elev_gain_username = res.data.username;
-                }).catch(err => {
-                  console.log(err);
-                  this.server_error = true;
-                  this.serv_err_type = "Erreur dans la récupération du classement TDR, veuilez recharger la page. Code erreur : " + err;
-                });
-
-                axios.get(this.$baseUrl + '/api/races/' + this.race.race_id + '/challenge_duration/', {
-                  headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access')
-                  }
-                }).then(res => {
-                  console.log(res);
-                  this.records.max_time = res.data.duration_points;
-                  this.records.max_time_username = res.data.username;
-                }).catch(err => {
-                  console.log(err);
-                  this.server_error = true;
-                  this.serv_err_type = "Erreur dans la récupération du classement OneGum, veuilez recharger la page. Code erreur : " + err;
-                });
 
                 axios.get(this.$baseUrl + '/api/categories/', {headers: {'Authorization': 'Bearer ' + localStorage.getItem('access')}})
                     .then(response => {
