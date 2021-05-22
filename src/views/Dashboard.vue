@@ -11,17 +11,18 @@
           <p style="text-align: center">Bienvenue sur votre tableau de bord ! Ici, vous pourrez accéder à votre profil,
             voir votre classement, ajouter une activité et bien plus encore !</p>
           <br>
-          <br>
 
           <b-alert v-model="server_error" variant="danger"><strong>Erreur du serveur</strong><br> code :
             {{ serv_err_type }} <br> Si cette erreur persiste, contactez courses@24heures.org
           </b-alert>
           <br>
-          <b-alert variant="info" show>Merci de vous être inscrit à nos courses ! La plate-forme est maintenant
-            pleinement fonctionnelle.
-            Pour importer une activité, allez dans Ma course, puis ajouter une activité. Vous avez jusqu'au <strong>dimanche
-              23 mai 14h</strong>
-            pour importer vos activités Strava. En cas de problème, contactez courses@24heures.org. Bon courage à tous !
+          <b-alert variant="info" show>Les courses de cette 46e édition touchent à leur fin. Vous avez jusqu'au <strong>dimanche
+            23 mai 14h</strong>
+            pour importer vos activités Strava. Retrouvez en direct l'annonce des résultats sur notre webTV à 17h15
+            dimanche:
+            <b-link href="https://shotgun.live/fr/streams/292582">
+              <strong>https://shotgun.live/fr/streams/292582</strong></b-link>
+            En cas de problème, contactez courses@24heures.org. Bon courage à tous !
           </b-alert>
           <br>
 
@@ -472,10 +473,21 @@
                     <b-row>
                       <b-col sm="4"></b-col>
                       <b-col sm="2">
-                        <b-card-text><strong>Record temps cumulé: </strong></b-card-text>
+                        <b-card-text><strong>Record temps: </strong></b-card-text>
                       </b-col>
                       <b-col sm="4">
                         <b-card-text>{{ team.max_time }}</b-card-text>
+                      </b-col>
+                      <b-col sm="2"></b-col>
+                    </b-row>
+
+                    <b-row>
+                      <b-col sm="4"></b-col>
+                      <b-col sm="2">
+                        <b-card-text><strong>Temps cumulé équipe: </strong></b-card-text>
+                      </b-col>
+                      <b-col sm="4">
+                        <b-card-text>{{ team.cumul_time }} / 24:00:00</b-card-text>
                       </b-col>
                       <b-col sm="2"></b-col>
                     </b-row>
@@ -777,6 +789,7 @@ export default {
         max_distance: "--",
         max_distance_duat_velo: "--",
         max_time: "--",
+        cumul_time: "--",
         max_time_duat_velo: "--",
         max_points: "--",
         total_points: "--",
@@ -821,7 +834,7 @@ export default {
       //TODO changer l'url de redirection si localhost
       checker.default.checkCredentials().then(resolve => {
         console.log(resolve);
-        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=http://localhost:8080/&approval_prompt=auto&scope=activity:read';
+        window.location = 'https://www.strava.com/oauth/authorize?client_id=64981&response_type=code&redirect_uri=https://my24h.24heures.org/&approval_prompt=auto&scope=activity:read';
       }).catch(reject => {
         console.log(reject);
       })
@@ -1019,6 +1032,19 @@ export default {
                         this.team.name = res.data.name;
 
                         if (this.profile.team_id !== null) {
+
+                          axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/total_time/', {
+                            headers: {
+                              'Authorization': 'Bearer ' + localStorage.getItem('access')
+                            }
+                          }).then(res => {
+                            this.team.cumul_time = this.secondsToHms(res.data.total_time);
+                          }).catch(err => {
+                            console.log(err);
+                            this.server_error = true;
+                            this.serv_err_type = "Impossible de récupérer le temps cumulé équipe, veuillez réessayer. Code erreur : " + err;
+                          });
+
                           axios.get(this.$baseUrl + '/api/teams/' + this.profile.team_id + '/stat/', {
                             headers: {
                               'Authorization': 'Bearer ' + localStorage.getItem('access')
