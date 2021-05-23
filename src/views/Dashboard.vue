@@ -16,9 +16,8 @@
             {{ serv_err_type }} <br> Si cette erreur persiste, contactez courses@24heures.org
           </b-alert>
           <br>
-          <b-alert variant="info" show>Les courses de cette 46e édition touchent à leur fin. Vous avez jusqu'au <strong>dimanche
-            23 mai 14h</strong>
-            pour importer vos activités Strava. Retrouvez en direct l'annonce des résultats sur notre webTV à 17h15
+          <b-alert variant="info" show>Bravo à tous ! Les courses sont maintenant terminées ! Il n'est plus possible
+            d'ajouter des activités. Retrouvez en direct l'annonce des résultats sur notre webTV à 17h15
             dimanche:
             <b-link href="https://shotgun.live/fr/streams/292582">
               <strong>https://shotgun.live/fr/streams/292582</strong></b-link>

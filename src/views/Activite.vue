@@ -45,7 +45,7 @@
           </b-alert>
           <br>
           <b-button class="buttons" variant="primary" to="/dashboard">Retour tableau de bord</b-button>
-          <b-button class="buttons" variant="success" @click="onClick" :disabled="selected.length===0">Importer
+          <b-button class="buttons" variant="success" @click="onClick" disabled>Importer
           </b-button>
           <br>
           <br>
